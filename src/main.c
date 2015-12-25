@@ -207,7 +207,7 @@ parse_inject:
         switch(opt)
         {
             case 'a':
-                thdr_o.ackn = (u_int32_t)atoi(optarg);
+                thdr_o.ackn = (u_int32_t)strtoll(optarg, (char **)NULL, 10);
                 break;
 
             case 'A':
@@ -430,7 +430,7 @@ parse_inject:
                 break;
 
             case 'q':
-                thdr_o.seqn = (u_int32_t)atoi(optarg);
+                thdr_o.seqn = (u_int32_t)strtoll(optarg, (char **)NULL, 10);
                 thdr_o.rand_seqn = 0;
                 break;
 
@@ -438,7 +438,7 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     i4hdr_o.rand_seqn = 1;
 
-                i4hdr_o.seqn = (u_int16_t)atoi(optarg);
+                i4hdr_o.seqn = (u_int16_t)strtoll(optarg, (char **)NULL, 10);
                 break;
 
             case 'R':

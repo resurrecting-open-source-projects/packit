@@ -1,4 +1,4 @@
-%define version 0.7
+%define version 0.7.1
 Name:		packit
 Version:	%{version}
 Release:	1	
@@ -33,6 +33,8 @@ mkdir -p $RPM_BUILD_ROOT/usr
 make prefix=$RPM_BUILD_ROOT/usr install
 
 %changelog
+* Sat Dec 21 2003 Darren Bounds <dbounds@intrusense.com>
+  Updated for 0.7.1 sources.
 * Sat Oct 3 2003 Darren Bounds <dbounds@intrusense.com>
   Updated for 0.7 sources.
 * Sat Jul 19 2003 William Stearns <wstearns@pobox.com>

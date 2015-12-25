@@ -91,7 +91,7 @@ print_packet_hexdump(u_int8_t *cp, int len)
             s1);
 	
         hsp += 3;
-        *(asp++) = (isgraph(s1) ? s1 : '.');
+        *(asp++) = (isgraph(s1) ? s1 : '-');
         ++i;
     }
     

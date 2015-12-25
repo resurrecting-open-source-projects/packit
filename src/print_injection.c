@@ -73,10 +73,10 @@ print_injection_details()
 	    fprintf(stdout, "\t     Window: %d  ", thdr_o.win);
 
             if(thdr_o.seqn)
-                fprintf(stdout, "Seqn: %d  ", thdr_o.seqn);
+                fprintf(stdout, "Seqn: %u  ", thdr_o.seqn);
 
             if(thdr_o.ackn)
-                fprintf(stdout, "Ackn: %d  ", thdr_o.ackn);
+                fprintf(stdout, "Ackn: %u  ", thdr_o.ackn);
 
             if(thdr_o.urp)
                 fprintf(stdout, "Urg: %d ", thdr_o.urp);

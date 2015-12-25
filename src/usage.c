@@ -71,7 +71,7 @@ print_usage()
     fprintf(stdout, "  -q seq      Sequence number\n");
     fprintf(stdout, "  -S port     Source port (Default: Random)\n");
     fprintf(stdout, "  -u urg      Urgent pointer\n");	
-    fprintf(stdout, "  -W size     Window size (Default: 1500)\n");
+    fprintf(stdout, "  -W size     Window size (Default: 65535)\n");
     fprintf(stdout, "\n"); 
     
     fprintf(stdout, "ICMPv4 header options\n");

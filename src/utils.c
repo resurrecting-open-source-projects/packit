@@ -111,8 +111,7 @@ retrieve_rand_ethernet_addr(u_int8_t *eaddr)
 
    for(oct_cnt = 1; oct_cnt < 7; oct_cnt++)
    {
-       while(1)
-            oct = (u_int8_t)retrieve_rand_int(0xFF);
+        oct = (u_int8_t)retrieve_rand_int(0xFF);
 
        if(oct_cnt != 1)
            sprintf(eaddr, "%s:%0x", eaddr, oct);

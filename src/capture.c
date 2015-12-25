@@ -58,7 +58,7 @@ capture_init(u_int8_t *filter, u_int64_t cnt)
     {
         if(device == NULL)
             if((device = pcap_lookupdev(error_buf)) == NULL)
-                fatal_error("Unable to lookup device: %s", error_buf);
+                fatal_error("%s: Check device permissions", error_buf);
 
 
         if((pkt = pcap_open_live(device, snap_len, 1, READ_TIMEOUT, error_buf)) == NULL)

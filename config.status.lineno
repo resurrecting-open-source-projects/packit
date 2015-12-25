@@ -448,20 +448,20 @@ s,@INSTALL_PROGRAM@,${INSTALL},;t t
 s,@INSTALL_SCRIPT@,${INSTALL},;t t
 s,@INSTALL_DATA@,${INSTALL} -m 644,;t t
 s,@PACKAGE@,packit,;t t
-s,@VERSION@,0.7,;t t
-s,@ACLOCAL@,${SHELL} /home/dbounds/packit-0.7/missing --run aclocal-1.6,;t t
-s,@AUTOCONF@,${SHELL} /home/dbounds/packit-0.7/missing --run autoconf,;t t
-s,@AUTOMAKE@,${SHELL} /home/dbounds/packit-0.7/missing --run automake-1.6,;t t
-s,@AUTOHEADER@,${SHELL} /home/dbounds/packit-0.7/missing --run autoheader,;t t
-s,@MAKEINFO@,${SHELL} /home/dbounds/packit-0.7/missing --run makeinfo,;t t
-s,@AMTAR@,${SHELL} /home/dbounds/packit-0.7/missing --run tar,;t t
-s,@install_sh@,/home/dbounds/packit-0.7/install-sh,;t t
+s,@VERSION@,0.7.1,;t t
+s,@ACLOCAL@,${SHELL} /home/dbounds/packit-0.7.1/missing --run aclocal-1.6,;t t
+s,@AUTOCONF@,${SHELL} /home/dbounds/packit-0.7.1/missing --run autoconf,;t t
+s,@AUTOMAKE@,${SHELL} /home/dbounds/packit-0.7.1/missing --run automake-1.6,;t t
+s,@AUTOHEADER@,${SHELL} /home/dbounds/packit-0.7.1/missing --run autoheader,;t t
+s,@MAKEINFO@,${SHELL} /home/dbounds/packit-0.7.1/missing --run makeinfo,;t t
+s,@AMTAR@,${SHELL} /home/dbounds/packit-0.7.1/missing --run tar,;t t
+s,@install_sh@,/home/dbounds/packit-0.7.1/install-sh,;t t
 s,@STRIP@,,;t t
 s,@ac_ct_STRIP@,,;t t
 s,@INSTALL_STRIP_PROGRAM@,${SHELL} $(install_sh) -c -s,;t t
 s,@AWK@,nawk,;t t
 s,@SET_MAKE@,,;t t
-s,@PACKIT_VERSION@,0.7,;t t
+s,@PACKIT_VERSION@,0.7.1,;t t
 s,@CC@,gcc,;t t
 s,@CFLAGS@,-g -O2 -Wall,;t t
 s,@LDFLAGS@,,;t t
@@ -762,7 +762,7 @@ ${ac_dA}PACKAGE_VERSION${ac_dB}PACKAGE_VERSION${ac_dC}""${ac_dD}
 ${ac_dA}PACKAGE_STRING${ac_dB}PACKAGE_STRING${ac_dC}""${ac_dD}
 ${ac_dA}PACKAGE_BUGREPORT${ac_dB}PACKAGE_BUGREPORT${ac_dC}""${ac_dD}
 ${ac_dA}PACKAGE${ac_dB}PACKAGE${ac_dC}"packit"${ac_dD}
-${ac_dA}VERSION${ac_dB}VERSION${ac_dC}"0.7"${ac_dD}
+${ac_dA}VERSION${ac_dB}VERSION${ac_dC}"0.7.1"${ac_dD}
 ${ac_dA}WITH_CAPTURE${ac_dB}WITH_CAPTURE${ac_dC}1${ac_dD}
 ${ac_dA}WITH_INJECTION${ac_dB}WITH_INJECTION${ac_dC}1${ac_dD}
 ${ac_dA}BSD_DERIVED${ac_dB}BSD_DERIVED${ac_dC}1${ac_dD}
@@ -832,7 +832,7 @@ ${ac_uA}PACKAGE_VERSION${ac_uB}PACKAGE_VERSION${ac_uC}""${ac_uD}
 ${ac_uA}PACKAGE_STRING${ac_uB}PACKAGE_STRING${ac_uC}""${ac_uD}
 ${ac_uA}PACKAGE_BUGREPORT${ac_uB}PACKAGE_BUGREPORT${ac_uC}""${ac_uD}
 ${ac_uA}PACKAGE${ac_uB}PACKAGE${ac_uC}"packit"${ac_uD}
-${ac_uA}VERSION${ac_uB}VERSION${ac_uC}"0.7"${ac_uD}
+${ac_uA}VERSION${ac_uB}VERSION${ac_uC}"0.7.1"${ac_uD}
 ${ac_uA}WITH_CAPTURE${ac_uB}WITH_CAPTURE${ac_uC}1${ac_uD}
 ${ac_uA}WITH_INJECTION${ac_uB}WITH_INJECTION${ac_uC}1${ac_uD}
 ${ac_uA}BSD_DERIVED${ac_uB}BSD_DERIVED${ac_uC}1${ac_uD}

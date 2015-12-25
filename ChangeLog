@@ -1,3 +1,13 @@
+0.7.1 Darren Bounds <dbounds@intrusense.com>
+----------------------------------------------
+Injection:
+    - Bugfix with sequence and acknowledgement number handling from the command-line
+    - Bugfix with random ethernet address generator
+
+General:
+    - Usage displayed incorrect default TCP window size  
+
+
 0.7  Darren Bounds <dbounds@intrusense.com>
 ----------------------------------------------
 Injection:
