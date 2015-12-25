@@ -1,0 +1,50 @@
+Type: 	Code: 	Type/Code Name
+-------------------------------------
+0: 		Echo Reply
+
+3: 		Unreachable
+	0:	Network  
+        1:      Host
+        2:      Protocol
+        3:      Port
+        4:      Need Fragment
+        5:      Source Failed
+        6:      Network Unknown
+        7:      Host Unknown
+        8:      Isolated
+        9:      Network Prohibited
+        10:     Host Prohibited
+        11:     Type of Service Network
+        12:     Type of Service Host
+        13:     Filter Prohibited
+        14:     Host Precedence
+        15:     Precedence Cutoff
+
+4: 		Source Quench
+
+5: 		Redirect
+        0:      Network Redirect
+        1:      Host Redirect
+        2:      Type of Service Network
+        3:      Type of Serivce Host
+
+8: 		Echo Request
+
+9: 		Router Advertise
+
+10: 		Router Solicit
+
+11: 		Time Exceeded
+        0:      In transit
+        1:      Reassemble
+
+12: 		Parameter Problem
+        1:      Option Absent
+             
+13: 		Timestamp Request
+
+14: 		Timestamp Reply
+
+17: 		Mask Request
+
+18: 		Mask Reply

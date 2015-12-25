@@ -1,0 +1,146 @@
+0.6.0d  Darren Bounds <dbounds@intrusense.com>
+----------------------------------------------
+Injection
+    - Just added the -V option for RAWIP injection to allow you to specify an IP protocol number (brought on by the recent Cisco IOS DoS posting)
+
+0.6.0c  Darren Bounds <dbounds@intrusense.com>
+----------------------------------------------
+General
+    - Bugfix with the bugfix in 0.6.0b :(
+    - Additional configure test proceedures
+
+0.6.0b  Darren Bounds <dbounds@intrusenes.com>
+----------------------------------------------
+General
+    - Bugfix with pcap_setnonblock.c and conflicting definitions
+
+0.6.0   Darren Bounds <dbounds@intrusense.com>
+----------------------------------------------
+Capture
+    - Removed packet reset support (-R, -RR) 
+    - Added full ICMP decoding
+    - pcap_setnonblock() and pcap-int.h are now included in src/contrib for compatibility with older libpcap versions
+
+    - Bugfix with memory leak in process_packets() (identified by Aapo Tahkola)
+
+Injection
+    - Added a host response option (allowing you to see how the remote host responses to your packet)
+    - Added raw IP injection mode option (recommended by Soren MacBeth <soren.macbeth@hushmail.com>)
+    - Count of 0 (-c 0) will inject packets forever (or until Ctrl-C)
+    - Ctrl-C now gives you the option to quit or continue (essentially pausing injection)
+    - Improved injection statistical information
+    - Added UDP/TCP option for random destination port
+    - The port range separator is now "-" rather than ":" (ie: -D 1-1024)
+    - TCP/UDP source port is random by default
+    - ICMP Echo Request/Reply sequence and ID numbers now behave in a more "normal" manner by default
+    - A number of option flags have changed (see the man page)
+    - Burst rate max is now 10000 (requested by Ricardo Panez)
+
+    - Bugfix with UDP -E flag assigned to incorrect variable (ethr_o.s_addr) (identified by Edward Balduf <balduf@ieee.org>)
+    - Bugfix with random IPv4 creating Class E addresses and addresses with 0 as the first octet (identified by Adrian Petre Mierlutiu <peter@timisoara.roedu.net>)
+    - Bugfix with URG flag being displayed as PSH (identified by Matthew Connor <mconnor@reisonline.com>)
+    - Bugfix with displaying ICMP code 0 being evaluated incorrectly
+
+General
+    - libnet_get_prand() has been replaced with my own retrieve_rand_int()
+    - Added redhat spec file for rpm builds (thanks to Bennett Todd <bet@rahul.net>)
+    - Additional configure options (--without-capture, --without-injection, --enable-debug)
+    - The getuid() function (which requires UID 0) is now only called only in injection mode
+    - Additional statistical information
+    - Manpage updates
+    - Improved error handling
+
+
+0.5.0b  Darren Bounds <dbounds@intrusense.com>
+----------------------------------------------
+Injection 
+    - Bugfix with the UDP header length when injecting multiple packets (identified by Leopoldo Feal <pol@netoides.com>)
+
+
+0.5.0   Darren Bounds <dbounds@intrusense.com>
+----------------------------------------------
+Capture
+    - Added a UDP tear down option (using ICMP port unreachables) 
+    - Added hex/ascii packet dump data (ala tcpdump)
+    - Enhanced and organized capture data display
+    - Removed tcpdump style capture mode (why recreate the wheel)
+
+Injection
+    - Added full ARP/RARP/IARP support
+    - Added ICMP unreach/redirect/timexceed/timestamp/mask options
+    - Added support for injection port ranges 
+    - Added support for random ethernet addresses
+    - Added support for random IPv4 addresses
+
+General
+    - MacOS X support (thanks to Mike MacNeill for supplying OS/hardware)
+    - Hundreds of performance and functionality enhancements
+    - Bug fixes
+
+
+0.4.6   Darren Bounds <dbounds@intrusense.com>
+----------------------------------------------
+Capture	
+    - Added a TCP reset option in capture mode
+
+General
+    - Bug fixes
+
+
+0.4.5   Darren Bounds <dbounds@intrusense.com> 
+----------------------------------------------
+Capture
+    - Added packet capture count option
+    - Capture statistics
+
+General
+    - Added a configure script :)
+    - Added signal handling
+    - Major code reorg for future releases 
+    - Bug fixes
+
+
+0.4.1 	Darren Bounds <dbounds@intrusense.com>
+----------------------------------------------
+Injection
+    - Added injection initialization code to solve the ethernet destination header problem
+
+General
+    - Bug fixes
+
+
+0.4.0	Darren Bounds <dbounds@intrusense.com>
+----------------------------------------------
+Capture
+    - Additional packet capture display modes
+
+Injection
+    - Added a 'burst' mode for sending multiple packets per second
+
+General
+    - Using a more scalable command-line syntax
+    - Bug fixes
+
+
+0.3.5d 	Darren Bounds <dbounds@intrusense.com>
+----------------------------------------------
+Capture 
+    - Added TOS (type of service) to verbose capture mode
+    - Optimized linklayer display in capture mode
+
+Injection
+    - Acknowledgement number is not set by default
+
+
+0.3.5c	Darren Bounds <dbounds@intrusense.com>
+----------------------------------------------
+Injection
+    - Fixed auto-defining source ethernet address bugs
+    - Specifying a destination ethernet address is no longer required
+
+General
+    - Added more descriptive error messages
+
+
+
+
