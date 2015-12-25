@@ -20,10 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h"
-#include "../include/capture.h"
-#include "../include/utils.h"
-#include "../include/error.h"
+#include "print_arp_hdr.h"
 
 void 
 print_arp_hdr(u_int8_t *packet)
@@ -36,9 +33,6 @@ print_arp_hdr(u_int8_t *packet)
     fprintf(stdout, "DEBUG: print_arp_hdr()\n");
 #endif
 
-
-    ahdr = malloc(sizeof(struct libnet_arp_hdr));
-    memset(ahdr, 0, sizeof(struct libnet_arp_hdr));
     ahdr = (struct libnet_arp_hdr *)(packet + hdr_len);
 
     arp_t = retrieve_arp_type(htons(ahdr->ar_op));

@@ -20,23 +20,18 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h"
-#include "../include/capture.h"
-#include "../include/error.h"
-
-#define TIMESTAMP_BUF_MAX 	64
+#include "print_ts.h"
 
 void 
-print_timestamp(struct timeval ts)
+print_ts(struct timeval ts)
 {
-    char timestamp[TIMESTAMP_BUF_MAX];
+    char timestamp[TIMESTAMP_MAXLEN];
 
     struct tm *ltm;
-    struct timeval tv;
-    struct timeval *tvp;
+    struct timeval tv, *tvp;
 
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: print_timestamp()\n");
+    fprintf(stdout, "DEBUG: print_ts()\n");
 #endif
 
     ltm = malloc(sizeof(struct tm));
@@ -48,13 +43,11 @@ print_timestamp(struct timeval ts)
     memset(tvp, 0, sizeof(struct timeval));
 
     if(time_gmt)
-    {
-        snprintf(timestamp, TIMESTAMP_BUF_MAX, "%02lu:%02lu:%02lu.%06lu",
-            (unsigned long)(ts.tv_sec % 86400) / 3600,
-	    (unsigned long)((ts.tv_sec % 86400) % 3600) / 60,
-            (unsigned long)(ts.tv_sec % 86400) % 40,
-            (unsigned long)ts.tv_usec);
-    }
+        snprintf(timestamp, TIMESTAMP_MAXLEN, "%02lu:%02lu:%02lu.%06lu",
+            (u_long)(ts.tv_sec % 86400) / 3600,
+	    (u_long)((ts.tv_sec % 86400) % 3600) / 60,
+            (u_long)(ts.tv_sec % 86400) % 40,
+            (u_long)ts.tv_usec);
     else
     {
 	tvp = &tv;
@@ -62,11 +55,11 @@ print_timestamp(struct timeval ts)
         gettimeofday(tvp, NULL);
         ltm = localtime((time_t *) & tvp->tv_sec);
 
-        snprintf(timestamp, TIMESTAMP_BUF_MAX, "%02lu:%02lu:%02lu.%06lu",
-	    (unsigned long)ltm->tm_hour,
-	    (unsigned long)ltm->tm_min,
-	    (unsigned long)ltm->tm_sec,
-	    (unsigned long)ts.tv_usec);
+        snprintf(timestamp, TIMESTAMP_MAXLEN, "%02lu:%02lu:%02lu.%06lu",
+	    (u_long)ltm->tm_hour,
+	    (u_long)ltm->tm_min,
+	    (u_long)ltm->tm_sec,
+	    (u_long)ts.tv_usec);
     }
 
     fprintf(stdout, "Timestamp:   %s\n", timestamp);

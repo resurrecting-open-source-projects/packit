@@ -20,18 +20,34 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#ifndef __UTILS_H
-#define __UTILS_H
+#ifndef __MAIN_H
+#define __MAIN_H
 
-void print_separator(int bnl, int anl, u_int8_t *msgp, ...);
-u_int8_t *retrieve_rand_ipv4_addr();
-u_int8_t *retrieve_rand_ethernet_addr();
-u_int8_t *retrieve_arp_hw_type(u_int16_t hw_type);
-u_int8_t *retrieve_arp_type(u_int16_t op_type);
-u_int8_t *retrieve_icmp_type(u_int16_t type);
-u_int8_t *retrieve_icmp_code(u_int16_t type, u_int16_t code);
-u_int16_t retrieve_datalink_hdr_len(u_int32_t d_link);
-u_int32_t retrieve_rand_int(u_int32_t r_size);
+#include <libnet.h>
+#include <pcap.h>
+#include <sys/types.h>
+#include <net/bpf.h>
+#include <signal.h>
+#include <time.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdarg.h>
 
+#include "globals.h"
+#include "init.h"
+#include "define_defaults.h"
+#include "injection.h"
+#include "inject_defs.h"
+#include "capture.h"
+#include "capture_defs.h"
 
-#endif /* __UTILS_H */
+#define OPT_MAXLEN 32 
+
+u_int32_t opt;
+char *optarg;
+
+void parse_capture_options(int, char *[]);
+void parse_inject_options(int, char *[], u_int16_t);
+
+#endif /* __MAIN_H */

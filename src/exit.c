@@ -20,11 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h" 
-#include "../include/inject.h"
-#include "../include/capture.h"
-#include "../include/utils.h"
-#include "../include/error.h"
+#include "exit.h"
 
 void
 injection_clean_exit(int sig)
@@ -39,13 +35,13 @@ injection_clean_exit(int sig)
     {
         while(1)
         {
-            fprintf(stdout, "\n\nWould you like to quit? (y/n): ");
-            fread(a, 2, 1, stdin);
-            fflush(stdout);
+            fprintf(stderr, "\n\nWould you like to quit? (y/n): ");
+            fgets(a, 16, stdin);
 
             if(!strncasecmp(a, "Y", 1))            
                 break;
-            else if(!strncasecmp(a, "N", 1))
+            else
+            if(!strncasecmp(a, "N", 1))
                 return;
         }
     }

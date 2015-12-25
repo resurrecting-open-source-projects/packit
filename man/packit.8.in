@@ -16,7 +16,7 @@ Packet capture:
 
 Packet injection:
 .br
-\fBpackit\fR \fB-m\fR inject [\fB-t\fR \fIprotocol\fR] [\fB-aAbcCdDeFjJkKlLmMnNoOpPqQrRsSTuvwWxXy\fR] [\fB-i\fR \fIinterface\fR]
+\fBpackit\fR \fB-m\fR inject [\fB-t\fR \fIprotocol\fR] [\fB-aAbcCdDeFgGhHjJkKlLmMnNoOpPqQrRsSTuUvwWxXyYzZ\fR] [\fB-i\fR \fIinterface\fR]
 .br
 
 .SH DESCRIPTION
@@ -35,7 +35,7 @@ TCP/IP auditing. Packit is also an excellent tool for learning TCP/IP.
 Select a runtime mode. Currently supported modes
 .br
 .ti +5
-are \fBcapture\fR and \fBinject\fR. The default is \fBinject\fR. 
+are \fBcapture\fR, \fBinject\fR and \fBtrace\fR. The default is \fBinject\fR. 
 .br
 
 .SH PACKET CAPTURE OPTIONS 
@@ -127,12 +127,12 @@ given, all packets are displayed. See the \fItcpdump\fR(1) man page for
 more detailed information.
 .br
 
-.SH PACKET INJECTION 
+.SH PACKET INJECTION / TRACE 
 .br
 Packet injection is used to define and inject IP based network traffic onto your network. 
 You have the ability to define essentially any ARP, IP, TCP, UDP, ICMP and Ethernet header value. This can be valuable
 in a number of ways, including testing firewalls, intrusion detection systems, simulating traffic flow 
-and general TCP/IP auditing.
+and general TCP/IP auditing. 
 .br
 
 .SH CHOOSE YOUR PROTOCOL 
@@ -143,10 +143,13 @@ and general TCP/IP auditing.
 Specify the type of packet to inject. Supported values are: \fBARP\fR, 
 .br
 .ti +5
-\fBTCP\fR, \fBUDP\fR and \fBICMP\fR. This option defaults to \fBTCP\fR. 
+\fBTCP\fR, \fBUDP\fR and \fBICMP\fR. This option defaults to \fBTCP\fR 
+.br
+.ti +5
+in inject mode and ICMP in trace mode. 
 .br
 
-.SH PACKET INJECTION GENERAL
+.SH PACKET INJECTION / TRACE GENERAL
 This section documents the operational command-line options. 
 .br
 
@@ -174,7 +177,10 @@ The number of seconds to wait between sending each packet burst
 Specifies the number of packets to inject every interval (defined  
 .br
 .ti +5
-by -w). (Maximum: 10000)  
+by -w). (A burst rate of 0 will send packets as quickly as 
+.br
+.ti +5
+possible) 
 .br
 
 \fB-h\fR
@@ -225,7 +231,16 @@ the '-h' option.
 This option defines the payload portion of the header.
 .br
 .ti +5
-Example: -p 'hello, this is my packet'
+Hex payload should be prefixed with '0x' with each value 
+.br
+.ti +5
+separated by a whitespace.  
+.br
+.ti +5
+ASCII Example: -p 'hello, this is my packet'
+.br
+.ti +5
+Hex Example: -p '0x 70 61 63 6B 69 74' 
 .br
 
 \fB-w\fR \fIinterval\fR 
@@ -236,6 +251,12 @@ Specify the number of seconds to wait between packet bursts.
 .ti +5
 This value defaults to '1' second.
 .br
+
+\fB-Z\fR \fIlength\fR
+.br
+.ti +5
+Specify the size of the packet(s) to inject. (Max: 65535)
+.br 
 
 .SH IP HEADER OPTIONS
 This section documents the IP header command-line options.
@@ -265,7 +286,7 @@ The IP address of the machine you would like to contact.
 \fB-dR\fR  Use a random destination IP address.
 .br
 
-\fB-O\fR \fItype of service\fR
+\fB-o\fR \fItype of service\fR
 .br
 .ti +5
 TOS values are typically in hexidecimal format, however, packit 
@@ -291,7 +312,7 @@ Below are the 4 valid TOS bit values:
 - Minimize monetary cost: 2 (0x02)
 .br 
 
-\fB-n\fR \fIid number\fR
+\fB-n\fR \fIID number\fR
 .br
 .ti +5
 The ID number is used to identify each datagram sent by a host.
@@ -306,10 +327,22 @@ value is random by default.
 \fB-T\fR \fITTL\fR
 .br
 .ti +5
-The TTL value defines the upper limit on the number of routers
+The TTL value defines the upper limit on the number of devices 
 .br
 .ti +5
-through which the datagram may pass. The default value is \fB128\fR.
+through which the datagram may pass to reach it's destination.
+.br
+.ti +5 
+The default value is \fB128\fR.
+.br
+
+\fB-V\fR \fIIP protocol number\fR
+.br
+.ti +5
+Specify the IP protocol assocated with this packet (RAWIP only). 
+.br
+.ti +5
+The default value is \fB255\fR.
 .br
 
 .SH TCP HEADER OPTIONS
@@ -328,13 +361,16 @@ value is random by default.
 \fB-D\fR \fIdst port\fR
 .br
 .ti +5
-The port on the destination we would like to communicate on. This
+The port on the destination we would like to communicate on. In
 .br
-.ti +5 
-value is 0 by default. You may also specify a range of addresses
+.ti +5
+inject mode this value is 0 by default while in trace mode this
 .br
-.ti +5 
-in the format: \fB-D 1-1024\fR.
+.ti +5
+value is random by default. You may also specify a range of
+.br
+.ti +5
+addresses in the format: \fB-D 1:1024\fR.
 .br
 
 \fB-f\fR  Do not fragment this packet.
@@ -433,7 +469,7 @@ data.
 .br
 
 .SH UDP HEADER OPTIONS
-This section documents the UDP header command-line options.
+This section documents the UDP header command-line options. UDP is the default IP protocol for TRACE mode.
 .br
 
 \fB-S\fR \fIsrc port\fR
@@ -448,13 +484,16 @@ value is random by default.
 \fB-D\fR \fIdst port\fR
 .br
 .ti +5
-The port on the destination we would like to communicate on. This
+The port on the destination we would like to communicate on. In 
 .br
 .ti +5
-value is 0 by default. You may also specify a range of addresses
+inject mode this value is 0 by default while in trace mode this
 .br
 .ti +5
-in the format: \fB-D 1:1024\fR.
+value is random by default. You may also specify a range of 
+.br
+.ti +5
+addresses in the format: \fB-D 1:1024\fR.
 .br
 
 .SH ICMP HEADER OPTIONS
@@ -548,13 +587,13 @@ Define the IP ID of the original packet. This option defaults
 to \fBrandom\fR. 
 .br
 
-\fB-o\fR \fItype of service\fR
+\fB-O\fR \fItype of service\fR
 .br
 .ti +5
 Define the Type of Service of the original packet. See the
 .br
 .ti +5
-\fB-O\fR option for the possible values.
+\fB-o\fR option for the possible values.
 .br 
 
 \fB-P\fR \fIprotocol\fR
@@ -617,7 +656,7 @@ Define the 16-bit ICMP sequence number. This value is random
 by default.
 .br
 
-\fB-y\fR \fIoriginal timestamp\fR
+\fB-U\fR \fIoriginal timestamp\fR
 .br
 .ti +5
 Define the 32-bit original timestamp. This value is 0
@@ -680,40 +719,40 @@ are as follows:
 - 6 : Inverse ARP Reply 
 .br
 
-\fB-r\fR \fItarget address\fR
+\fB-y\fR \fItarget IP address\fR
 .br 
 .ti +5
 The IP address of the target host.
 .br 
 
-\fB-rR\fR  Use a random target host IP address.
+\fB-yR\fR  Use a random target host IP address.
 .br 
 
-\fB-R\fR \fItarget ethernet address\fR
+\fB-Y\fR \fItarget ethernet address\fR
 .br
 .ti +5
 The ethernet (hardware) address of the target host. 
 .br 
 
-\fB-RR\fR  Usage a random target host ethernet address. 
+\fB-YR\fR  Usage a random target host ethernet address. 
 .br
 
-\fB-s\fR \fItarget address\fR
+\fB-x\fR \fIsender IP address\fR
 .br
 .ti +5
 The IP address of the sender host.
 .br
 
-\fB-sR\fR  Use a random sender host IP address.
+\fB-xR\fR  Use a random sender host IP address.
 .br
 
-\fB-S\fR \fIsender ethernet address\fR
+\fB-X\fR \fIsender ethernet address\fR
 .br
 .ti +5
 The ethernet (hardware) address of the sender host.
 .br
 
-\fB-SR\fR  Usage a random sender host ethernet address.
+\fB-XR\fR  Usage a random sender host ethernet address.
 .br
 
 .SH ETHERNET HEADER OPTIONS
@@ -868,11 +907,30 @@ from 1-1024 with the SYN flag set and display each packet we send.
 .br
 
 Inject a broadcast ARP reply stating that 4.3.2.1 is at 5:4:3:2:1:0. Also, spoof the source 
-ethernet adddress for a little more authenticity. 
+ethernet adddress for a little more authenticity and supply the payload in hex. 
 .br
 
 .ti +5
 \fBpackit\fR -t arp -A 2 -x 4.3.2.1 -X 5:4:3:2:1:0 -e 5:4:3:2:1:0
+.br
+.ti +12
+-p '0x 70 61 63 6B 69 74'
+.br
+
+.SH TRACE ROUTE EXAMPLES
+
+Appear as a DNS response by using a UDP source port of 53 (DNS) 
+.br
+
+.ti +5
+\fBpackit\fR -m trace -t UDP -d 192.168.2.35 -S 53  
+.br
+
+Appear as HTTP traffic by using TCP port 80
+.br
+
+.ti +5
+\fBpackit\fR -m trace -t TCP -d www.google.com -S 80 -FS  
 .br
 
 .SH SEE ALSO

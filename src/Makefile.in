@@ -89,6 +89,7 @@ OBJEXT = @OBJEXT@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 AMTAR = @AMTAR@
 AWK = @AWK@
+BINS = @BINS@
 CC = @CC@
 DEPDIR = @DEPDIR@
 
@@ -101,12 +102,14 @@ VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
-more_incl = @more_incl@
 
-sbin_PROGRAMS = packit 
+EXTRA_PROGRAMS = packit 
 
-packit_SOURCES = usage.c \
-                        main.c \
+sbin_PROGRAMS = @BINS@
+
+common_SOURCES = init.c \
+                        define_defaults.c \
+                        error.c \
                         injection.c \
                         capture.c \
                         shape_arp_hdr.c \
@@ -116,7 +119,16 @@ packit_SOURCES = usage.c \
                         shape_ipv4_hdr.c \
                         shape_ethernet_hdr.c \
                         shape_packet.c \
-                        print_timestamp.c \
+                        utils.c \
+                        stats.c \
+                        contrib/pcap_setnonblock.c
+
+
+packit_SOURCES = ${common_SOURCES} \
+                        usage.c \
+                        exit.c \
+                        main.c \
+                        print_ts.c \
                         print_arp_hdr.c \
                         print_tcp_hdr.c \
                         print_udp_hdr.c \
@@ -124,54 +136,56 @@ packit_SOURCES = usage.c \
                         print_ipv4_hdr.c \
                         print_ethernet_hdr.c \
                         print_pktdump.c \
-                        print_injection.c \
-                        utils.c \
-                        stats.c \
-                        exit.c \
-                        error.c \
-                        contrib/pcap_setnonblock.c
+                        print_capture.c \
+                        print_injection.c 
 
+
+packit_LDFLAGS = 
 subdir = src
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES =
-sbin_PROGRAMS = packit$(EXEEXT)
+CONFIG_HEADER = $(top_builddir)/config.h
+CONFIG_CLEAN_FILES = version.h
+EXTRA_PROGRAMS = packit$(EXEEXT)
+sbin_PROGRAMS = @BINS@
 PROGRAMS = $(sbin_PROGRAMS)
 
-am_packit_OBJECTS = usage.$(OBJEXT) main.$(OBJEXT) injection.$(OBJEXT) \
-	capture.$(OBJEXT) shape_arp_hdr.$(OBJEXT) \
+am__objects_1 = init.$(OBJEXT) define_defaults.$(OBJEXT) error.$(OBJEXT) \
+	injection.$(OBJEXT) capture.$(OBJEXT) shape_arp_hdr.$(OBJEXT) \
 	shape_tcp_hdr.$(OBJEXT) shape_udp_hdr.$(OBJEXT) \
 	shape_icmpv4_hdr.$(OBJEXT) shape_ipv4_hdr.$(OBJEXT) \
 	shape_ethernet_hdr.$(OBJEXT) shape_packet.$(OBJEXT) \
-	print_timestamp.$(OBJEXT) print_arp_hdr.$(OBJEXT) \
+	utils.$(OBJEXT) stats.$(OBJEXT) pcap_setnonblock.$(OBJEXT)
+am_packit_OBJECTS = $(am__objects_1) usage.$(OBJEXT) exit.$(OBJEXT) \
+	main.$(OBJEXT) print_ts.$(OBJEXT) print_arp_hdr.$(OBJEXT) \
 	print_tcp_hdr.$(OBJEXT) print_udp_hdr.$(OBJEXT) \
 	print_icmpv4_hdr.$(OBJEXT) print_ipv4_hdr.$(OBJEXT) \
 	print_ethernet_hdr.$(OBJEXT) print_pktdump.$(OBJEXT) \
-	print_injection.$(OBJEXT) utils.$(OBJEXT) stats.$(OBJEXT) \
-	exit.$(OBJEXT) error.$(OBJEXT) pcap_setnonblock.$(OBJEXT)
+	print_capture.$(OBJEXT) print_injection.$(OBJEXT)
 packit_OBJECTS = $(am_packit_OBJECTS)
 packit_LDADD = $(LDADD)
 packit_DEPENDENCIES =
-packit_LDFLAGS =
 
 DEFS = @DEFS@
-DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/include
+DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/capture.Po ./$(DEPDIR)/error.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/exit.Po ./$(DEPDIR)/injection.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/main.Po ./$(DEPDIR)/pcap_setnonblock.Po \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/capture.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/define_defaults.Po ./$(DEPDIR)/error.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/exit.Po ./$(DEPDIR)/init.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/injection.Po ./$(DEPDIR)/main.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/pcap_setnonblock.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/print_arp_hdr.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/print_capture.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/print_ethernet_hdr.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/print_icmpv4_hdr.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/print_injection.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/print_ipv4_hdr.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/print_pktdump.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/print_tcp_hdr.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/print_timestamp.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/print_ts.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/print_udp_hdr.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/shape_arp_hdr.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/shape_ethernet_hdr.Po \
@@ -187,7 +201,7 @@ CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
 DIST_SOURCES = $(packit_SOURCES)
-DIST_COMMON = Makefile.am Makefile.in
+DIST_COMMON = Makefile.am Makefile.in version.h.in
 SOURCES = $(packit_SOURCES)
 
 all: all-am
@@ -199,6 +213,8 @@ $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	  $(AUTOMAKE) --gnu  src/Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
+version.h: $(top_builddir)/config.status version.h.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 sbinPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 install-sbinPROGRAMS: $(sbin_PROGRAMS)
 	@$(NORMAL_INSTALL)
@@ -235,19 +251,22 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/capture.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/define_defaults.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/error.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/init.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/injection.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pcap_setnonblock.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/print_arp_hdr.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/print_capture.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/print_ethernet_hdr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/print_icmpv4_hdr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/print_injection.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/print_ipv4_hdr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/print_pktdump.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/print_tcp_hdr.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/print_timestamp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/print_ts.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/print_udp_hdr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shape_arp_hdr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shape_ethernet_hdr.Po@am__quote@
@@ -431,8 +450,8 @@ uninstall-am: uninstall-info-am uninstall-sbinPROGRAMS
 
 
 all:
-	cp packit $(top_srcdir)
-	strip $(top_srcdir)/packit
+	strip @BINS@
+	cp @BINS@ $(top_srcdir)
 
 clean:
 	rm -f $(top_srcdir)/packit

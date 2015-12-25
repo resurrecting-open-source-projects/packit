@@ -89,6 +89,7 @@ OBJEXT = @OBJEXT@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 AMTAR = @AMTAR@
 AWK = @AWK@
+BINS = @BINS@
 CC = @CC@
 DEPDIR = @DEPDIR@
 INCLUDES = @INCLUDES@
@@ -100,7 +101,6 @@ VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
-more_incl = @more_incl@
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
 DISTCLEANFILES = *~
@@ -111,8 +111,8 @@ EXTRA_DIST = Makefile.am.common
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = include/version.h
+CONFIG_HEADER = config.h
+CONFIG_CLEAN_FILES =
 depcomp =
 am__depfiles_maybe =
 DIST_SOURCES =
@@ -121,11 +121,12 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-info-recursive all-recursive install-data-recursive \
 	install-exec-recursive installdirs-recursive install-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
-DIST_COMMON = ./include/config.h.in ChangeLog INSTALL Makefile.am \
-	Makefile.in aclocal.m4 config.guess config.sub configure \
+DIST_COMMON = ChangeLog INSTALL Makefile.am Makefile.in TODO aclocal.m4 \
+	compile config.guess config.h.in config.sub configure \
 	configure.in depcomp install-sh missing mkinstalldirs
 DIST_SUBDIRS = $(SUBDIRS)
-all: all-recursive
+all: config.h
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
 
@@ -145,24 +146,22 @@ $(srcdir)/configure:  $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENC
 $(ACLOCAL_M4):  configure.in 
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 
-include/config.h: include/stamp-h1
+config.h: stamp-h1
 	@if test ! -f $@; then \
-	  rm -f include/stamp-h1; \
-	  $(MAKE) include/stamp-h1; \
+	  rm -f stamp-h1; \
+	  $(MAKE) stamp-h1; \
 	else :; fi
 
-include/stamp-h1: $(srcdir)/./include/config.h.in $(top_builddir)/config.status
-	@rm -f include/stamp-h1
-	cd $(top_builddir) && $(SHELL) ./config.status include/config.h
+stamp-h1: $(srcdir)/config.h.in $(top_builddir)/config.status
+	@rm -f stamp-h1
+	cd $(top_builddir) && $(SHELL) ./config.status config.h
 
-$(srcdir)/./include/config.h.in:  $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+$(srcdir)/config.h.in:  $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOHEADER)
-	touch $(srcdir)/./include/config.h.in
+	touch $(srcdir)/config.h.in
 
 distclean-hdr:
-	-rm -f include/config.h include/stamp-h1
-include/version.h: $(top_builddir)/config.status $(top_srcdir)/include/version.h.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
+	-rm -f config.h stamp-h1
 uninstall-info-am:
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -234,7 +233,7 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	       END { for (i in files) print i; }'`; \
 	mkid -fID $$unique
 
-TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+TAGS: tags-recursive $(HEADERS) $(SOURCES) config.h.in $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
@@ -243,7 +242,7 @@ TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 	    test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
 	  fi; \
 	done; \
-	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
+	list='$(SOURCES) $(HEADERS) config.h.in $(LISP) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
 	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
 	  done | \
@@ -276,7 +275,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/./include $(distdir)/include $(distdir)/man
+	$(mkinstalldirs) $(distdir)/man $(distdir)/src
 	@list='$(DISTFILES)'; for file in $$list; do \
 	  if test -f $$file || test -d $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -364,7 +363,7 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile
+all-am: Makefile config.h
 installdirs: installdirs-recursive
 installdirs-am:
 

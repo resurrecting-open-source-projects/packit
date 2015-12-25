@@ -20,9 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h"
-#include "../include/capture.h"
-#include "../include/error.h"
+#include "print_ipv4_hdr.h"
 
 void
 print_ipv4_hdr(struct libnet_ipv4_hdr *iphdr)
@@ -53,7 +51,9 @@ print_ipv4_hdr(struct libnet_ipv4_hdr *iphdr)
 	ntohs(iphdr->ip_len));
 
     if(ntohs(iphdr->ip_off) & IP_DF)
-        fprintf(stdout, "(DF)");
+        fprintf(stdout, "(DF)  ");
 
     fprintf(stdout, "\n");
+
+    return;
 }

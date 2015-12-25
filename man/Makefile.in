@@ -89,6 +89,7 @@ OBJEXT = @OBJEXT@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 AMTAR = @AMTAR@
 AWK = @AWK@
+BINS = @BINS@
 CC = @CC@
 DEPDIR = @DEPDIR@
 INCLUDES = @INCLUDES@
@@ -100,14 +101,13 @@ VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
-more_incl = @more_incl@
 
 man_MANS = packit.8
 
 EXTRA_DIST = $(man_MANS)
 subdir = man
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/include/config.h
+CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES = packit.8
 DIST_SOURCES =
 

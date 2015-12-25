@@ -20,14 +20,13 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#ifndef __ERROR_H
-#define __ERROR_H
+#ifndef __PRINT_CAPTURE_H
+#define __PRINT_CAPTURE_H
 
-#define ERRBUF_MAXLEN     		512
-#define SUCCESS           		1
-#define FAILURE           		-1
+#include "globals.h"
+#include "capture_defs.h"
+#include "print_defs.h"
 
-char error_buf[ERRBUF_MAXLEN];
-void fatal_error(u_int8_t *err,...);
+void print_capture(struct pcap_pkthdr *, u_int8_t *);
 
-#endif /* __ERROR_H */
+#endif /* __PRINT_CAPTURE_H */

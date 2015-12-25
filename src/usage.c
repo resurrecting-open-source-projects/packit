@@ -20,9 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h"
-#include "../include/version.h"
-#include "../include/error.h"
+#include "usage.h"
 
 void
 print_usage()
@@ -68,7 +66,7 @@ print_usage()
     
     fprintf(stdout, "TCP/UDP header options\n");
     fprintf(stdout, "  -a ack      Acknowledgement number\n");
-    fprintf(stdout, "  -D port     Destination port (Range format: start:end)\n");
+    fprintf(stdout, "  -D port     Destination port (Range format: start-end)\n");
     fprintf(stdout, "  -F flags    Flags (format: -F UAPRSF)\n");
     fprintf(stdout, "  -q seq      Sequence number\n");
     fprintf(stdout, "  -S port     Source port (Default: Random)\n");
@@ -108,7 +106,7 @@ print_usage()
     fprintf(stdout, "  Timestamp Request(13) / Timestamp Reply(14):\n");
     fprintf(stdout, "  -N id       ID number\n");
     fprintf(stdout, "  -Q seq      Sequence number\n");
-    fprintf(stdout, "  -y ts       Original timestamp\n");
+    fprintf(stdout, "  -U ts       Original timestamp\n");
     fprintf(stdout, "  -k ts       Recieved timestamp\n");
     fprintf(stdout, "  -z ts       Transmit timestamp\n");
     fprintf(stdout, "\n");
@@ -126,10 +124,10 @@ print_usage()
 #ifndef MACOS 
     fprintf(stdout, "ARP header options\n");
     fprintf(stdout, "  -A op       Operation type (Default: 1 (ARP request))\n");
-    fprintf(stdout, "  -r address  Target protocol address\n");
-    fprintf(stdout, "  -R hwaddr   Target hardware address\n");
-    fprintf(stdout, "  -x address  Sender protocol address\n");
-    fprintf(stdout, "  -X hwaddr   Sender hardware address\n");
+    fprintf(stdout, "  -x address  Source protocol address\n");
+    fprintf(stdout, "  -X hwaddr   Source hardware address\n");
+    fprintf(stdout, "  -y address  Destination protocol address\n");
+    fprintf(stdout, "  -Y hwaddr   Destination hardware address\n");
     fprintf(stdout, "\n");
     
     fprintf(stdout, "Ethernet header options\n");
@@ -139,14 +137,16 @@ print_usage()
 #endif /* MACOS */
     
     fprintf(stdout, "General options\n");
-    fprintf(stdout, "  -b burst    Send 'burst' packets per interval (Default: 1, Max: 10000)\n");
+    fprintf(stdout, "  -b burst    Send 'burst' packets per interval (Default: 1)\n");
     fprintf(stdout, "  -c count    Number of packets to inject (Default: 1)\n");
-    fprintf(stdout, "  -h          Display remote host response\n");
-    fprintf(stdout, "  -H seconds  Specify the timeout value for '-h' (Default: 1)\n");
+    fprintf(stdout, "  -h          Display remote host response (Inject mode only)\n");
+    fprintf(stdout, "  -H seconds  Specify the timeout value for '-h' (Default: 1, Max: 255)\n");
     fprintf(stdout, "  -i device   Select injection interface\n");
-    fprintf(stdout, "  -p payload  Payload\n");
+    fprintf(stdout, "  -p payload  Payload (Hex payload is prefixed with '0x ')\n");
+    fprintf(stdout, "  -R          Disable IP/host resolution\n");
     fprintf(stdout, "  -v          Verbose packet injection\n");
     fprintf(stdout, "  -w seconds  Interval between injecting each burst (Default: 1)\n");
+    fprintf(stdout, "  -Z length   Specify the size of the packet to inject (Overrides the -p option)\n");
     fprintf(stdout, "\n");
 #endif /* WITH_INJECTION */ 
     

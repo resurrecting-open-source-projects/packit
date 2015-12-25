@@ -21,10 +21,13 @@
 #
 
 
-sbin_PROGRAMS = 	packit 
+EXTRA_PROGRAMS = 	packit 
 
-packit_SOURCES =        usage.c \
-                        main.c \
+sbin_PROGRAMS = 	@BINS@
+
+common_SOURCES =        init.c \
+                        define_defaults.c \
+                        error.c \
                         injection.c \
                         capture.c \
                         shape_arp_hdr.c \
@@ -34,7 +37,15 @@ packit_SOURCES =        usage.c \
                         shape_ipv4_hdr.c \
                         shape_ethernet_hdr.c \
                         shape_packet.c \
-                        print_timestamp.c \
+                        utils.c \
+                        stats.c \
+                        contrib/pcap_setnonblock.c
+
+packit_SOURCES =        ${common_SOURCES} \
+                        usage.c \
+                        exit.c \
+                        main.c \
+                        print_ts.c \
                         print_arp_hdr.c \
                         print_tcp_hdr.c \
                         print_udp_hdr.c \
@@ -42,23 +53,20 @@ packit_SOURCES =        usage.c \
                         print_ipv4_hdr.c \
                         print_ethernet_hdr.c \
                         print_pktdump.c \
-                        print_injection.c \
-                        utils.c \
-                        stats.c \
-                        exit.c \
-                        error.c \
-                        contrib/pcap_setnonblock.c
+                        print_capture.c \
+                        print_injection.c 
+
+packit_LDFLAGS=
 
 INCLUDES=@INCLUDES@
 
 all:
-	cp packit $(top_srcdir)
-	strip $(top_srcdir)/packit
+	strip @BINS@
+	cp @BINS@ $(top_srcdir)
 
 clean:
 	rm -f $(top_srcdir)/packit
 
 distclean:
 	rm -f $(top_srcdir)/packit
-
 

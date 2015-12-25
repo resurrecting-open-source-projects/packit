@@ -20,14 +20,10 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h"
-#include "../include/inject.h"
-#include "../include/capture.h"
-#include "../include/utils.h"
-#include "../include/error.h"
+#include "print_injection.h"
 
 void
-print_injection()
+print_injection_details()
 {
     u_int8_t *arp_t, *icmp_t, *icmp_c = NULL;
 
@@ -42,7 +38,7 @@ print_injection()
 #endif
 	thdr_o.flags[0] = '\0';
 		
-        if(ip4hdr_o.p == IPPROTO_TCP)
+        if(ip4hdr_o.p == IPPROTO_TCP && !rawip)
         {
             if(thdr_o.syn)
                 strcat(thdr_o.flags, "S");
@@ -85,13 +81,15 @@ print_injection()
             if(thdr_o.urp)
                 fprintf(stdout, "Urg: %d ", thdr_o.urp);
         }
-        else if(ip4hdr_o.p == IPPROTO_UDP)
+        else
+        if(ip4hdr_o.p == IPPROTO_UDP && !rawip)
         {
             fprintf(stdout, "UDP header:  Src Port: %d  Dst Port(s): %s",
                 s_port,
                 s_d_port);
         }
-        else if(ip4hdr_o.p == IPPROTO_ICMP)
+        else
+        if(ip4hdr_o.p == IPPROTO_ICMP && !rawip)
         {
 	    icmp_t = retrieve_icmp_type(i4hdr_o.type);
 
@@ -115,9 +113,11 @@ print_injection()
 
 		    if(i4hdr_o.orig_p == IPPROTO_UDP)
 		        fprintf(stdout, "\t     Protocol: UDP(%d)  ", i4hdr_o.orig_p);
-		    else if(i4hdr_o.orig_p == IPPROTO_TCP)
+		    else
+                    if(i4hdr_o.orig_p == IPPROTO_TCP)
 			fprintf(stdout, "\t     Protocol: TCP(%d)  ", i4hdr_o.orig_p);
-		    else if(i4hdr_o.orig_p == IPPROTO_ICMP)
+		    else
+                    if(i4hdr_o.orig_p == IPPROTO_ICMP)
 			fprintf(stdout, "\t     Protocol: ICMP(%d)  ", i4hdr_o.orig_p);
 
 		    fprintf(stdout, "Src Port: %d  Dst port: %d\n", 
@@ -133,9 +133,9 @@ print_injection()
 
 		case ICMP_TSTAMPREPLY:
 		    fprintf(stdout, "ID: %d  Seqn: %d\n", i4hdr_o.id, i4hdr_o.seqn);
-	            fprintf(stderr, "\t     Original Timestamp: %d\n", i4hdr_o.otime);
-		    fprintf(stderr, "\t     Recieved Timestamp: %d\n", i4hdr_o.rtime);
-		    fprintf(stderr, "\t     Transmit Timestamp: %d", i4hdr_o.ttime);
+	            fprintf(stdout, "\t     Original Timestamp: %d\n", i4hdr_o.otime);
+		    fprintf(stdout, "\t     Recieved Timestamp: %d\n", i4hdr_o.rtime);
+		    fprintf(stdout, "\t     Transmit Timestamp: %d", i4hdr_o.ttime);
 
                     break;
 
@@ -149,13 +149,17 @@ print_injection()
             }
         }
 
-	fprintf(stdout, "\n");
+        if(!rawip)
+	    fprintf(stdout, "\n");
 
 	fprintf(stdout, "IP header:   Src Address: %s  Dst Address: %s\n", 
 	    ip4hdr_o.s_addr, ip4hdr_o.d_addr); 
 	
 	fprintf(stdout, "\t     TTL: %d  ID: %d  TOS: 0x%X  Len: %d  ", 
-	    ip4hdr_o.ttl, ip4hdr_o.id, (u_int32_t)ip4hdr_o.tos, hdr_len);
+	    ip4hdr_o.ttl, ip4hdr_o.id, (u_int8_t)ip4hdr_o.tos, hdr_len);
+
+        if(rawip)
+            fprintf(stdout, "IP Protocol: %d  ", ip4hdr_o.p);
 
 	if(ip4hdr_o.frag == 0x4000)
 	    fprintf(stdout, "(DF)");
@@ -165,7 +169,8 @@ print_injection()
                 ehdr_o.shw_addr,
                 ehdr_o.dhw_addr);
     }
-    else if(injection_type == ETHERTYPE_ARP)
+    else
+    if(injection_type == ETHERTYPE_ARP)
     {
 #ifdef DEBUG
        fprintf(stdout, "DEBUG: ETHERTYPE_ARP\n");

@@ -20,10 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h" 
-#include "../include/inject.h"
-#include "../include/utils.h"
-#include "../include/error.h"
+#include "shape_arp_hdr.h"
 
 libnet_t *
 shape_arp_hdr(libnet_t *pkt_d)
@@ -37,23 +34,23 @@ shape_arp_hdr(libnet_t *pkt_d)
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: shape_arp_hdr()\n");
 #endif
- 
+
     hw_addr = malloc(sizeof(struct libnet_ether_addr));
     memset(hw_addr, 0, sizeof(struct libnet_ether_addr));
 
     s_paddr = r_paddr = 0;
 
     if(ahdr_o.rand_s_paddr)
-        ahdr_o.s_paddr = retrieve_rand_ipv4_addr();
+        ahdr_o.s_paddr = retrieve_rand_ipv4_addr(ahdr_o.s_paddr);
 
     if(ahdr_o.rand_r_paddr)
-        ahdr_o.r_paddr = retrieve_rand_ipv4_addr();
+        ahdr_o.r_paddr = retrieve_rand_ipv4_addr(ahdr_o.r_paddr);
 
     if(ahdr_o.rand_s_eaddr)
-        ahdr_o.s_eaddr = retrieve_rand_ethernet_addr();
+        ahdr_o.s_eaddr = retrieve_rand_ethernet_addr(ahdr_o.s_eaddr);
 
     if(ahdr_o.rand_r_eaddr)
-        ahdr_o.r_eaddr = retrieve_rand_ethernet_addr();
+        ahdr_o.r_eaddr = retrieve_rand_ethernet_addr(ahdr_o.r_eaddr);
 
     if(ahdr_o.s_paddr == NULL)
     {
@@ -61,9 +58,7 @@ shape_arp_hdr(libnet_t *pkt_d)
 	{
             case ARPOP_REQUEST: case ARPOP_REVREQUEST:
                 if((s_paddr = libnet_get_ipaddr4(pkt_d)) == -1)
-                {
                     fatal_error("Unable to retrieve local IP address: %s", libnet_geterror(pkt_d));
-                }
 	    
                 ahdr_o.s_paddr = libnet_addr2name4(s_paddr, 0);
 		break;
@@ -73,7 +68,7 @@ shape_arp_hdr(libnet_t *pkt_d)
 		break;
 	}
     }
-	
+
     if((s_paddr = libnet_name2addr4(pkt_d, ahdr_o.s_paddr, 0)) == -1)
         fatal_error("Invalid sender protocol address: %s", ahdr_o.s_paddr);
 
@@ -95,7 +90,7 @@ shape_arp_hdr(libnet_t *pkt_d)
                 break;
         }
     }
-    
+
     if(format_ethernet_addr(ahdr_o.s_eaddr, s_neaddr) == 0)
         fatal_error("Invalid sender ethernet address");
 
@@ -118,7 +113,7 @@ shape_arp_hdr(libnet_t *pkt_d)
 		break;
 	}
     }
-   
+
     if((r_paddr = libnet_name2addr4(pkt_d, ahdr_o.r_paddr, 0)) == -1)
         fatal_error("Invalid receiver protocol address: %s", ahdr_o.r_paddr);
 
@@ -129,7 +124,6 @@ shape_arp_hdr(libnet_t *pkt_d)
             case ARPOP_REPLY: case ARPOP_REVREPLY:
                 if((hw_addr = libnet_get_hwaddr(pkt_d)) == NULL)
 	            fatal_error("Unable to determine ethernet address: %s", libnet_geterror(pkt_d));
-
 
                 for(i = 0; i < 6; i++)
                     r_neaddr[i] = hw_addr->ether_addr_octet[i];

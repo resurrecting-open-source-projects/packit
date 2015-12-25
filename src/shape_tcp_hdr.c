@@ -20,32 +20,37 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h" 
-#include "../include/inject.h"
-#include "../include/utils.h"
-#include "../include/error.h"
+#include "shape_tcp_hdr.h"
 
 libnet_t *
 shape_tcp_hdr(libnet_t *pkt_d)
 {
-    int flags = 0;
+    int flags; 
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: shape_tcp_hdr()\n");
 #endif
 
+    ip4hdr_o.p = IPPROTO_TCP;
     hdr_len = TCP_H;
 
-    if(rand_d_port)
-        d_port = (unsigned short)retrieve_rand_int(P_UINT16); 
-
     if(rand_s_port)
-        s_port = (unsigned short)retrieve_rand_int(P_UINT16);
+        s_port = (u_int16_t)retrieve_rand_int(P_UINT16);
+
+    if(rand_d_port)
+        d_port = (u_int16_t)retrieve_rand_int(P_UINT16); 
 
     if((thdr_o.rand_seqn && thdr_o.syn) == 1)
         thdr_o.seqn =  (u_int32_t)retrieve_rand_int(P_INT32);
 
-    flags = retrieve_tcp_flags(flags);
+    flags = retrieve_tcp_flags();
+
+    if(pkt_len)
+    {
+        payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+        payload_len = strlen(payload);
+        pkt_len = 0;
+    }
 
     if(libnet_build_tcp(
         s_port, 
@@ -70,41 +75,3 @@ shape_tcp_hdr(libnet_t *pkt_d)
 
     return pkt_d;
 }
-
-int
-parse_port_range(char *rangestr)
-{
-    unsigned short i, range = 0; 
-    int spread[10];
-    u_int8_t o_rangestr[11];
-    u_int8_t *ptr, *delim = "-";
-
-#ifdef DEBUG
-    fprintf(stdout, "DEBUG: parse_port_range(): %s\n", rangestr);
-#endif
-
-    if(rangestr)
-	strncpy(o_rangestr, rangestr, 11);
-
-    for(i = 0, ptr = strtok(o_rangestr, delim);
-        ptr;
-        ptr = strtok(NULL, delim))
-    {
-	spread[i] = (int)atoi(ptr);
-
-	if(spread[i] < 1 || spread[i] > 65535)
-            return -1;
-
-	i++;
-    }
-
-    rangestr = o_rangestr;
-    range = spread[1] - spread[0] + 1;
-    d_port = (unsigned short)spread[0];
-
-    if(range < 1 || i != 2)
-        return -1;
-
-    return range;
-}
-

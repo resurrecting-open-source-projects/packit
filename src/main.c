@@ -20,15 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h"
-#include "../include/inject.h"
-#include "../include/capture.h"
-#include "../include/utils.h"
-#include "../include/error.h"
-#include "../include/version.h"
-
-int opt;
-char *optarg;
+#include "main.h"
 
 void
 parse_capture_options(int argc, char *argv[])
@@ -37,7 +29,6 @@ parse_capture_options(int argc, char *argv[])
     cnt = 0;
     cap_cnt = 0;
     snap_len = SNAPLEN_DEFAULT; 
-    t_rst = 0;
     resolve = 3;
     verbose = 0;
     display = 1;
@@ -52,7 +43,7 @@ parse_capture_options(int argc, char *argv[])
         switch(opt)
         {
             case 'c':
-                cnt = (u_int32_t)atoi(optarg);
+                cnt = (u_int64_t)atoi(optarg);
                 break;
 
             case 'e':
@@ -82,8 +73,8 @@ parse_capture_options(int argc, char *argv[])
 		break;
 
             case 'v':
-                verbose = 1;
-                break;
+               verbose = 1;
+               break;
 
             case 'n':
                 resolve--;
@@ -95,109 +86,26 @@ parse_capture_options(int argc, char *argv[])
         }
     }
 
-    start_packet_capture(argv[optind], cnt);
+    capture_init(argv[optind], cnt);
 
     return;
 }
 
 void
-parse_inject_options(int argc, char *argv[])
+parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 {
     u_int8_t *opts = NULL;
 
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: parse_inject_options()\n");
+    fprintf(stdout, "DEBUG: parse_inject_options(%d)\n", p_mode);
 #endif
 
     if(getuid() != 0) fatal_error("Sorry, you're not root!");
 
-    p_mode = M_INJECT;
-    opterr = 0;
-    cnt = 1;
-    inj_cnt = 1;
-    cap_cnt = 0;
-    s_port = 0;
-    rand_s_port = 1;
-    s_d_port = "0";
-    d_port = 0;
-    rand_d_port = 0;
-    r_timeout = 1;
-    burst_rate = 1;
-    hwaddr_p[17] = 0;
-    init_type = 1;
-    interval_sec = 1;
-    interval_usec = 0;
-    payload = NULL;
-    payload_len = 0;
-    hdr_len = 0;
-    display = 1;
-    verbose = 0;
-    link_layer = 0;
+    p_mode = iopt;
 
-    memset(&ehdr_o, 0, sizeof(struct enethdr_opts));
-    ehdr_o.d_addr = NULL;
-    ehdr_o.s_addr = NULL;
-    
-    memset(&ahdr_o, 0, sizeof(struct arphdr_opts));
-    ahdr_o.op_type = ARPOP_REQUEST;
-    ahdr_o.s_paddr = IPV4_DEFAULT;
-    ahdr_o.s_eaddr = ETH_DEFAULT;
-    ahdr_o.r_paddr = IPV4_DEFAULT;
-    ahdr_o.r_eaddr = ETH_DEFAULT;
-    
-    memset(&ip4hdr_o, 0, sizeof(struct ip4hdr_opts));
-    ip4hdr_o.ttl = 128;
-    ip4hdr_o.frag = 0;
-    ip4hdr_o.tos = 0;
-    ip4hdr_o.sum = 0;
-    ip4hdr_o.id = 0;
-    ip4hdr_o.rand_id = 1;
-    
-    memset(&thdr_o, 0, sizeof(struct tcphdr_opts));
-    thdr_o.s_port = (unsigned short)retrieve_rand_int(P_UINT16);
-    thdr_o.d_port = 0;
-    thdr_o.urg = 0;
-    thdr_o.ack = 0;
-    thdr_o.psh = 0;
-    thdr_o.rst = 0;
-    thdr_o.syn = 0;
-    thdr_o.fin = 0;
-    thdr_o.urp = 0;
-    thdr_o.win = 1500;
-    thdr_o.ackn = 0;
-    thdr_o.seqn = 0;
-    thdr_o.rand_seqn = 1;
-
-    memset(&uhdr_o, 0, sizeof(struct udphdr_opts));
-    uhdr_o.s_port = (unsigned short)retrieve_rand_int(P_UINT16);
-    uhdr_o.d_port = 0;
-    uhdr_o.sum = 0;
-    
-    memset(&i4hdr_o, 0, sizeof(struct icmp4hdr_opts));
-    i4hdr_o.type = 8;
-    i4hdr_o.code = 0;
-    i4hdr_o.id = (unsigned short)retrieve_rand_int(P_UINT16);
-    i4hdr_o.seqn = (unsigned short)retrieve_rand_int(P_UINT16);
-    i4hdr_o.rand_gw = 0;
-    i4hdr_o.gw = NULL;
-    i4hdr_o.orig_id = 0;
-    i4hdr_o.rand_orig_id = 0;
-    i4hdr_o.orig_tos = 0;
-    i4hdr_o.orig_ttl = 128;
-    i4hdr_o.orig_p = IPPROTO_UDP;
-    i4hdr_o.orig_sum = 1;
-    i4hdr_o.mask = NULL; ;
-    i4hdr_o.orig_s_addr = NULL;
-    i4hdr_o.rand_orig_s_addr = 0;
-    i4hdr_o.orig_d_addr = NULL;
-    i4hdr_o.rand_orig_d_addr = 0;
-    i4hdr_o.orig_d_port = 0;
-    i4hdr_o.rand_orig_d_port = 0;
-    i4hdr_o.orig_s_port = 0;
-    i4hdr_o.rand_orig_s_port = 0;
-    i4hdr_o.otime = 0;
-    i4hdr_o.rtime = 0;
-    i4hdr_o.ttime = 0;
+    define_injection_defaults();
+    injection_struct_init();
 
     while((opt = getopt(argc, argv, "t:")) != -1)
     {
@@ -209,30 +117,35 @@ parse_inject_options(int argc, char *argv[])
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: TCP injection\n");
 #endif
-                    t = ip4hdr_o.p = IPPROTO_TCP;
+                    ip4hdr_o.p = IPPROTO_TCP;
                     injection_type = ETHERTYPE_IP;
-                    opts = "a:b:c:d:D:e:E:fF:hH:i:n:p:q:s:S:T:O:u:U:vw:W:";
+                    opts = "a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
                 }  
-                else if(!strncasecmp(optarg, "UDP", 3))   
+                else 
+                if(!strncasecmp(optarg, "UDP", 3))   
                 {
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: UDP injection\n");
 #endif
-                    t = ip4hdr_o.p = IPPROTO_UDP;
+                    ip4hdr_o.p = IPPROTO_UDP;
                     injection_type = ETHERTYPE_IP;
-                    opts = "b:c:d:D:e:E:fhH:i:n:O:p:s:S:T:U:vw:";
+                    opts = "b:c:d:D:e:E:fhH:i:n:o:p:Rs:S:T:vw:Z:";
                 }
-                else if(!strncasecmp(optarg, "ICMP", 4))  
+                else
+                if(!strncasecmp(optarg, "ICMP", 4))  
                 { 
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: ICMP injection\n");
 #endif
-                    t = ip4hdr_o.p = IPPROTO_ICMP;
+                    ip4hdr_o.p = IPPROTO_ICMP;
                     injection_type = ETHERTYPE_IP;
-                    opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:s:Q:t:T:U:vw:y:z:"; 
+                    opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:"; 
                 }
-		else if(!strncasecmp(optarg, "ARP", 3))    
+		else
+                if(!strncasecmp(optarg, "ARP", 3))    
                 { 
+                    if(p_mode == M_TRACE) 
+                        fatal_error("ARP is not supported with trace mode.");
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: ARP injection\n");
 #endif
@@ -240,33 +153,43 @@ parse_inject_options(int argc, char *argv[])
                     fprintf(stderr, "\nError: ARP injection is not yet supported on this OS platform.\n");
                     exit(FAILURE);
 #endif
-                    t = injection_type = ETHERTYPE_ARP;
-                    opts = "A:b:c:r:R:e:E:i:o:p:s:S:U:vx:X:";
+                    injection_type = ETHERTYPE_ARP;
+                    init_type = 0;
+                    opts = "A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:";
                 }
-                else if(!strncasecmp(optarg, "RAWIP", 3)) 
+                else
+                if(!strncasecmp(optarg, "RAWIP", 3)) 
                 { 
+                    if(p_mode == M_TRACE)
+                        fatal_error("RAW is not supported with trace mode.");
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: raw IP injection\n");
 #endif
-                    t = ip4hdr_o.p = IPPROTO_RAW;
+                    rawip = ip4hdr_o.p = IPPROTO_RAW;
                     injection_type = ETHERTYPE_IP;
-                    opts = "b:c:d:e:E:f:i:n:O:p:s:T:U:vV:w:";
+                    opts = "b:c:d:e:E:f:i:n:o:p:Rs:T:U:vV:w:Z:";
                 }
                 else 
-                {
                     print_usage();
-                }
 
                 goto parse_inject;
 
                 break;
 
             default:
-                optind--;
-
-                t = ip4hdr_o.p = IPPROTO_TCP;
+                if(optind > 1) optind--;
                 injection_type = ETHERTYPE_IP;
-                opts = "a:b:c:d:D:e:E:fF:hH:i:n:p:q:s:S:T:O:u:U:vw:W:";
+
+                if(p_mode == M_TRACE)
+                {
+                    ip4hdr_o.p = IPPROTO_ICMP;
+                    opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:"; 
+                }
+                else
+                {
+                    ip4hdr_o.p = IPPROTO_TCP;
+                    opts = "a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
+                }
 
                 goto parse_inject;
 
@@ -288,19 +211,18 @@ parse_inject:
                 break;
 
             case 'A':
-                ahdr_o.op_type = (unsigned short)atoi(optarg);
+                ahdr_o.op_type = (u_int16_t)atoi(optarg);
                 break;
 
             case 'b':
-                burst_rate = (int)atoi(optarg);
-
-		if(burst_rate > BURST_MAX || burst_rate < 1)
-		    fatal_error("Invalid burst rate");
-		
+                burst_rate = (u_int16_t)atoi(optarg);
                 break;
 
             case 'c':
-                cnt = (u_int32_t)atoi(optarg);
+                if(p_mode == M_TRACE && (u_int64_t)atoi(optarg) > 0xFF)
+                    fatal_error("Count cannot exceed max TTL value");
+                    
+                cnt = (u_int64_t)atoi(optarg);
                 break;
 
             case 'C':
@@ -308,7 +230,7 @@ parse_inject:
                 break;
 
             case 'd':
-		if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
+	        if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     ip4hdr_o.rand_d_addr = 1;
                 
 		if(!(ip4hdr_o.d_addr = strdup(optarg)))
@@ -331,7 +253,7 @@ parse_inject:
 	    break;
 #endif
 		if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    ehdr_o.eh_rand_s_addr = 1;
+                    ehdr_o.rand_s_addr = 1;
 
       		if(!(ehdr_o.s_addr = strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
@@ -346,7 +268,7 @@ parse_inject:
 		break;
 #endif
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    ehdr_o.eh_rand_d_addr = 1;
+                    ehdr_o.rand_d_addr = 1;
 
                 if(!(ehdr_o.d_addr = strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
@@ -396,11 +318,13 @@ parse_inject:
                 break;
 
 	    case 'h':
-	        p_mode = M_INJECT_RESPONSE;	
+                if(p_mode == M_INJECT)
+	            p_mode = M_INJECT_RESPONSE;	
+
 		break;
 
             case 'H':
-                r_timeout = (unsigned short)atoi(optarg);
+                r_timeout = (u_int8_t)atoi(optarg);
                 break;
 
             case 'i':
@@ -422,12 +346,12 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     i4hdr_o.rand_orig_s_port = 1;
                 else
-                    i4hdr_o.orig_s_port = (unsigned short)atoi(optarg);
+                    i4hdr_o.orig_s_port = (u_int16_t)atoi(optarg);
 
                 break;
 
             case 'k':
-                i4hdr_o.rtime = (unsigned long)atoi(optarg);
+                i4hdr_o.rtime = (u_int32_t)atoi(optarg);
                 break;
 
             case 'K':
@@ -447,23 +371,23 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     i4hdr_o.rand_orig_d_port = 1;
                 else
-                    i4hdr_o.orig_d_port = (unsigned short)atoi(optarg);
+                    i4hdr_o.orig_d_port = (u_int16_t)atoi(optarg);
 
                 break;
 
             case 'm':
-                i4hdr_o.orig_ttl = (unsigned short)atoi(optarg);
+                i4hdr_o.orig_ttl = (u_int16_t)atoi(optarg);
                 break;
 
             case 'M':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     i4hdr_o.rand_orig_id = 1;
 
-                i4hdr_o.orig_id = (unsigned short)atoi(optarg);
+                i4hdr_o.orig_id = (u_int16_t)atoi(optarg);
                 break;
 
             case 'n':
-                ip4hdr_o.id = (unsigned short)atoi(optarg);
+                ip4hdr_o.id = (u_int16_t)atoi(optarg);
                 ip4hdr_o.rand_id = 0;
                 break;
 
@@ -471,18 +395,21 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     i4hdr_o.rand_id = 1;
 
-                i4hdr_o.id = (unsigned short)atoi(optarg);
+                i4hdr_o.id = (u_int16_t)atoi(optarg);
                 break;
 
             case 'o':
-                ip4hdr_o.tos = (unsigned short)atoi(optarg);
+                ip4hdr_o.tos = (u_int8_t)atoi(optarg);
                 break;
 
             case 'O':
-                i4hdr_o.orig_tos = (unsigned short)atoi(optarg);
+                i4hdr_o.orig_tos = (u_int8_t)atoi(optarg);
                 break;
 
             case 'p':
+                if(!strncasecmp(optarg, "0x", 2))
+                    hex_payload = 1; 
+
                 if(!(payload = strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
 
@@ -491,9 +418,11 @@ parse_inject:
             case 'P':
                 if(!strcasecmp(optarg, "UDP"))
                     i4hdr_o.orig_p = 17;
-                else if(!strncasecmp(optarg, "TCP", 3))
+                else 
+                if(!strncasecmp(optarg, "TCP", 3))
                     i4hdr_o.orig_p = 6;
-                else if(!strncasecmp(optarg, "ICMP", 4))
+                else 
+                if(!strncasecmp(optarg, "ICMP", 4))
                     i4hdr_o.orig_p = 1;
                 else
                     fatal_error("Unknown ICMP original protocol: %s", optarg);
@@ -509,25 +438,11 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     i4hdr_o.rand_seqn = 1;
 
-                i4hdr_o.seqn = (unsigned short)atoi(optarg);
-                break;
-
-            case 'r':
-                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    ahdr_o.rand_r_paddr = 1;
-
-                if(!(ahdr_o.r_paddr = strdup(optarg)))
-                    fatal_error("Memory unavailable for: %s", optarg);
-
+                i4hdr_o.seqn = (u_int16_t)atoi(optarg);
                 break;
 
             case 'R':
-                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    ahdr_o.rand_r_eaddr = 1;
-
-                if(!(ahdr_o.r_eaddr = strdup(optarg)))
-                    fatal_error("Memory unavailable for: %s", optarg);
-
+                resolve = 0;
                 break;
 
             case 's':
@@ -540,36 +455,47 @@ parse_inject:
                 break;
 
             case 'S':
-                s_port = (unsigned short)atoi(optarg);
-                rand_s_port = 0;
+                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
+                    rand_d_port = 1;
+                else
+                    rand_s_port = 0;
+
+                s_port = (u_int16_t)atoi(optarg);
                 break;
 
             case 'T':
                 if(atoi(optarg) > 0xFF)
                     fatal_error("Invalid TTL value: %s", optarg);
-                else
-                    ip4hdr_o.ttl = (unsigned short)atoi(optarg);
+
+                ip4hdr_o.ttl = (u_int16_t)atoi(optarg);
 
                 break;
 
             case 'u':
-                thdr_o.urp = (int)atoi(optarg);
+                thdr_o.urp = (u_int16_t)atoi(optarg);
                 break;
 
-            case 'V':
-                ip4hdr_o.p = (u_int16_t)atoi(optarg);
+            case 'U':
+                i4hdr_o.otime = (u_int32_t)atoi(optarg);
                 break;
  
             case 'v':
                 verbose = 1;
                 break;
 
+            case 'V':
+                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
+                    ip4hdr_o.rand_p = 1;
+
+                ip4hdr_o.p = (u_int16_t)atoi(optarg);
+                break;
+
             case 'w':
-                interval_sec = (unsigned short)atoi(optarg);
+                interval_sec = (u_int16_t)atoi(optarg);
                 break;
 
             case 'W':
-                thdr_o.win = (unsigned short)atoi(optarg);
+                thdr_o.win = (u_int16_t)atoi(optarg);
                 break;
 
             case 'x':
@@ -588,17 +514,37 @@ parse_inject:
                 if(!(ahdr_o.s_eaddr = strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
+                break;
+
             case 'y':
-                i4hdr_o.otime = (unsigned long)atoi(optarg);
+                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
+                    ahdr_o.rand_r_paddr = 1;
+
+                if(!(ahdr_o.r_paddr = strdup(optarg)))
+                    fatal_error("Memory unavailable for: %s", optarg);
+
+                break;
+
+            case 'Y':
+                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
+                    ahdr_o.rand_r_eaddr = 1;
+
+                if(!(ahdr_o.r_eaddr = strdup(optarg)))
+                    fatal_error("Memory unavailable for: %s", optarg);
+
                 break;
 
             case 'z':
-                i4hdr_o.ttime = (unsigned long)atoi(optarg);
+                i4hdr_o.ttime = (u_int32_t)atoi(optarg);
+                break;
+
+            case 'Z':
+                pkt_len = (u_int16_t)atoi(optarg);
                 break;
         }
     }
 
-    enter_packet_foundry();
+    injection_init();
 
     return;
 }
@@ -616,18 +562,19 @@ main(int argc, char *argv[])
 
     while((opt = getopt(argc, argv, "m:")) != -1)
     {
-        opterr = 1;
-
         switch(opt)
         {
             case 'm':
 #ifdef WITH_CAPTURE
-                if(!strncasecmp(optarg, "CAPTURE", 7) || !strncasecmp(optarg, "c", 1))
+                if(!strncasecmp(optarg, "CAPTURE", 7) || !strncasecmp(optarg, "C", 1))
                     parse_capture_options(argc, argv);
 #endif
 #ifdef WITH_INJECTION
-                if(!strncasecmp(optarg, "INJECT", 6) || !strncasecmp(optarg, "i", 1))
-                    parse_inject_options(argc, argv);
+                if(!strncasecmp(optarg, "INJECT", 6) || !strncasecmp(optarg, "I", 1))
+                    parse_inject_options(argc, argv, M_INJECT);
+
+                if(!strncasecmp(optarg, "TRACE", 10) || !strncasecmp(optarg, "T", 1))
+                    parse_inject_options(argc, argv, M_TRACE);
 #endif
 		
                 fprintf(stderr, "\nError: Invalid runtime mode\n");
@@ -637,7 +584,7 @@ main(int argc, char *argv[])
             default: 
                 optind--;
 #ifdef WITH_INJECTION
-		parse_inject_options(argc, argv);
+		parse_inject_options(argc, argv, M_INJECT);
 		break;
 #endif
 #ifdef WITH_CAPTURE
@@ -649,6 +596,8 @@ main(int argc, char *argv[])
                 break;
         }
     }
+
+    print_usage();
 
     /* Never gets here */
     exit(SUCCESS);

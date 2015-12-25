@@ -20,20 +20,22 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h"
-#include "../include/error.h"
+#include "error.h"
 
 void
 fatal_error(u_int8_t *err,...)
 {
     va_list va;
 
+#ifdef DEBUG
+    fprintf(stdout, "DEBUG: fatal_error()\n");
+#endif
+
     va_start(va, err);
     vsnprintf(error_buf, ERRBUF_MAXLEN, err, va);
-
     fprintf(stderr, "\nError: %s\n", error_buf);
-
     exit(FAILURE);
 
     return;
 }
+

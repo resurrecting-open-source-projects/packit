@@ -20,11 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include <ctype.h>
-
-#include "../include/packit.h"
-#include "../include/capture.h"
-#include "../include/error.h"
+#include "print_pktdump.h"
 
 #define HEXDUMP_BYTES_PER_LINE 16
 #define HEXDUMP_SHORTS_PER_LINE (HEXDUMP_BYTES_PER_LINE / 2)

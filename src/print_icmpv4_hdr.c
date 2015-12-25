@@ -20,10 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h"
-#include "../include/capture.h"
-#include "../include/utils.h"
-#include "../include/error.h"
+#include "print_icmpv4_hdr.h"
 
 void
 print_icmpv4_hdr(u_int8_t *packet)
@@ -40,9 +37,6 @@ print_icmpv4_hdr(u_int8_t *packet)
 #ifndef icmp_iphdr
 #define icmp_iphdr icmphdr->dun.ip.idi_ip
 #endif
-
-    icmphdr = malloc(sizeof(struct libnet_icmpv4_hdr));
-    memset(icmphdr, 0, sizeof(struct libnet_icmpv4_hdr));
 
     icmphdr = (struct libnet_icmpv4_hdr *)(packet + IPV4_H + hdr_len);
 
@@ -85,7 +79,7 @@ print_icmpv4_hdr(u_int8_t *packet)
             fprintf(stdout, "Code: %s(%d)  ", icmp_c, icmphdr->icmp_code);
 
             if(icmphdr->icmp_code == ICMP_UNREACH_NEEDFRAG)
-                fprintf(stdout, "MTU: %d  Pad: %d  ", icmphdr->hun.frag.mtu, icmphdr->hun.frag.pad); 
+                fprintf(stdout, "MTU: %d  Pad: %d  ", ntohs(icmphdr->hun.frag.mtu), ntohs(icmphdr->hun.frag.pad)); 
 
             if(verbose)
             {
@@ -136,9 +130,9 @@ print_icmpv4_hdr(u_int8_t *packet)
 
             fprintf(stdout, "ID: %d  Seqn: %d\n", icmphdr->icmp_id, icmphdr->icmp_seq);
             fprintf(stdout, "\t     Original: %lu  Received: %lu  Transmit: %lu", 
-                (unsigned long)ntohl(icmphdr->icmp_otime), 
-                (unsigned long)ntohl(icmphdr->icmp_rtime), 
-                (unsigned long)ntohl(icmphdr->icmp_ttime));    
+                (u_long)ntohl(icmphdr->icmp_otime), 
+                (u_long)ntohl(icmphdr->icmp_rtime), 
+                (u_long)ntohl(icmphdr->icmp_ttime));    
 
             break;
 
@@ -163,10 +157,12 @@ print_icmpv4_hdr(u_int8_t *packet)
                 fprintf(stdout, "Code: %s(%d)  ", icmp_c, icmphdr->icmp_code);
 
             break;
-
     }
     
     fprintf(stdout, "\n");
+
+    if(icmphdr->icmp_type != 11 || icmphdr->icmp_code != 0)
+        tr_fin = 1;
 
     return;
 }

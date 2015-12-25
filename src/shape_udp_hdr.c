@@ -20,10 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h" 
-#include "../include/inject.h"
-#include "../include/utils.h"
-#include "../include/error.h"
+#include "shape_udp_hdr.h"
 
 libnet_t *
 shape_udp_hdr(libnet_t *pkt_d)
@@ -33,12 +30,20 @@ shape_udp_hdr(libnet_t *pkt_d)
 #endif
 
     hdr_len = UDP_H;
+    ip4hdr_o.p = IPPROTO_UDP;
 
     if(rand_d_port)
-        d_port = (unsigned short)retrieve_rand_int(P_UINT16);
+        d_port = (u_int16_t)retrieve_rand_int(P_UINT16);
 
     if(rand_s_port)
-        s_port = (unsigned short)retrieve_rand_int(P_UINT16);
+        s_port = (u_int16_t)retrieve_rand_int(P_UINT16);
+
+    if(pkt_len)
+    {
+        payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+        payload_len = strlen(payload);
+        pkt_len = 0;
+    }
 
     if(libnet_build_udp(
         s_port, 

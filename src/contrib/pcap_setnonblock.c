@@ -32,9 +32,7 @@
  */
 
 
-#include "../include/packit.h"
-#include "../include/inject.h"
-#include "../include/capture.h"
+#include "../globals.h"
 #include "pcap-int.h"
 
 #include <fcntl.h>

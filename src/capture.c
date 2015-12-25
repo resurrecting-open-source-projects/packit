@@ -20,102 +20,17 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h"
-#include "../include/capture.h"
-#include "../include/utils.h"
-#include "../include/error.h"
+#include "capture.h"
 
 void
 process_packets(u_int8_t *user, struct pcap_pkthdr *pkthdr, u_int8_t *packet)
 {
-    struct libnet_ethernet_hdr *ehdr;
-    struct libnet_ipv4_hdr *iphdr;
-
-#ifdef DEBUG
-    fprintf(stdout, "\nDEBUG: process_packets()\n");
-#endif
-
-    ehdr = malloc(sizeof(struct libnet_ethernet_hdr));
-    memset(ehdr, 0, sizeof(struct libnet_ethernet_hdr));
-
-    iphdr = malloc(sizeof(struct libnet_ipv4_hdr));
-    memset(iphdr, 0, sizeof(struct libnet_ipv4_hdr));
-
-    if(display)
-    {
-        ehdr = (struct libnet_ethernet_hdr *)(packet);
-
-        if(ehdr->ether_type == htons(ETHERTYPE_IP))
-        {
-#ifdef DEBUG
-            fprintf(stdout, "\nDEBUG: ether_type: ip\n");
-#endif
-
-            if(p_mode == M_CAPTURE)
-                print_separator(1, 2, "PID %d", cap_cnt + 1);
-            else if(p_mode == M_INJECT_RESPONSE)
-                print_separator(1, 2, "RCV %d", inj_cnt);
-
-            print_timestamp(pkthdr->ts);
-	 
-            iphdr = (struct libnet_ipv4_hdr *)(packet + hdr_len);
-
-#ifdef DEBUG
-	    fprintf(stdout, "\nDEBUG: ip_p: %d\n", iphdr->ip_p);
-#endif
-
-            switch(iphdr->ip_p)
-            {
-                case IPPROTO_TCP: 
-                    print_tcp_hdr(packet);
-                    break;
-
-                case IPPROTO_UDP: 
-                    print_udp_hdr(packet);
-                    break;
-
-                case IPPROTO_ICMP: 
-                    print_icmpv4_hdr(packet);
-                    break;
-            }
-
-            print_ipv4_hdr(iphdr);
-
-            if(link_layer)
-                print_ethernet_hdr(ehdr);
-		
-            if(dump_pkt)
-                if(pkthdr->caplen > hdr_len)
-                    print_packet_hexdump(packet + hdr_len, pkthdr->caplen - hdr_len);    
-        }
-        else if(ehdr->ether_type == htons(ETHERTYPE_ARP))
-        {
-#ifdef DEBUG
-            fprintf(stdout, "\nDEBUG: ether_type: ARP\n");
-#endif
-
-            if(p_mode == M_CAPTURE)
-                print_separator(1, 2, "PID %d", cap_cnt + 1);
-            else if(p_mode == M_INJECT_RESPONSE)
-                print_separator(1, 2, "RCV %d", inj_cnt);
-
-            print_timestamp(pkthdr->ts);
-            print_arp_hdr(packet);
-	    print_ethernet_hdr(ehdr);
-
-            if(dump_pkt)
-                if(pkthdr->caplen > hdr_len)
-                    print_packet_hexdump(packet + hdr_len, pkthdr->caplen - hdr_len);
-	}
-    }
-
-    cap_cnt++;
-    
+    print_capture(pkthdr, packet);
     return;
 }
 
 void
-start_packet_capture(u_int8_t *filter, u_int32_t cnt)
+capture_init(u_int8_t *filter, u_int64_t cnt)
 {
     u_int32_t d_link, localnet, netmask;
     pcap_dumper_t *p_dumper = NULL;
@@ -123,7 +38,7 @@ start_packet_capture(u_int8_t *filter, u_int32_t cnt)
     struct bpf_program bpf;
 
 #ifdef DEBUG
-    fprintf(stdout, "\nDEBUG: start_packet_capture()\n");
+    fprintf(stdout, "DEBUG: capture_init()\n");
 #endif
 
     memset(&bpf, 0, sizeof(struct bpf_program));
@@ -137,12 +52,14 @@ start_packet_capture(u_int8_t *filter, u_int32_t cnt)
     {
         if((pkt = pcap_open_offline(r_file, error_buf)) == NULL)
             fatal_error("Unable to open file: %s", error_buf); 
+
     }
     else
     {
         if(device == NULL)
             if((device = pcap_lookupdev(error_buf)) == NULL)
                 fatal_error("Unable to lookup device: %s", error_buf);
+
 
         if((pkt = pcap_open_live(device, snap_len, 1, READ_TIMEOUT, error_buf)) == NULL)
             fatal_error("Unable to open device: %s", error_buf);
@@ -151,7 +68,7 @@ start_packet_capture(u_int8_t *filter, u_int32_t cnt)
     if(strlen(w_file) > 0)
     {
 #ifdef DEBUG
-        fprintf(stdout, "\nDEBUG: Writing to capture file: %s\n", w_file);
+        fprintf(stdout, "DEBUG: Writing to capture file: %s\n", w_file);
 #endif
 
         if((p_dumper = pcap_dump_open(pkt, w_file)) == NULL)
@@ -179,11 +96,6 @@ start_packet_capture(u_int8_t *filter, u_int32_t cnt)
     hdr_len = retrieve_datalink_hdr_len(d_link);
 
     fprintf(stdout, "Mode:  Packet Capture ");
-
-    if(t_rst)
-	fprintf(stdout, "[TCP Reset] ");
-    else if(t_rst > 1)
-	fprintf(stdout, "[UDP Reset] ");
 
     if(strlen(r_file) > 0)
         fprintf(stdout, "using file: %s ", r_file);

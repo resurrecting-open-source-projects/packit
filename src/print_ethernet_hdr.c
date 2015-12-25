@@ -20,9 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h"
-#include "../include/capture.h"
-#include "../include/error.h"
+#include "print_ethernet_hdr.h"
 
 void
 print_ethernet_hdr(struct libnet_ethernet_hdr *ehdr)

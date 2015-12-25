@@ -20,10 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h" 
-#include "../include/inject.h"
-#include "../include/utils.h"
-#include "../include/error.h"
+#include "shape_icmpv4_hdr.h"
 
 libnet_t *
 shape_icmpv4_hdr(libnet_t *pkt_d)
@@ -38,6 +35,8 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
     fprintf(stdout, "DEBUG: shape_icmpv4_hdr(): type: %d  code: %d\n", i4hdr_o.type, i4hdr_o.code);
 #endif
 
+    ip4hdr_o.p = IPPROTO_ICMP;
+
     switch(i4hdr_o.type)
     {
         case ICMP_ECHOREPLY: case ICMP_ECHO: default:
@@ -46,12 +45,19 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
 #endif
 
             if(i4hdr_o.rand_seqn)
-                i4hdr_o.seqn = (unsigned short)retrieve_rand_int(P_UINT16);
+                i4hdr_o.seqn = (u_int16_t)retrieve_rand_int(P_UINT16);
 
             if(i4hdr_o.rand_id)
-                i4hdr_o.id = (unsigned short)retrieve_rand_int(P_UINT16);
+                i4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
 
             hdr_len = ICMPV4_ECHO_H;
+
+            if(pkt_len)
+            {
+                payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+                payload_len = strlen(payload);
+                pkt_len = 0;
+            }
 
             if(libnet_build_icmpv4_echo(
 	        i4hdr_o.type,
@@ -72,25 +78,27 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
 	case ICMP_UNREACH: case ICMP_REDIRECT: case ICMP_TIMXCEED:
             if(i4hdr_o.orig_p == IPPROTO_TCP)
 	        orig_hlen = IPV4_H + TCP_H;
-	    else if(i4hdr_o.orig_p == IPPROTO_UDP)
+	    else
+            if(i4hdr_o.orig_p == IPPROTO_UDP)
                 orig_hlen = IPV4_H + UDP_H;
-            else if(i4hdr_o.orig_p == IPPROTO_ICMP)
+            else
+            if(i4hdr_o.orig_p == IPPROTO_ICMP)
 	        orig_hlen = IPV4_H + ICMPV4_H;
 
 	    if(i4hdr_o.rand_orig_s_addr)
-                i4hdr_o.orig_s_addr = retrieve_rand_ipv4_addr();
+                i4hdr_o.orig_s_addr = retrieve_rand_ipv4_addr(i4hdr_o.orig_s_addr);
 
             if(i4hdr_o.rand_orig_d_addr)
-		i4hdr_o.orig_d_addr = retrieve_rand_ipv4_addr();
+		i4hdr_o.orig_d_addr = retrieve_rand_ipv4_addr(i4hdr_o.orig_d_addr);
 
             if(i4hdr_o.rand_orig_id)
-                i4hdr_o.orig_id = (unsigned short)retrieve_rand_int(P_UINT16);
+                i4hdr_o.orig_id = (u_int16_t)retrieve_rand_int(P_UINT16);
 
             if(i4hdr_o.rand_orig_s_port)
-                i4hdr_o.orig_s_port = (unsigned short)retrieve_rand_int(P_UINT16);
+                i4hdr_o.orig_s_port = (u_int16_t)retrieve_rand_int(P_UINT16);
 
             if(i4hdr_o.rand_orig_d_port)
-                i4hdr_o.orig_d_port = (unsigned short)retrieve_rand_int(P_UINT16);
+                i4hdr_o.orig_d_port = (u_int16_t)retrieve_rand_int(P_UINT16);
 
             if(i4hdr_o.orig_s_addr == NULL)
 	        fatal_error("No original source IP address defined");
@@ -123,6 +131,13 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
 
                 hdr_len = ICMPV4_UNREACH_H;
 
+                if(pkt_len)
+                {
+                    payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+                    payload_len = strlen(payload);
+                    pkt_len = 0;
+                }
+
                 if(libnet_build_icmpv4_unreach(
                     i4hdr_o.type,
                     i4hdr_o.code,
@@ -144,22 +159,30 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
                     fatal_error("Unable to build ICMPv4 unreach header: %s", libnet_geterror(pkt_d));
 	        }
             }
-	    else if(i4hdr_o.type == ICMP_REDIRECT)
+	    else
+            if(i4hdr_o.type == ICMP_REDIRECT)
 	    { 
 #ifdef DEBUG
                 fprintf(stdout, "DEBUG: Building ICMP redirect header\n");
 #endif
 
-		hdr_len = ICMPV4_REDIRECT_H;
-
                 if(i4hdr_o.rand_gw)
-	            i4hdr_o.gw = retrieve_rand_ipv4_addr();
+	            i4hdr_o.gw = retrieve_rand_ipv4_addr(i4hdr_o.gw);
 
                 if(i4hdr_o.gw == NULL)
 	            fatal_error("No gateway IP address defined");
 
                 if((ihn_gw = libnet_name2addr4(pkt_d, i4hdr_o.gw, 1)) == -1)
 	            fatal_error("Invalid gateway IP address: %s", i4hdr_o.gw);
+
+                hdr_len = ICMPV4_REDIRECT_H;
+
+                if(pkt_len)
+                {
+                    payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+                    payload_len = strlen(payload);
+                    pkt_len = 0;
+                }
 
  	        if(libnet_build_icmpv4_redirect(
 	            i4hdr_o.type,
@@ -183,13 +206,21 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
 	            fatal_error("Unable to build ICMPv4 redirect header: %s", libnet_geterror(pkt_d));
 	        }
 	    }
-            else if(i4hdr_o.type == ICMP_TIMXCEED)
+            else
+            if(i4hdr_o.type == ICMP_TIMXCEED)
 	    {
 #ifdef DEBUG
                 fprintf(stdout, "DEBUG: Building ICMP timelimit exceeded header\n");
 #endif
 
                 hdr_len = ICMPV4_TIMXCEED_H;
+
+                if(pkt_len)
+                {
+                    payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+                    payload_len = strlen(payload);
+                    pkt_len = 0;
+                }
 
                 if(libnet_build_icmpv4_timeexceed(
                     i4hdr_o.type,
@@ -221,12 +252,19 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
 #endif
 
             if(i4hdr_o.rand_seqn)
-                i4hdr_o.seqn = (unsigned short)retrieve_rand_int(P_UINT16);
+                i4hdr_o.seqn = (u_int16_t)retrieve_rand_int(P_UINT16);
 
             if(i4hdr_o.rand_id)
-                i4hdr_o.id = (unsigned short)retrieve_rand_int(P_UINT16);
+                i4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
 
             hdr_len = ICMPV4_TSTAMP_H;
+
+            if(pkt_len)
+            {
+                payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+                payload_len = strlen(payload);
+                pkt_len = 0;
+            }
 
             if(libnet_build_icmpv4_timestamp(
                 i4hdr_o.type,
@@ -253,16 +291,23 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
 #endif
 
             if(i4hdr_o.rand_seqn)
-                i4hdr_o.seqn = (unsigned short)retrieve_rand_int(P_UINT16);
+                i4hdr_o.seqn = (u_int16_t)retrieve_rand_int(P_UINT16);
 
             if(i4hdr_o.rand_id)
-                i4hdr_o.id = (unsigned short)retrieve_rand_int(P_UINT16);
+                i4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
 
             if(i4hdr_o.mask != NULL)
                 if((ihn_mask = libnet_name2addr4(pkt_d, i4hdr_o.mask, 1)) == -1)
 	            fatal_error("Invalid mask address: %s", i4hdr_o.mask);
 
             hdr_len = ICMPV4_MASK_H;
+
+            if(pkt_len)
+            {
+                payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+                payload_len = strlen(payload);
+                pkt_len = 0;
+            }
 
 	    if(libnet_build_icmpv4_mask(
 	        i4hdr_o.type,

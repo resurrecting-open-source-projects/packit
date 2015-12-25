@@ -1,7 +1,7 @@
-%define version 0.6.0d
+%define version 0.7
 Name:		packit
 Version:	%{version}
-Release:	0
+Release:	1	
 Source:		http://packit.sourceforge.net/packit-%{version}.tgz
 URL:		http://packit.sourceforge.net/
 License:	GPL
@@ -9,6 +9,8 @@ Group:		Networking/Utilities
 BuildRoot:	/var/tmp/%{name}-rpmroot
 Summary:	Network Injection And Capture Tool
 Vendor:		Darren Bounds <dbounds@intrusense.com>
+BuildRequires: 	libnet >= 1.1
+Requires:  	libnet >= 1.1
 %description
 
 Packit is a network auditing tool. It's value is derived from its
@@ -31,6 +33,8 @@ mkdir -p $RPM_BUILD_ROOT/usr
 make prefix=$RPM_BUILD_ROOT/usr install
 
 %changelog
+* Sat Oct 3 2003 Darren Bounds <dbounds@intrusense.com>
+  Updated for 0.7 sources.
 * Sat Jul 19 2003 William Stearns <wstearns@pobox.com>
   Updated to 0.6.0d sources.  Spec file updates, including listing out
   what files should be included as docs; the older spec file approach of
@@ -48,4 +52,7 @@ make prefix=$RPM_BUILD_ROOT/usr install
 %defattr(-,root,root)
 %attr(755,root,root)			/usr/sbin/packit
 %attr(644,root,root)			/usr/man/man8/packit.8.gz
-				%doc	ChangeLog INSTALL LICENSE VERSION docs/ICMP.txt
+%doc					ChangeLog INSTALL LICENSE VERSION docs/ICMP.txt
+
+%clean
+rm -rf $RPM_BUILD_ROOT

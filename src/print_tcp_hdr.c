@@ -20,9 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h"
-#include "../include/capture.h"
-#include "../include/error.h"
+#include "print_tcp_hdr.h"
 
 void
 print_tcp_hdr(u_int8_t *packet)
@@ -36,11 +34,9 @@ print_tcp_hdr(u_int8_t *packet)
     fprintf(stdout, "DEBUG: print_tcp_hdr()\n");
 #endif
 
-    tcphdr = malloc(sizeof(struct libnet_tcp_hdr));
     port_src = malloc(sizeof(struct servent));
     port_dst = malloc(sizeof(struct servent));
 
-    memset(tcphdr, 0, sizeof(struct libnet_tcp_hdr));
     memset(port_src, 0, sizeof(struct servent));
     memset(port_dst, 0, sizeof(struct servent));
     memset(flags, 0, sizeof(flags));
@@ -76,10 +72,10 @@ print_tcp_hdr(u_int8_t *packet)
     fprintf(stdout, "\t     Window: %d  ", htons(tcphdr->th_win));
 
     if(tcphdr->th_seq > 0)
-        fprintf(stdout, "Seqn: %lu  ", (unsigned long)ntohl(tcphdr->th_seq));
+        fprintf(stdout, "Seqn: %lu  ", (u_long)ntohl(tcphdr->th_seq));
 
     if(tcphdr->th_ack > 0)
-        fprintf(stdout, "Ackn: %lu  ", (unsigned long)ntohl(tcphdr->th_ack));
+        fprintf(stdout, "Ackn: %lu  ", (u_long)ntohl(tcphdr->th_ack));
 
     if(tcphdr->th_urp)
         fprintf(stdout, "Urg: %d  ", ntohs(tcphdr->th_urp));

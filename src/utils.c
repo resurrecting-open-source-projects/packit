@@ -20,11 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h" 
-#include "../include/inject.h"
-#include "../include/capture.h"
-#include "../include/error.h"
-
+#include "utils.h"
 
 u_int32_t
 retrieve_rand_int(u_int32_t r_size)
@@ -32,11 +28,10 @@ retrieve_rand_int(u_int32_t r_size)
     static u_int32_t r_int;
 
 #ifdef DEBUG
-    fprintf(stdout, "\nDEBUG: retrieve_rand_int()\n");
+    fprintf(stdout, "DEBUG: retrieve_rand_int()\n");
 #endif
 
-    if(!r_int)
-        r_int++;
+    r_int++;
 
     srand(time(0) ^ getpid() * r_int);
     r_int = rand() % r_size;
@@ -50,7 +45,7 @@ retrieve_datalink_hdr_len(u_int32_t d_link)
     u_int16_t len = 0;
 
 #ifdef DEBUG
-    fprintf(stdout, "\nDEBUG: retrieve_datalink_hdr_len()\n");
+    fprintf(stdout, "DEBUG: retrieve_datalink_hdr_len()\n");
 #endif
 
     switch(d_link)
@@ -76,23 +71,20 @@ retrieve_datalink_hdr_len(u_int32_t d_link)
 }
 
 u_int8_t *
-retrieve_rand_ipv4_addr()
+retrieve_rand_ipv4_addr(u_int8_t *ip)
 {
-    unsigned short oct, oct_cnt;
-    u_int8_t *ip;
+    u_int8_t oct, oct_cnt;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: retrive_rand_ipv4_addr()\n");
 #endif
-
-    ip = malloc(sizeof(u_int8_t) * 16);
 
     for(oct_cnt = 1; oct_cnt < 5; oct_cnt++)
     {   
 
         while(1)
         {   
-            oct = (unsigned short)retrieve_rand_int(0xFF);
+            oct = (u_int8_t)retrieve_rand_int(0xFF);
 
             if(oct_cnt != 1 ||
               (oct_cnt == 1 && oct > 0 && oct < 239))
@@ -109,23 +101,18 @@ retrieve_rand_ipv4_addr()
 }
 
 u_int8_t *
-retrieve_rand_ethernet_addr()
+retrieve_rand_ethernet_addr(u_int8_t *eaddr)
 {
     u_int16_t oct, oct_cnt;
-    static int seed;
-    u_int8_t *eaddr;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: retrieve_rand_ethernet_addr()\n");
 #endif
 
-    eaddr = malloc(sizeof(u_int8_t) * 18);
-
    for(oct_cnt = 1; oct_cnt < 7; oct_cnt++)
    {
-       seed++;
-       srand(time(0) ^ getpid() * seed);
-       oct = rand() % 0xFF;
+       while(1)
+            oct = (u_int8_t)retrieve_rand_int(0xFF);
 
        if(oct_cnt != 1)
            sprintf(eaddr, "%s:%0x", eaddr, oct);
@@ -139,15 +126,15 @@ retrieve_rand_ethernet_addr()
 void
 print_separator(int bnl, int anl, u_int8_t *msgp, ...)
 {
-    unsigned short i;
-    unsigned short max_len = 76;
-    unsigned short msg_len = 0;
+    u_int16_t i;
+    u_int16_t max_len = 76;
+    u_int16_t msg_len = 0;
     u_int8_t msg[255];
 
     va_list va;
 
 #ifdef DEBUG
-    fprintf(stdout, "\nDEBUG: print_separator()\n");
+    fprintf(stdout, "DEBUG: print_separator()\n");
 #endif
 
     va_start(va, msgp);
@@ -178,7 +165,7 @@ retrieve_icmp_code(u_int16_t type, u_int16_t code)
     fprintf(stdout, "DEBUG: retrieve_icmp_code()\n");
 #endif
 
-    icmp_c = malloc(sizeof(unsigned char) * 32);
+    icmp_c = malloc(sizeof(u_int8_t) * 32);
 
     if(type == ICMP_UNREACH)
     {
@@ -253,7 +240,8 @@ retrieve_icmp_code(u_int16_t type, u_int16_t code)
                 break;
         }
     }
-    else if(type == ICMP_REDIRECT)
+    else
+    if(type == ICMP_REDIRECT)
     {
         switch(code)
         {
@@ -278,7 +266,8 @@ retrieve_icmp_code(u_int16_t type, u_int16_t code)
                 break;
         }
     }
-    else if(type == ICMP_TIMXCEED)
+    else
+    if(type == ICMP_TIMXCEED)
     {
         switch(code)
         {
@@ -295,7 +284,8 @@ retrieve_icmp_code(u_int16_t type, u_int16_t code)
                 break;
         }
     }
-    else if(type == ICMP_PARAMPROB)
+    else
+    if(type == ICMP_PARAMPROB)
     {
         switch(code)
         {
@@ -325,8 +315,8 @@ retrieve_icmp_type(u_int16_t type)
     fprintf(stdout, "DEBUG: retrieve_icmp_type()\n");
 #endif
 
-    icmp_t = malloc(sizeof(unsigned char) * 32);
-    memset(icmp_t, 0, sizeof(unsigned char) * 32);
+    icmp_t = malloc(sizeof(u_int8_t) * 32);
+    memset(icmp_t, 0, sizeof(u_int8_t) * 32);
 
     switch(type)
     {
@@ -552,4 +542,142 @@ retrieve_tcp_flags()
         flags |= TH_FIN;
 
     return flags;
+}
+
+u_int32_t
+format_ethernet_addr(char *ethstr, u_int8_t u_eaddr[6])
+{
+    int i = 0;
+    long base16;
+    u_int8_t *eptr, *delim = ":";
+    u_int8_t o_ethstr[18] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+
+#ifdef DEBUG
+    fprintf(stdout, "DEBUG: format_ethernet_addr()\n");
+#endif
+
+    if(ethstr)
+        strncpy(o_ethstr, ethstr, 18);
+    else
+    {
+        u_eaddr = o_ethstr;
+        return 1;
+    }
+
+    for(eptr = strtok(o_ethstr, delim);
+         eptr;
+         eptr = strtok(NULL, delim))
+    {
+        if((base16 = strtol(eptr, 0, 16)) > 0xff)
+            return 0;
+
+        u_eaddr[i] = base16;
+        i++;
+    }
+
+    if(i != 6)
+        return 0;
+
+    ethstr = o_ethstr;
+
+    return 1;
+}
+
+u_int16_t
+parse_port_range(u_int8_t *rangestr)
+{
+    u_int8_t o_rangestr[11], *ptr, *delim = "-";
+    u_int16_t i, range = 0;
+    int spread[10];
+
+#ifdef DEBUG
+    fprintf(stdout, "DEBUG: parse_port_range(): %s\n", rangestr);
+#endif
+
+    if(rangestr)
+        strncpy(o_rangestr, rangestr, 11);
+
+    for(i = 0, ptr = strtok(o_rangestr, delim);
+        ptr;
+        ptr = strtok(NULL, delim))
+    {
+        spread[i] = (int)atoi(ptr);
+
+        if(spread[i] < 1 || spread[i] > 65535)
+            return -1;
+
+        i++;
+    }
+
+    rangestr = o_rangestr;
+    range = spread[1] - spread[0] + 1;
+    d_port = (u_int16_t)spread[0];
+
+    if(range < 1 || i != 2)
+        return -1;
+
+    return range;
+}
+
+u_int8_t *
+generate_padding(u_int16_t clen, u_int16_t dlen)
+{
+    u_int8_t c = 48, *string;
+    u_int16_t i;
+
+#ifdef DEBUG
+    fprintf(stdout, "DEBUG: generate_padding()\n");
+#endif
+
+    if(dlen < clen)
+    {
+        fprintf(stdout, "Error: Requested packet size less than total header length\n");
+        return NULL;
+    }
+
+    string = malloc(sizeof(u_int8_t *) * (dlen - clen + 1));
+
+    for(i = 0; clen < dlen; i++, clen++)
+    {
+        if(c > 126)
+            c = 33;
+
+        if(i == 0)
+            sprintf(string, "%c", c);
+        else
+            sprintf(string, "%s%c", string, c);
+
+        c++;
+    }
+
+    return string;
+}
+
+u_int8_t *
+format_hex_payload(u_int8_t *string)
+{
+    u_int8_t *i, pl[65535];
+    u_int8_t *delim = " ";
+    long c; 
+
+#ifdef DEBUG
+    fprintf(stdout, "DEBUG: format_hex_payload()\n");
+#endif
+
+    strncpy(pl, string, 65535);
+    pl[0] = pl[1] = 20; 
+
+    memset(string, 0, sizeof(u_int8_t *));
+
+    for(i = strtok(pl, delim);
+        i;
+        i = strtok(NULL, delim))
+    {
+        if((c = strtol(i, 0, 16)) > 0xff)
+            return NULL;
+
+        sprintf(string, "%s%c", string, (u_int8_t)c);
+    }
+
+    return string;
 }

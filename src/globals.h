@@ -20,12 +20,12 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#ifndef __PACKIT_H
-#define __PACKIT_H
+#ifndef __GLOBALS_H
+#define __GLOBALS_H
 
 #ifndef __HAVE_CONFIG_H
 #define __HAVE_CONFIG_H
-#include "config.h"
+#include "../config.h"
 #endif
 
 #include <libnet.h>
@@ -38,6 +38,18 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
+
+#include "utils.h"
+#include "usage.h"
+#include "error.h"
+#include "exit.h"
+#include "version.h"
+
+#define IPV4_DEFAULT                    "0.0.0.0"
+#define IPV4_BROADCAST                  "255.255.255.255"
+#define MASK_DEFAULT                    "255.255.255.0"
+#define ETH_DEFAULT                     "0:0:0:0:0:0"
+#define ETH_BROADCAST                   "ff:ff:ff:ff:ff:ff"
 
 #define ARP_H            		0x1c    /* ARP header:          28 bytes */
 #define DNS_H                 		0xc     /* DNS header base:     12 bytes */
@@ -107,26 +119,33 @@
 
 #define M_INJECT            		1
 #define M_INJECT_RESPONSE   		2
+#define M_INJECT_CONNECT		3
+#define M_TRACE				4	
 #define M_CAPTURE           		10 
 #define M_CAPTURE_RESET     		11 
 
+#define P_UINT8				0xFF
 #define P_INT16            		0x7FFF 
 #define P_UINT16            		0xFFFF 
 #define P_INT32             		0x7FFFFFFF 
 #define P_UINT32            		0xFFFFFFFF 
+#define P_INT64                         0x7FFFFFFFFFFFFFFF
+#define P_UINT64                        0xFFFFFFFFFFFFFFFF
+
+char w_file[OPT_MAXLEN];
+char r_file[OPT_MAXLEN];
 
 pcap_t *pkt;
+u_int8_t tr_fin;
 u_int8_t *filter;
 u_int8_t *device;
 u_int16_t hdr_len;
-u_int32_t cnt;
-u_int32_t inj_cnt;
-u_int32_t cap_cnt;
+u_int16_t pkt_len;
+u_int16_t verbose;
+u_int16_t resolve;
 u_int16_t p_mode;
-unsigned short verbose;
+u_int64_t cnt;
+u_int64_t inj_cnt;
+u_int64_t cap_cnt;
 
-void print_usage();
-void parse_capture_options(int argc, char *argv[]);
-void parse_inject_options(int argc, char *argv[]);
-
-#endif /* __PACKIT_H */
+#endif /* __GLOBALS_H */

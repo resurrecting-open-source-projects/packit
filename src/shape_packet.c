@@ -20,9 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h"
-#include "../include/inject.h"
-#include "../include/capture.h"
+#include "shape_packet.h"
 
 libnet_t *
 shape_packet()
@@ -40,30 +38,49 @@ shape_packet()
             switch(ip4hdr_o.p)
             {
                 case IPPROTO_TCP:
-                    pkt_d = shape_tcp_hdr(pkt_d);
+                    if((pkt_d = shape_tcp_hdr(pkt_d)) == NULL)
+                        return pkt_d;
+
                     break;
 
                 case IPPROTO_UDP:
-                    pkt_d = shape_udp_hdr(pkt_d);
+                    if((pkt_d = shape_udp_hdr(pkt_d)) == NULL)
+                        return pkt_d;
+
                     break;
 
                 case IPPROTO_ICMP:
-                    pkt_d = shape_icmpv4_hdr(pkt_d);
+                    if((pkt_d = shape_icmpv4_hdr(pkt_d)) == NULL)
+                        return pkt_d;
+
                     break;
             }
 
-            pkt_d = shape_ipv4_hdr(pkt_d);
+            if((pkt_d = shape_ipv4_hdr(pkt_d)) == NULL)
+                return pkt_d;
+
             break;
 
         case ETHERTYPE_ARP:
-            pkt_d = shape_arp_hdr(pkt_d);
+            if((pkt_d = shape_arp_hdr(pkt_d)) == NULL)
+                return pkt_d;
+
             break;
     }
 
     if(ehdr_o.s_addr || ehdr_o.d_addr)
-        pkt_d = shape_ethernet_hdr(pkt_d);
-    else if(injection_type == ETHERTYPE_ARP)
-        pkt_d = shape_ethernet_hdr_auto(pkt_d);
+    {
+        if((pkt_d = shape_ethernet_hdr(pkt_d)) == NULL)
+            return pkt_d;
+    }
+    else
+    if(injection_type == ETHERTYPE_ARP)
+        if((pkt_d = shape_ethernet_hdr_auto(pkt_d)) == NULL)
+            return pkt_d;
+
+#ifdef DEBUG
+    fprintf(stdout, "DEBUG: End shape_packet()\n");
+#endif
 
     return pkt_d;
 }

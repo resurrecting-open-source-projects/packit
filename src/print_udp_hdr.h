@@ -20,37 +20,11 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#ifndef __CAPTURE_H
-#define __CAPTURE_H
+#ifndef __PRINT_UDP_HDR_H
+#define __PRINT_UDP_HDR_H
 
-#define READ_TIMEOUT            	500
-#define SNAPLEN_DEFAULT         	68
+#include "globals.h"
 
-u_int16_t display;
-u_int16_t link_layer;
-u_int16_t dump_pkt;
-u_int16_t resolve;
-u_int16_t resolve_h;
-u_int16_t resolve_p;
-u_int16_t time_gmt;
-u_int16_t t_rst;
-u_int16_t snap_len;
-u_int32_t pkt_rst;
-
-char w_file[OPT_MAXLEN];
-char r_file[OPT_MAXLEN];
-
-void capture_clean_exit(int sig);
-void capture_stats();
-void process_packets(u_int8_t *user, struct pcap_pkthdr *pkthdr, u_int8_t *packet);
-void print_timestamp(struct timeval ts);
-void print_packet_hexdump(u_int8_t *packet, int hdr_len);
-void print_arp_hdr(u_int8_t *packet);
-void print_tcp_hdr(u_int8_t *packet);
 void print_udp_hdr(u_int8_t *packet);
-void print_icmpv4_hdr(u_int8_t *packet);
-void print_ipv4_hdr(struct libnet_ipv4_hdr *iphdr);
-void print_ethernet_hdr(struct libnet_ethernet_hdr *enet);
-void start_packet_capture(u_int8_t *filter, u_int32_t cnt);
 
-#endif /* __CAPTURE_H */
+#endif /* __PRINT_UDP_HDR_H */

@@ -20,14 +20,7 @@
  * packit official page at http://packit.sourceforge.net
  */
 
-#include "../include/packit.h"
-#include "../include/capture.h"
-#include "../include/error.h"
-
-/*
- * UDP header
- * User Data Protocol
- */
+#include "print_udp_hdr.h"
 
 void
 print_udp_hdr(u_int8_t *packet)
@@ -37,9 +30,6 @@ print_udp_hdr(u_int8_t *packet)
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: print_udp_hdr()\n");
 #endif
-
-    udphdr = malloc(sizeof(struct libnet_udp_hdr));
-    memset(udphdr, 0, sizeof(struct libnet_udp_hdr));
 
     udphdr = (struct libnet_udp_hdr *)(packet + IPV4_H + hdr_len);
 
