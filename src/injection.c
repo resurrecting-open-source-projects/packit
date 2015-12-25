@@ -194,21 +194,26 @@ with_response(u_int32_t port_range)
         if(pcap_setfilter(pkt, &bpf) < 0)
             fatal_error("Unable to set packet filters: %s", pcap_geterr(pkt));
 
+#ifdef HAVE_FREECODE
         pcap_freecode(&bpf);
+#endif /* HAVE_FREECODE */
 
         if((d_link = pcap_datalink(pkt)) < 0)
             fatal_error("Unable to determine datalink type: %s", pcap_geterr(pkt));
 
-#ifdef HAVE_SETNONBLOCK
 #ifdef SYSV_DERIVED
+#ifdef HAVE_SETNONBLOCK 
 #ifdef DEBUG 
        fprintf(stdout, "DEBUG: pcap_setnonblock()\n");
 #endif /* DEBUG */
-
         if(pcap_setnonblock(pkt, 1, error_buf) < 0)
             fatal_error("Unable to change to blocking mode: %s", error_buf);
-#endif /* SYSV_DERIVED */
+#else /* HAVE_SETNONBLOCK */
+        if(setnonblock(pkt, 1, error_buf) < 0)
+           fatal_error("Unable to change to blocking mode: %s", error_buf);
+
 #endif /* HAVE_SETNONBLOCK */
+#endif /* SYSV_DERIVED */
 
         print_separator(1, 2, "SND %d", inj_cnt);
         inject_packet();

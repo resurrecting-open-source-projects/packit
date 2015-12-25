@@ -192,9 +192,6 @@ libnet_t *shape_udp_hdr(libnet_t *pkt_d);
 libnet_t *shape_icmpv4_hdr(libnet_t *pkt_d);
 libnet_t *shape_dhcpv4_hdr(libnet_t *pkt_d);
 
-#ifndef HAVE_SETNONBLOCK 
-#define HAVE_SETNONBLOCK
-int pcap_setnonblock(pcap_t *pt, int nonblock, char *errbuf);
-#endif /* HAVE_SETNONBLOCK */
+int setnonblock(pcap_t *pt, int nonblock, char *errbuf);
 
 #endif /* __INJECT_H */

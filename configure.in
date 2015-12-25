@@ -196,8 +196,17 @@ if test "$LIBPCAP" = "no"; then
     exit;
 else
    AC_CHECK_LIB(pcap, pcap_setnonblock,, SETNONBLOCK="no")
-   if test "$SETNONBLOCK" = "yes"; then
+   if test "$SETNONBLOCK" = "no"; then
+       echo "compensating for lack of pcap_setnonblock()"
+   else
        AC_DEFINE(HAVE_SETNONBLOCK)
+   fi
+
+   AC_CHECK_LIB(pcap, pcap_freecode,, FREECODE="no")
+   if test "$FREECODE" = "no"; then
+       echo "compensating for lack of pcap_freecode()"
+   else
+       AC_DEFINE(HAVE_FREECODE)
    fi
 fi
 

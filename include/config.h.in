@@ -22,6 +22,7 @@
 #undef HAVE_LIBPCAP
 #undef HAVE_PCAP_H
 #undef HAVE_SETNONBLOCK
+#undef HAVE_FREECODE
 #undef HAVE_MALLOC
 #undef HAVE_MEMORY_H
 #undef HAVE_MEMSET

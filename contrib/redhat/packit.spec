@@ -1,7 +1,7 @@
 Name: packit
-Version: 0.6.0b
+Version: 0.6.0c
 Release: 1
-Source: http://packit.sourceforge.net/packit-0.6.0b.tgz
+Source: http://packit.sourceforge.net/downloads/packit-0.6.0c.tgz
 URL: http://packit.sourceforge.net/
 License: GPL
 Group: Networking/Utilities
@@ -28,6 +28,8 @@ mkdir -p $RPM_BUILD_ROOT/usr
 make prefix=$RPM_BUILD_ROOT/usr install
 
 %changelog
+* Tue Jun 3 2003 Darren Bounds <dbounds@intrusense.com>
+  0.6.0c-1: corrected a problem with the fix in 0.6.0c and added some additional configure tests
 * Mon Jun 2 2003 Darren Bounds <dbounds@intrusense.com>
   0.6.0b-1: corrected a small issue on some platforms with pcap_setnonblock.c 
 * Sat May 24 2003 Darren Bounds <dbounds@intrusense.com>

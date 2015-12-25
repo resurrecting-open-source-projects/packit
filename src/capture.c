@@ -169,7 +169,9 @@ start_packet_capture(u_int8_t *filter, u_int32_t cnt)
     if(pcap_setfilter(pkt, &bpf) < 0)
         fatal_error("Unable to set packet filters: %s", pcap_geterr(pkt));
 
+#ifdef HAVE_FREECODE
     pcap_freecode(&bpf); 
+#endif /* HAVE_FREECODE */
 
     if((d_link = pcap_datalink(pkt)) < 0)
         fatal_error("Unable to determine datalink type: %s", pcap_geterr(pkt));

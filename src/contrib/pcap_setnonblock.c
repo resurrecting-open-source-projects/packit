@@ -32,9 +32,6 @@
  */
 
 
-#ifndef HAVE_SETNONBLOCK
-#define HAVE_SETNONBLOCK
-
 #include "../include/packit.h"
 #include "../include/inject.h"
 #include "../include/capture.h"
@@ -45,7 +42,7 @@
 #define PCAP_ERRBUF_MAX 	256
 
 int
-pcap_setnonblock(pcap_t *pt, int nonblock, char *errbuf)
+setnonblock(pcap_t *pt, int nonblock, char *errbuf)
 {
         int fdflags;
 
@@ -67,4 +64,3 @@ pcap_setnonblock(pcap_t *pt, int nonblock, char *errbuf)
         return (0);
 }
 
-#endif /* HAVE_SETNONBLOCK */

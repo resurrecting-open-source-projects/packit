@@ -1,3 +1,9 @@
+0.6.0c  Darren Bounds <dbounds@intrusense.com>
+----------------------------------------------
+General
+    - Bugfix with the bugfix in 0.6.0b :(
+    - Additional configure test proceedures
+
 0.6.0b  Darren Bounds <dbounds@intrusenes.com>
 ----------------------------------------------
 General
