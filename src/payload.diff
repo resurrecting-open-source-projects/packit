@@ -1,0 +1,76 @@
+diff -ur packit-0.7.1/src/injection.c packit-0.7.1-jc/src/injection.c
+--- packit-0.7.1/src/injection.c	2003-10-03 06:18:55.000000000 -0400
++++ packit-0.7.1-jc/src/injection.c	2004-04-11 22:15:03.000000000 -0400
+@@ -52,13 +52,9 @@
+     signal(SIGHUP, injection_clean_exit);
+ 
+     if(hex_payload)
+-        if((payload = format_hex_payload(payload)) == NULL)
++        if((payload_len = format_hex_payload(payload)) == 0)
+             fprintf(stdout, "Warning: Hex payload formatted incorrectly.\n");
+              
+-
+-    if(payload != NULL)
+-        payload_len = strlen(payload);
+-
+     if(s_d_port != NULL)
+     {
+         if(strstr(s_d_port, "-"))
+diff -ur packit-0.7.1/src/utils.c packit-0.7.1-jc/src/utils.c
+--- packit-0.7.1/src/utils.c	2004-01-21 21:13:06.000000000 -0500
++++ packit-0.7.1-jc/src/utils.c	2004-04-11 22:13:13.000000000 -0400
+@@ -652,12 +652,14 @@
+     return string;
+ }
+ 
+-u_int8_t *
++u_int32_t
+ format_hex_payload(u_int8_t *string)
+ {
+     u_int8_t *i, pl[65535];
+     u_int8_t *delim = " ";
++    u_int8_t tchar[2];
+     long c; 
++    u_int32_t len = 0;
+ 
+ #ifdef DEBUG
+     fprintf(stdout, "DEBUG: format_hex_payload()\n");
+@@ -667,16 +669,22 @@
+     pl[0] = pl[1] = 20; 
+ 
+     memset(string, 0, sizeof(u_int8_t *));
++    memset(tchar, 0, 2);
+ 
+-    for(i = strtok(pl, delim);
++    /* 
++     * skip the first 3 chars because we know they are spaces
++     */
++    for(i = strtok(pl+3, delim);
+         i;
+         i = strtok(NULL, delim))
+     {
+         if((c = strtol(i, 0, 16)) > 0xff)
+-            return NULL;
++            return 0;
+ 
+-        sprintf(string, "%s%c", string, (u_int8_t)c);
++        sprintf(tchar,"%c",(u_int8_t)c);
++        strncpy(string+len,tchar,2);
++        len++;
+     }
+ 
+-    return string;
++    return len;
+ }
+diff -ur packit-0.7.1/src/utils.h packit-0.7.1-jc/src/utils.h
+--- packit-0.7.1/src/utils.h	2003-10-03 07:04:26.000000000 -0400
++++ packit-0.7.1-jc/src/utils.h	2004-04-11 22:12:09.000000000 -0400
+@@ -36,7 +36,7 @@
+ u_int8_t *retrieve_icmp_type(u_int16_t);
+ u_int8_t *retrieve_icmp_code(u_int16_t, u_int16_t);
+ u_int8_t *generate_padding(u_int16_t, u_int16_t);
+-u_int8_t *format_hex_payload(u_int8_t *);
++u_int32_t format_hex_payload(u_int8_t *);
+ u_int16_t parse_port_range(u_int8_t *);
+ u_int16_t retrieve_datalink_hdr_len(u_int32_t);
+ u_int32_t retrieve_rand_int(u_int32_t);

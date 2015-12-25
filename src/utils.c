@@ -652,12 +652,14 @@ generate_padding(u_int16_t clen, u_int16_t dlen)
     return string;
 }
 
-u_int8_t *
+u_int32_t
 format_hex_payload(u_int8_t *string)
 {
     u_int8_t *i, pl[65535];
     u_int8_t *delim = " ";
+    u_int8_t tchar[2];
     long c; 
+    u_int32_t len = 0;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: format_hex_payload()\n");
@@ -667,16 +669,22 @@ format_hex_payload(u_int8_t *string)
     pl[0] = pl[1] = 20; 
 
     memset(string, 0, sizeof(u_int8_t *));
+    memset(tchar, 0, 2);
 
-    for(i = strtok(pl, delim);
+    /* 
+     * skip the first 3 chars because we know they are spaces
+     */
+    for(i = strtok(pl+3, delim);
         i;
         i = strtok(NULL, delim))
     {
         if((c = strtol(i, 0, 16)) > 0xff)
-            return NULL;
+            return 0;
 
-        sprintf(string, "%s%c", string, (u_int8_t)c);
+        sprintf(tchar,"%c",(u_int8_t)c);
+        strncpy(string+len,tchar,2);
+        len++;
     }
 
-    return string;
+    return len;
 }

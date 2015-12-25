@@ -1,4 +1,4 @@
-%define version 0.7.1
+%define version 1.0
 Name:		packit
 Version:	%{version}
 Release:	1	
@@ -9,8 +9,8 @@ Group:		Networking/Utilities
 BuildRoot:	/var/tmp/%{name}-rpmroot
 Summary:	Network Injection And Capture Tool
 Vendor:		Darren Bounds <dbounds@intrusense.com>
-BuildRequires: 	libnet >= 1.1
-Requires:  	libnet >= 1.1
+BuildRequires: 	libnet >= 1.1.2
+Requires:  	libnet >= 1.1.2
 %description
 
 Packit is a network auditing tool. It's value is derived from its
@@ -33,6 +33,8 @@ mkdir -p $RPM_BUILD_ROOT/usr
 make prefix=$RPM_BUILD_ROOT/usr install
 
 %changelog
+* Tue Apr 13 2004 Darren Bounds <dbounds@intrusense.com>
+  Updated for 1.0 sources.
 * Sat Dec 21 2003 Darren Bounds <dbounds@intrusense.com>
   Updated for 0.7.1 sources.
 * Sat Oct 3 2003 Darren Bounds <dbounds@intrusense.com>

@@ -1,3 +1,12 @@
+1.0 Darren Bounds <dbounds@intrusense.com>
+----------------------------------------------
+Injection:
+    - Bugfix NULL bytes in the payload (patch contributed by: Jason Copenhaver) 
+
+General:
+    - Updates to several build routines to support libnet 1.1.2+ 
+
+
 0.7.1 Darren Bounds <dbounds@intrusense.com>
 ----------------------------------------------
 Injection:

@@ -36,7 +36,7 @@ u_int8_t *retrieve_arp_type(u_int16_t);
 u_int8_t *retrieve_icmp_type(u_int16_t);
 u_int8_t *retrieve_icmp_code(u_int16_t, u_int16_t);
 u_int8_t *generate_padding(u_int16_t, u_int16_t);
-u_int8_t *format_hex_payload(u_int8_t *);
+u_int32_t format_hex_payload(u_int8_t *);
 u_int16_t parse_port_range(u_int8_t *);
 u_int16_t retrieve_datalink_hdr_len(u_int32_t);
 u_int32_t retrieve_rand_int(u_int32_t);

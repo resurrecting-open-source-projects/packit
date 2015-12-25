@@ -52,13 +52,9 @@ injection_init()
     signal(SIGHUP, injection_clean_exit);
 
     if(hex_payload)
-        if((payload = format_hex_payload(payload)) == NULL)
+        if((payload_len = format_hex_payload(payload)) == 0)
             fprintf(stdout, "Warning: Hex payload formatted incorrectly.\n");
              
-
-    if(payload != NULL)
-        payload_len = strlen(payload);
-
     if(s_d_port != NULL)
     {
         if(strstr(s_d_port, "-"))

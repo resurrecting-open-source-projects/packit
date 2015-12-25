@@ -138,12 +138,9 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
                     pkt_len = 0;
                 }
 
-                if(libnet_build_icmpv4_unreach(
-                    i4hdr_o.type,
-                    i4hdr_o.code,
-                    0,
-	            orig_hlen,
-	            i4hdr_o.orig_tos,	
+                if(libnet_build_ipv4(
+                    orig_hlen,
+                    i4hdr_o.orig_tos,
                     i4hdr_o.orig_id,
                     0,
                     i4hdr_o.orig_ttl,
@@ -153,6 +150,18 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
                     ihn_daddr,
                     ih_payload,
                     ih_payload_len,
+                    pkt_d,
+                    0) == -1)
+                {
+                    fatal_error("Unable to build original IP header: %s", libnet_geterror(pkt_d));
+                }
+
+                if(libnet_build_icmpv4_unreach(
+                    i4hdr_o.type,
+                    i4hdr_o.code,
+                    0,
+                    NULL,
+                    0,
                     pkt_d,
                     0) == -1)
                 {
@@ -184,22 +193,31 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
                     pkt_len = 0;
                 }
 
+                if(libnet_build_ipv4(
+                    orig_hlen,
+                    i4hdr_o.orig_tos,
+                    i4hdr_o.orig_id,
+                    0,
+                    i4hdr_o.orig_ttl,
+                    i4hdr_o.orig_p,
+                    i4hdr_o.orig_sum,
+                    ihn_saddr,
+                    ihn_daddr,
+                    ih_payload,
+                    ih_payload_len,
+                    pkt_d,
+                    0) == -1)
+                {   
+                    fatal_error("Unable to build original IP header: %s", libnet_geterror(pkt_d));
+                }
+
  	        if(libnet_build_icmpv4_redirect(
 	            i4hdr_o.type,
 	            i4hdr_o.code,
 	            0,
-	            ihn_gw,
-	            orig_hlen, 
-	            i4hdr_o.orig_tos,
-	            i4hdr_o.orig_id,
-	            0,
-	            i4hdr_o.orig_ttl,
-	            i4hdr_o.orig_p,
-	            i4hdr_o.orig_sum,
-                    ihn_saddr,
-	            ihn_daddr,
-	            ih_payload,
-	            ih_payload_len,
+                    ihn_gw, 
+                    NULL,
+                    0,
 	            pkt_d,
 	            0) == -1)
  	        {
@@ -222,22 +240,31 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
                     pkt_len = 0;
                 }
 
+                if(libnet_build_ipv4(
+                    orig_hlen,
+                    i4hdr_o.orig_tos,
+                    i4hdr_o.orig_id,
+                    0,
+                    i4hdr_o.orig_ttl,
+                    i4hdr_o.orig_p,
+                    i4hdr_o.orig_sum,
+                    ihn_saddr,
+                    ihn_daddr,
+                    ih_payload,
+                    ih_payload_len,
+                    pkt_d,
+                    0) == -1)
+                {   
+                    fatal_error("Unable to build original IP header: %s", libnet_geterror(pkt_d));
+                }
+
                 if(libnet_build_icmpv4_timeexceed(
                     i4hdr_o.type,
 	            i4hdr_o.code,
                     0,
-	            orig_hlen,
-	            i4hdr_o.orig_tos,
-	            i4hdr_o.orig_id,
-	            0,
-                    i4hdr_o.orig_ttl,
-	            i4hdr_o.orig_p, 
-	            i4hdr_o.orig_sum,
-	            ihn_saddr,
-	            ihn_daddr,
-	            ih_payload,
-	            ih_payload_len,
-	            pkt_d,
+                    NULL,
+                    0,
+ 	            pkt_d,
 	            0) == -1)
 	        {
 	            fatal_error("Unable to build ICMPv4 timeexceed header: %s", libnet_geterror(pkt_d));
