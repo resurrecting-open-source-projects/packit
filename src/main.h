@@ -26,7 +26,7 @@
 #include <libnet.h>
 #include <pcap.h>
 #include <sys/types.h>
-#include <net/bpf.h>
+#include <pcap-bpf.h>
 #include <signal.h>
 #include <time.h>
 #include <stdio.h>
