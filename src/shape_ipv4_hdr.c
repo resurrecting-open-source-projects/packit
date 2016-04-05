@@ -1,12 +1,13 @@
 /*
- * author: Darren Bounds <dbounds@intrusense.com>
- * copyright: Copyright (C) 2002 by Darren Bounds
- * license: This software is under GPL version 2 of license
+ * Original author: Darren Bounds <dbounds@intrusense.com>
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
+ * Copyright 2015      Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,9 +16,11 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA  02110-1301, USA.
  *
- * packit official page at http://packit.sourceforge.net
+ * packit official page at https://github.com/eribertomota/packit
+ *
  */
 
 #include "shape_ipv4_hdr.h"
@@ -38,7 +41,7 @@ shape_ipv4_hdr(libnet_t *pkt_d)
     if(ip4hdr_o.s_addr == NULL)
     {
         if((ip4hdr_o.n_saddr = libnet_get_ipaddr4(pkt_d)) == -1)
-            fatal_error("Unable to retreive local IP address: %s", libnet_geterror(pkt_d));
+            fatal_error("Unable to retrieve local IP address: %s", libnet_geterror(pkt_d));
 
         ip4hdr_o.s_addr = libnet_addr2name4(ip4hdr_o.n_saddr, 1);
     }

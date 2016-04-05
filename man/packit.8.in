@@ -665,10 +665,10 @@ Define the 32-bit original timestamp. This value is 0
 by default.
 .br
 
-\fB-k\fR \fIrecieved timestamp\fR
+\fB-k\fR \fIreceived timestamp\fR
 .br
 .ti +5
-Define the 32-bit recieved timestamp. This value is 0  
+Define the 32-bit received timestamp. This value is 0
 .br
 .ti +5
 by default.
