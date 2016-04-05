@@ -2,6 +2,7 @@
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
+ * Copyright 2005      Dennis Vshivkov <walrus@amur.ru>
  * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
  *
  * This program is free software; you can redistribute it and/or
@@ -476,7 +477,7 @@ parse_inject:
 
             case 'S':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    rand_d_port = 1;
+                    rand_s_port = 1;
                 else
                     rand_s_port = 0;
 

@@ -29,6 +29,11 @@ Version 1.1, 2016-04-04
   <pcap.h>, avoiding a fail when building (patch sent to Debian via bug
   #439482).
 
+  [ Dennis Vshivkov ], <walrus@amur.ru>, 2005-03-10
+
+* Fixed a typo in option parsing code which made -D always random when
+  random -S is used. (patch sent to Debian via bug #298799)
+
 
 
 -----------------------------------------------------------------------------
