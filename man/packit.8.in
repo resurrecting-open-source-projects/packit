@@ -163,15 +163,6 @@ The value of \fIcount\fR is the total number of packets we would like
 to inject (a count value of 0 means forver).
 .br
 
-\fB-w\fR \fIinterval\fR
-.br
-.ti +5
-The number of seconds to wait between sending each packet burst
-.br
-.ti +5
-(default: 1).  
-.br
-
 \fB-b\fR \fIburst rate\fR
 .br
 .ti +5
