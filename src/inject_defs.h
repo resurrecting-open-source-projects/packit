@@ -1,12 +1,13 @@
 /*
- * author: Darren Bounds <dbounds@intrusense.com>
- * copyright: Copyright (C) 2002 by Darren Bounds
- * license: This software is under GPL version 2 of license
+ * Original author: Darren Bounds <dbounds@intrusense.com>
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
+ * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,11 +16,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA  02110-1301, USA.
  *
- * packit official page at http://packit.sourceforge.net
+ * packit official page at https://github.com/eribertomota/packit
+ *
  */
-
 
 #ifndef __INJECTION_STRUCTS_H
 #define __INJECTION_STRUCTS_H
@@ -132,9 +134,9 @@ struct enethdr_opts
     u_int16_t rand_d_addr;
 
     u_int8_t *s_addr;                   /* source ethernet address string */
-    u_int8_t shw_addr[17];
+    u_int8_t shw_addr[18];
     u_int8_t *d_addr;                   /* destination ethernet address string */
-    u_int8_t dhw_addr[17];
+    u_int8_t dhw_addr[18];
 } ehdr_o;
 
 struct arphdr_opts
@@ -153,8 +155,8 @@ struct arphdr_opts
     u_int8_t *r_eaddr;                  /* receiver ethernet address */
     u_int16_t rand_r_eaddr;
 
-    u_int8_t shw_addr[17];
-    u_int8_t rhw_addr[17];
+    u_int8_t shw_addr[18];
+    u_int8_t rhw_addr[18];
 } ahdr_o;
 
 libnet_t *pkt_d;
@@ -174,7 +176,7 @@ u_int16_t payload_len;
 u_int8_t *payload;
 u_int8_t hex_payload;
 u_int8_t *s_d_port;
-u_int8_t hwaddr_p[17];
+u_int8_t hwaddr_p[18];
 u_int8_t rawip;
 
 struct timeval bf_pcap;

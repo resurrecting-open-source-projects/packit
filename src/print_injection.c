@@ -187,11 +187,11 @@ print_injection_details()
        fprintf(stdout, "%s header:  Type: %s(%d)\n",
                (injection_type == ETHERTYPE_REVARP) ? "RARP" : "ARP",
                arp_t, ahdr_o.op_type);
-	fprintf(stdout, "\t     Sender:  Protocol Address: %s  Hardware Address: %s\n",
+	fprintf(stdout, "     Sender:  Protocol Address: %s  Hardware Address: %.17s\n",
 	    ahdr_o.s_paddr,
 	    ahdr_o.shw_addr); 
 	
-	fprintf(stdout, "\t     Target:  Protocol Address: %s  Hardware Address: %s\n",
+	fprintf(stdout, "     Target:  Protocol Address: %s  Hardware Address: %.17s\n",
 	    ahdr_o.r_paddr,
 	    ahdr_o.rhw_addr); 
 

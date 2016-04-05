@@ -48,11 +48,11 @@ print_arp_hdr(u_int8_t *packet)
     fprintf(stdout, "%s header:  Type: %s(%d)\n",
             (frame_t == ETHERTYPE_REVARP) ? "RARP": "ARP",
             arp_t, htons(ahdr->ar_op));
-    fprintf(stdout, "\t     Hardware Format: %s  Length: %d\n", 
+    fprintf(stdout, "     Hardware Format: %s  Length: %d\n", 
         arp_hw_t, 
 	ahdr->ar_hln);
     
-    fprintf(stdout, "\t     Protocol Format: %d  Length: %d\n", 
+    fprintf(stdout, "     Protocol Format: %d  Length: %d\n", 
         ahdr->ar_pro, 
 	ahdr->ar_pln);
 
