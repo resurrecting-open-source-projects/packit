@@ -3,6 +3,7 @@
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
  * Copyright 2005      Dennis Vshivkov <walrus@amur.ru>
+ * Copyright 2006      Deniz Adrian <adrian@netzquadrat.de>
  * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
  *
  * This program is free software; you can redistribute it and/or
@@ -217,6 +218,8 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                 break;
         }
     }
+
+print_usage();
 
 parse_inject:
 #ifdef DEBUG
