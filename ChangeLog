@@ -9,6 +9,7 @@ Version 1.1, 2016-04-04
 
   [ LaMont Jones ], <lamont@debian.org>, 2007-09-10
 
+* Allow nostrip (patch created in Debian, closing bug #437731).
 * Update configure.in to call to pcap-bpf.h instead of net/bpf.h (patch
   created in Debian).
 
