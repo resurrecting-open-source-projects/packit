@@ -10,6 +10,12 @@ Version 1.1, 2016-04-05
 * Updated the GPL license text in LICENSE file.
 * Updated all copyright notices.
 
+  [ Gentoo Linux ], 2015
+
+* Fixed a buffer overflow and allows build using GCC hardening. This
+  fix was taken from Gentoo. See https://gitweb.gentoo.org/repo/gentoo.git/ \
+  tree/net-analyzer/packit/files/packit-1.0-overflow.patch
+
   [ Mats Erik Andersson ], <gnu@gisladisker.se>, 2013-06-27
 
 * Implement RARP support (patch sent to Debian via bug #652510).
