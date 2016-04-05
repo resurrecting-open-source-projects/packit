@@ -4,13 +4,19 @@ Version 1.1, 2016-04-04
 
 * Changed the homepage of the project in several files.
 * Updated the FSF address in several files.
+* Updated the GPL license text in LICENSE file.
 * Updated all copyright notices.
+
+  [ LaMont Jones ], <lamont@debian.org>, 2007-09-10
+
+* Update configure.in to call to pcap-bpf.h instead of net/bpf.h (patch
+  created in Debian).
 
   [ Kumar Appaiah ], <akumar@ee.iitm.ac.in>, 2007-08-26
 
 * Removed references to <net/bpf.h> since now it's sufficient to include
   <pcap.h>, avoiding a fail when building (patch sent to Debian via bug
-  #439482; date: 2007-08-26).
+  #439482).
 
 
 
