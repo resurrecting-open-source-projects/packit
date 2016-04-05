@@ -15,6 +15,7 @@ Version 1.1, 2016-04-04
   [ Mats Erik Andersson ], <gnu@gisladisker.se>, 2013-06-27
 
 * Fix off-by-one string error in some files.
+* Update configure.in.
 
   [ LaMont Jones ], <lamont@debian.org>, 2007-09-10
 
