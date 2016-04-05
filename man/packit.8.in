@@ -22,9 +22,9 @@ Packet injection:
 .SH DESCRIPTION
 .ft
 \fBPackit\fR is a network auditing tool. It\'s value is derived from its ability to 
-customize, inject, monitor, and manipulate IP traffic. By allowing you                 
+customize, inject, monitor, and manipulate IP traffic. By allowing you
 to define (spoof) all TCP, UDP, ICMP, IP, ARP, RARP and Ethernet
-header options, Packit can be useful in testing firewalls, intrusion   
+header options, Packit can be useful in testing firewalls, intrusion
 detection systems, port scanning, simulating network traffic and general
 TCP/IP auditing. Packit is also an excellent tool for learning TCP/IP.
 
@@ -35,7 +35,7 @@ TCP/IP auditing. Packit is also an excellent tool for learning TCP/IP.
 Select a runtime mode. Currently supported modes
 .br
 .ti +5
-are \fBcapture\fR, \fBinject\fR and \fBtrace\fR. The default is \fBinject\fR. 
+are \fBcapture\fR, \fBinject\fR and \fBtrace\fR. The default is \fBinject\fR.
 .br
 
 .SH PACKET CAPTURE OPTIONS 
@@ -71,7 +71,7 @@ Disables DNS lookups.
 
 \fB-nn\fR  Don't resolve ports numbers to their protocol names but resolve
 .br
-.ti +5 
+.ti +5
 host addresses.
 .br
 
@@ -97,13 +97,13 @@ Read snaplen bytes of data from each packet rather than the
 default of 68.
 .br
 
-\fB-v\fR  Enables verbose packet capture. 
+\fB-v\fR  Enables verbose packet capture.
 .br
 
 \fB-w\fR \fIfile\fR
 .br
 .ti +5
-Write the raw packets to \fIfile\fR rather than displaying time to 
+Write the raw packets to \fIfile\fR rather than displaying time to
 .br
 .ti +5
 stderr.
@@ -121,26 +121,26 @@ length bytes.
 selects which packets should be displayed. If no \fIexpression\fR is
 .br
 .ti +5
-given, all packets are displayed. See the \fItcpdump\fR(1) man page for 
+given, all packets are displayed. See the \fItcpdump\fR(1) man page for
 .br
 .ti +5
 more detailed information.
 .br
 
-.SH PACKET INJECTION / TRACE 
+.SH PACKET INJECTION / TRACE
 .br
-Packet injection is used to define and inject IP based network traffic onto your network. 
+Packet injection is used to define and inject IP based network traffic onto your network.
 You have the ability to define essentially any ARP, IP, TCP, UDP, ICMP and Ethernet header value. This can be valuable
-in a number of ways, including testing firewalls, intrusion detection systems, simulating traffic flow 
-and general TCP/IP auditing. 
+in a number of ways, including testing firewalls, intrusion detection systems, simulating traffic flow
+and general TCP/IP auditing.
 .br
 
-.SH CHOOSE YOUR PROTOCOL 
+.SH CHOOSE YOUR PROTOCOL
 .br
-\fB-t\fR \fIprotocol\fR 
+\fB-t\fR \fIprotocol\fR
 .br
 .ti +5
-Specify the type of packet to inject. Supported values are: \fBARP\fR, 
+Specify the type of packet to inject. Supported values are: \fBARP\fR,
 .br
 .ti +5
 \fBRARP\fR, \fBTCP\fR, \fBUDP\fR and \fBICMP\fR.
@@ -151,7 +151,7 @@ mode and to \fBICMP\fR in trace mode.
 .br
 
 .SH PACKET INJECTION / TRACE GENERAL
-This section documents the operational command-line options. 
+This section documents the operational command-line options.
 .br
 
 \fB-c\fR \fIcount\fR
@@ -166,49 +166,49 @@ to inject (a count value of 0 means forver).
 \fB-b\fR \fIburst rate\fR
 .br
 .ti +5
-Specifies the number of packets to inject every interval (defined  
+Specifies the number of packets to inject every interval (defined
 .br
 .ti +5
-by -w). (A burst rate of 0 will send packets as quickly as 
+by -w). (A burst rate of 0 will send packets as quickly as
 .br
 .ti +5
-possible) 
+possible)
 .br
 
 \fB-h\fR
 .br
 .ti +5
-Host response mode. Enabling this option will print any packet 
-.br   
+Host response mode. Enabling this option will print any packet
+.br
 .ti +5
-you inject and then wait (see -H for timeout) to see if the remote 
+you inject and then wait (see -H for timeout) to see if the remote
 .br
 .ti +5
 host responds.
 .br
 
-\fB-H\fR \fItimeout\fR 
+\fB-H\fR \fItimeout\fR
 .br
 .ti +5
-Specify the timeout value (in seconds) to use with '-h'. 
+Specify the timeout value (in seconds) to use with '-h'.
 .br
 .ti +5
-This value defaults to '1' second.  
+This value defaults to '1' second.
 .br
 
 \fB-i\fR \fIinterface\fR
 .br
 .ti +5
-Specify the interface to transmit from, if the machine has 
+Specify the interface to transmit from, if the machine has
 .br
-.ti +5 
-multiple interfaces. 
+.ti +5
+multiple interfaces.
 .br
 
 \fB-v\fR
 .br
 .ti +5
-Verbose injection mode. Displays each packet you inject. It  
+Verbose injection mode. Displays each packet you inject. It
 .br
 .ti +5 
 also has the same effect as in capture mode while used with
@@ -223,22 +223,22 @@ the '-h' option.
 This option defines the payload portion of the header.
 .br
 .ti +5
-Hex payload should be prefixed with '0x' with each value 
+Hex payload should be prefixed with '0x' with each value
 .br
 .ti +5
-separated by a whitespace.  
+separated by a whitespace.
 .br
 .ti +5
 ASCII Example: -p 'hello, this is my packet'
 .br
 .ti +5
-Hex Example: -p '0x 70 61 63 6B 69 74' 
+Hex Example: -p '0x 70 61 63 6B 69 74'
 .br
 
-\fB-w\fR \fIinterval\fR 
+\fB-w\fR \fIinterval\fR
 .br
 .ti +5
-Specify the number of seconds to wait between packet bursts. 
+Specify the number of seconds to wait between packet bursts.
 .br
 .ti +5
 This value defaults to '1' second.
@@ -254,16 +254,16 @@ Specify the size of the packet(s) to inject. (Max: 65535)
 This section documents the IP header command-line options.
 .br
 
-\fB-s\fR \fIsrc address\fR 
+\fB-s\fR \fIsrc address\fR
 .br
 .ti +5
-The IP address the packet will appear to come from. If 
+The IP address the packet will appear to come from. If
 .br
 .ti +5
 unspecified, packit will default to the IP address of the
 .br
 .ti +5
-lowest numbered device in the 'up' state (excluding loopback). 
+lowest numbered device in the 'up' state (excluding loopback).
 .br
 
 \fB-sR\fR  Use a random source IP address.
@@ -281,10 +281,10 @@ The IP address of the machine you would like to contact.
 \fB-o\fR \fItype of service\fR
 .br
 .ti +5
-TOS values are typically in hexidecimal format, however, packit 
+TOS values are typically in hexidecimal format, however, packit
 .br
 .ti +5
-only accepts TOS values as integers. 
+only accepts TOS values as integers.
 .br
 
 .ti +5
@@ -319,7 +319,7 @@ value is random by default.
 \fB-T\fR \fITTL\fR
 .br
 .ti +5
-The TTL value defines the upper limit on the number of devices 
+The TTL value defines the upper limit on the number of devices
 .br
 .ti +5
 through which the datagram may pass to reach it's destination.
@@ -331,7 +331,7 @@ The default value is \fB128\fR.
 \fB-V\fR \fIIP protocol number\fR
 .br
 .ti +5
-Specify the IP protocol assocated with this packet (RAWIP only). 
+Specify the IP protocol assocated with this packet (RAWIP only).
 .br
 .ti +5
 The default value is \fB255\fR.
@@ -344,7 +344,7 @@ This section documents the TCP header command-line options.
 \fB-S\fR \fIsrc port\fR
 .br
 .ti +5
-The port from which our source address is communicating from. This     
+The port from which our source address is communicating from. This
 .br
 .ti +5
 value is random by default.
@@ -371,10 +371,10 @@ addresses in the format: \fB-D 1:1024\fR.
 \fB-F\fR \fItcp flags\fR
 .br
 .ti +5
-There are 6 TCP header flag bits. They can be used in combination 
+There are 6 TCP header flag bits. They can be used in combination
 .br
 .ti +5
-with one another and are specified using the following 
+with one another and are specified using the following
 .br
 .ti +5
 identifiers:
@@ -400,10 +400,10 @@ identifiers:
 .br
 
 .ti +5
-As an example, to set the SYN and FIN bits use the 
+As an example, to set the SYN and FIN bits use the
 .br
 .ti +5 
-following: -F SF 
+following: -F SF
 .br
 
 \fB-q\fR \fIsequence number\fR
@@ -412,7 +412,7 @@ following: -F SF
 The sequence number is a 32-bit unsigned (positive) number used
 .br
 .ti +5
-to identify the byte in a stream of data from the sending TCP 
+to identify the byte in a stream of data from the sending TCP
 .br
 .ti +5
 to the receiving TCP that the first byte of data represents.
@@ -424,7 +424,7 @@ to the receiving TCP that the first byte of data represents.
 The acknowledgement (ack) number defines the next sequence
 .br
 .ti +5
-number that the sender of the ack expects to see. It is  
+number that the sender of the ack expects to see. It is
 .br
 .ti +5
 typically the sequence number + 1 during valid TCP
@@ -436,25 +436,25 @@ communication. It is a 32-bit unsigned (positive) number.
 \fB-W\fR \fIwindow size\fR
 .br
 .ti +5
-The window size provides flow control. It is a 16-bit 
+The window size provides flow control. It is a 16-bit
 .br
 .ti +5
-number that defines how many bytes the receiver is willing 
+number that defines how many bytes the receiver is willing
 .br
 .ti +5
-to accept. The default value is \fB1500\fR. 
+to accept. The default value is \fB1500\fR.
 .br
 
 \fB-u\fR \fIurgent pointer\fR
 .br
 .ti +5
-In valid TCP communication, the urgent pointer is 
+In valid TCP communication, the urgent pointer is
 .br
 .ti +5
 only useful if the URG flag is set. Used with the
 .br
 .ti +5
-sequence number, it points to the last byte of urgent 
+sequence number, it points to the last byte of urgent
 .br
 .ti +5
 data.
@@ -476,13 +476,13 @@ value is random by default.
 \fB-D\fR \fIdst port\fR
 .br
 .ti +5
-The port on the destination we would like to communicate on. In 
+The port on the destination we would like to communicate on. In
 .br
 .ti +5
 inject mode this value is 0 by default while in trace mode this
 .br
 .ti +5
-value is random by default. You may also specify a range of 
+value is random by default. You may also specify a range of
 .br
 .ti +5
 addresses in the format: \fB-D 1:1024\fR.
@@ -531,7 +531,7 @@ by default.
 \fB-g\fR \fIgateway\fR
 .br
 .ti +5
-Define the gateway in which to redirect traffic to. This option 
+Define the gateway in which to redirect traffic to. This option
 .br
 .ti +5
 is only used for ICMP redirects (type 5).
@@ -540,13 +540,13 @@ is only used for ICMP redirects (type 5).
 \fB-j\fR \fIaddress\fR
 .br
 .ti +5
-Define the source address of the original packet.  
+Define the source address of the original packet.
 .br
 
 \fB-J\fR \fIsrc port\fR
 .br
 .ti +5
-Define the source port of the original packet. 
+Define the source port of the original packet.
 .br
 
 \fB-l\fR \fIaddress\fR
@@ -564,7 +564,7 @@ Define the destination port of the original packet.
 \fB-m\fR \fItime to live\fR
 .br
 .ti +5
-Define the Time To Live of the original packet. This option 
+Define the Time To Live of the original packet. This option
 .br
 .ti +5
 defaults to \fB128\fR.
@@ -573,10 +573,10 @@ defaults to \fB128\fR.
 \fB-M\fR \fIid\fR
 .br
 .ti +5
-Define the IP ID of the original packet. This option defaults 
+Define the IP ID of the original packet. This option defaults
 .br
 .ti +5
-to \fBrandom\fR. 
+to \fBrandom\fR.
 .br
 
 \fB-O\fR \fItype of service\fR
@@ -591,7 +591,7 @@ Define the Type of Service of the original packet. See the
 \fB-P\fR \fIprotocol\fR
 .br
 .ti +5
-Define the protocol of the original packet. This option 
+Define the protocol of the original packet. This option
 .br
 .ti +5
 defaults to \fBUDP\fR.
@@ -624,7 +624,7 @@ by default.
 Define the address network mask. The default value for this
 .br
 .ti +5
-option is:\fB255.255.255.0\fR. 
+option is:\fB255.255.255.0\fR.
 .br
 
 \fBTIMESTAMP REQUEST / TIMESTAMP REPLY OPTIONS\fR
@@ -669,7 +669,7 @@ by default.
 \fB-z\fR \fItransmit timestamp\fR
 .br
 .ti +5
-Define the 32-bit transmit timestamp. This value is 0  
+Define the 32-bit transmit timestamp. This value is 0
 .br
 .ti +5
 by default.
@@ -677,8 +677,8 @@ by default.
 
 .SH ARP AND RARP HEADER OPTIONS
 This section documents the ARP/RARP header command-line options. In my opinion,
-these options have the ability to do the most damage with the least effort, especially 
-on large cable and DSL networks. Use with caution. 
+these options have the ability to do the most damage with the least effort, especially
+on large cable and DSL networks. Use with caution.
 .br
 
 Packit only supports ARP/RARP protocol addresses in IPv4 format
@@ -696,7 +696,7 @@ are as follows:
 - 1 : ARP Request (Default for ARP packages.)
 .br
 .ti +5
-- 2 : ARP Reply    
+- 2 : ARP Reply
 .br
 .ti +5
 - 3 : Reverse ARP Request (Default for RARP packages.)
@@ -705,28 +705,28 @@ are as follows:
 - 4 : Reverse ARP Reply
 .br
 .ti +5
-- 5 : Inverse ARP Request 
+- 5 : Inverse ARP Request
 .br
 .ti +5
-- 6 : Inverse ARP Reply 
+- 6 : Inverse ARP Reply
 .br
 
 \fB-y\fR \fItarget IP address\fR
-.br 
+.br
 .ti +5
 The IP address of the target host.
-.br 
+.br
 
 \fB-yR\fR  Use a random target host IP address.
-.br 
+.br
 
 \fB-Y\fR \fItarget ethernet address\fR
 .br
 .ti +5
-The ethernet (hardware) address of the target host. 
-.br 
+The ethernet (hardware) address of the target host.
+.br
 
-\fB-YR\fR  Usage a random target host ethernet address. 
+\fB-YR\fR  Usage a random target host ethernet address.
 .br
 
 \fB-x\fR \fIsender IP address\fR
@@ -754,7 +754,7 @@ This section documents the Ethernet header command-line options.
 \fB-e\fR \fIsrc ethernet address\fR
 .br
 .ti +5
-The ethernet (hardware) address the packet will appear to come 
+The ethernet (hardware) address the packet will appear to come
 .br
 .ti +5
 from.
@@ -774,7 +774,7 @@ destination ethernet header value as well. When using either -e or
 .ti +5
 packet injection and the destination cannot be auto-defined while
 .br
-.ti +5 
+.ti +5
 injecting in this manner.
 .br
 
@@ -796,7 +796,7 @@ to receive the packets you're sending:
 
 \fB1)\fR   If the destination exists beyond your default route (gateway),
 .br
-.ti +5 
+.ti +5
 the destination ethernet address should be set to the default
 .br
 .ti +5
@@ -805,8 +805,8 @@ routes address should be set to the default routes ethernet
 .ti +5
 address. This can typically be found by using the \fBarp(8)\fR command.
 .br
- 
-\fB2)\fR   If the destination exists on your subnet, the destination 
+
+\fB2)\fR   If the destination exists on your subnet, the destination
 .br
 .ti +5
 ethernet address should be set to its ethernet address. This
@@ -828,7 +828,7 @@ host, don't resolve addresses and display hex/ascii dump of the packet.
 .br
 
 .ti +5
-\fBpackit\fR -m cap -nX 'tcp[tcpflags] & (tcp-syn|tcp-fin) != 0 
+\fBpackit\fR -m cap -nX 'tcp[tcpflags] & (tcp-syn|tcp-fin) != 0
 .br
 .ti +12
 and not src and dst net localnet'
@@ -848,15 +848,15 @@ order for these examples to work properly, you would need to change it to
 your correct default route ethernet address.
 .br
 
-Inject 10 ICMP type 8 (echo request) packets from host '3.1.33.7' 
-to host '192.168.0.1' and watch for a response. 
+Inject 10 ICMP type 8 (echo request) packets from host '3.1.33.7'
+to host '192.168.0.1' and watch for a response.
 .br
 
 .ti +5
-\fBpackit\fR -t icmp -s 3.1.33.7 -d 192.168.0.1 -c 10 -h  
+\fBpackit\fR -t icmp -s 3.1.33.7 -d 192.168.0.1 -c 10 -h
 .br
 
-Inject an ICMP type 18 (mask reply) packet with an ICMP id of 211 and an 
+Inject an ICMP type 18 (mask reply) packet with an ICMP id of 211 and an
 address mask of 255.255.255.0.
 .br
 
@@ -864,42 +864,42 @@ address mask of 255.255.255.0.
 \fBpackit\fR -t icmp -K 18 -d 127.0.0.1 -N 211 -G 255.255.255.0
 .br 
 
-Inject 5 TCP packets from random hosts to 'www.microsoft.com' with the 
+Inject 5 TCP packets from random hosts to 'www.microsoft.com' with the
 SYN flag set, a window size of 666, a random source ethernet address, a destination
-ethernet address of f:00:d:f:00:d, with a payload of "HI BILL", displaying each packet 
-injected. 
+ethernet address of f:00:d:f:00:d, with a payload of "HI BILL", displaying each packet
+injected.
 .br
- 
+
 .ti +5
-\fBpackit\fR -sR -d www.microsoft.com -F S -c 5 -W 666 
+\fBpackit\fR -sR -d www.microsoft.com -F S -c 5 -W 666
 .br
 .ti +12
 -eR -E f:00:d:f:00:d -p 'HI BILL' -v
 .br
 
 Inject a total of 1000 TCP packets in 20 packet per second bursts from 
-192.168.0.1 on port 403 to 192.168.0.20 on port 80 with the SYN and RST flags 
+192.168.0.1 on port 403 to 192.168.0.20 on port 80 with the SYN and RST flags
 set, a sequence number of 12345678910 and a source ethernet address
 of 0:0:0:0:0:0.
 .br
 
 .ti +5
-\fBpackit\fR -s 192.168.0.1 -d 192.168.0.20 -S 403 -D 80 
+\fBpackit\fR -s 192.168.0.1 -d 192.168.0.20 -S 403 -D 80
 .br
 .ti +12
 -F SR -q 12345678910 -c 1000 -b 20 -e 0:0:0:0:0:0
 .br
 
-Inject a TCP packets from 10.22.41.6 to 172.16.1.3 on ports ranging 
+Inject a TCP packets from 10.22.41.6 to 172.16.1.3 on ports ranging
 from 1-1024 with the SYN flag set and display each packet we send.
 .br
 
 .ti +5
-\fBpackit\fR -s 10.22.41.6 -d 172.16.1.3 -D 1-1024 -F S -v 
+\fBpackit\fR -s 10.22.41.6 -d 172.16.1.3 -D 1-1024 -F S -v
 .br
 
-Inject a broadcast ARP reply stating that 4.3.2.1 is at 5:4:3:2:1:0. Also, spoof the source 
-ethernet adddress for a little more authenticity and supply the payload in hex. 
+Inject a broadcast ARP reply stating that 4.3.2.1 is at 5:4:3:2:1:0. Also, spoof the source
+ethernet adddress for a little more authenticity and supply the payload in hex.
 .br
 
 .ti +5
@@ -922,7 +922,7 @@ Appear as HTTP traffic by using TCP port 80
 .br
 
 .ti +5
-\fBpackit\fR -m trace -t TCP -d www.google.com -S 80 -FS  
+\fBpackit\fR -m trace -t TCP -d www.google.com -S 80 -FS
 .br
 
 .SH SEE ALSO
@@ -939,13 +939,14 @@ Like this man page, packit is still very much a work in progress.
 Please send bug reports, questions or requests to dbounds@intrusense.com.
 
 .SH AUTHOR
-Darren Bounds <dbounds@intrusense.com>
+The original autor of packit is Darren Bounds <dbounds@intrusense.com>.
+The current project maintainer is Joao Eriberto Mota Filho.
 .br
 
 The latest version can be found at:
 .br
 .ti +7
 .ft I
-http://packit.sourceforge.net
+https://github.com/eribertomota/packit
 .ft
 
