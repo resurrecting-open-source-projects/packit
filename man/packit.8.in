@@ -143,10 +143,11 @@ and general TCP/IP auditing.
 Specify the type of packet to inject. Supported values are: \fBARP\fR, 
 .br
 .ti +5
-\fBTCP\fR, \fBUDP\fR and \fBICMP\fR. This option defaults to \fBTCP\fR 
+\fBRARP\fR, \fBTCP\fR, \fBUDP\fR and \fBICMP\fR.
+This option defaults to \fBTCP\fR in inject
 .br
 .ti +5
-in inject mode and ICMP in trace mode. 
+mode and to \fBICMP\fR in trace mode.
 .br
 
 .SH PACKET INJECTION / TRACE GENERAL
@@ -683,13 +684,13 @@ Define the 32-bit transmit timestamp. This value is 0
 by default.
 .br
 
-.SH ARP HEADER OPTIONS
-This section documents the ARP header command-line options. In my opinion, 
+.SH ARP AND RARP HEADER OPTIONS
+This section documents the ARP/RARP header command-line options. In my opinion,
 these options have the ability to do the most damage with the least effort, especially 
 on large cable and DSL networks. Use with caution. 
 .br
 
-Packit only supports ARP protocol addresses in IPv4 format
+Packit only supports ARP/RARP protocol addresses in IPv4 format
 
 \fB-A\fR \fIoperation type\fR
 .br
@@ -701,13 +702,13 @@ are as follows:
 .br
 
 .ti +5
-- 1 : ARP Request   
+- 1 : ARP Request (Default for ARP packages.)
 .br
 .ti +5
 - 2 : ARP Reply    
 .br
 .ti +5
-- 3 : Reverse ARP Request  
+- 3 : Reverse ARP Request (Default for RARP packages.)
 .br
 .ti +5
 - 4 : Reverse ARP Reply

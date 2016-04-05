@@ -1,12 +1,13 @@
 /*
- * author: Darren Bounds <dbounds@intrusense.com>
- * copyright: Copyright (c) 2002 by Darren Bounds
- * license: This software is under GPL version 2 of license
+ * Original author: Darren Bounds <dbounds@intrusense.com>
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
+ * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,9 +16,11 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA  02110-1301, USA.
  *
- * packit official page at http://packit.sourceforge.net
+ * packit official page at https://github.com/eribertomota/packit
+ *
  */
 
 #include "main.h"
@@ -154,6 +157,23 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     exit(FAILURE);
 #endif
                     injection_type = ETHERTYPE_ARP;
+                    init_type = 0;
+                    opts = "A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:";
+                }
+                else
+                if(!strncasecmp(optarg, "RARP", 4))
+                {
+                    if(p_mode == M_TRACE)
+                        fatal_error("RARP is not supported with trace mode.");
+#ifdef DEBUG
+                    fprintf(stdout, "DEBUG: RARP injection\n");
+#endif
+#ifdef MACOS
+                    fprintf(stderr, "\nError: RARP injection is not yet supported on this OS platform.\n");
+                    exit(FAILURE);
+#endif
+                    injection_type = ETHERTYPE_REVARP;
+                    ahdr_o.op_type = ARPOP_REVREQUEST; /* Update init */
                     init_type = 0;
                     opts = "A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:";
                 }

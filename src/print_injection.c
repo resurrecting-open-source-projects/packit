@@ -2,6 +2,7 @@
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
+ * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
  * Copyright 2015      Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
  *
  * This program is free software; you can redistribute it and/or
@@ -173,15 +174,19 @@ print_injection_details()
                 ehdr_o.dhw_addr);
     }
     else
-    if(injection_type == ETHERTYPE_ARP)
+    if(injection_type == ETHERTYPE_ARP
+       || injection_type == ETHERTYPE_REVARP)
     {
 #ifdef DEBUG
-       fprintf(stdout, "DEBUG: ETHERTYPE_ARP\n");
+       fprintf(stdout, "DEBUG: %s\n",
+               (injection_type == ETHERTYPE_REVARP) ? "ETHERTYPE_REVARP" : "ETHERTYPE_ARP");
 #endif
 
 	arp_t = retrieve_arp_type(ahdr_o.op_type);
 
-	fprintf(stdout, "ARP header:  Type: %s(%d)\n", arp_t, ahdr_o.op_type);
+       fprintf(stdout, "%s header:  Type: %s(%d)\n",
+               (injection_type == ETHERTYPE_REVARP) ? "RARP" : "ARP",
+               arp_t, ahdr_o.op_type);
 	fprintf(stdout, "\t     Sender:  Protocol Address: %s  Hardware Address: %s\n",
 	    ahdr_o.s_paddr,
 	    ahdr_o.shw_addr); 

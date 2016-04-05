@@ -1,12 +1,13 @@
 /*
- * author: Darren Bounds <dbounds@intrusense.com>
- * copyright: Copyright (C) 2002 by Darren Bounds
- * license: This software is under GPL version 2 of license
+ * Original author: Darren Bounds <dbounds@intrusense.com>
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
+ * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,9 +16,11 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA  02110-1301, USA.
  *
- * packit official page at http://packit.sourceforge.net
+ * packit official page at https://github.com/eribertomota/packit
+ *
  */
 
 #include "print_capture.h"
@@ -96,10 +99,12 @@ print_capture(struct pcap_pkthdr *pkthdr, u_int8_t *packet)
             }
         }
         else 
-        if(ehdr->ether_type == htons(ETHERTYPE_ARP))
+        if(ehdr->ether_type == htons(ETHERTYPE_ARP)
+           || ehdr->ether_type == htons(ETHERTYPE_REVARP))
         {
 #ifdef DEBUG
-            fprintf(stdout, "DEBUG: ether_type: ARP\n");
+            fprintf(stdout, "DEBUG: ether_type: %s\n",
+                    (ehdr->ether_type == ETHERTYPE_REVARP) ? "RARP" : "ARP");
 #endif
 
             if(p_mode == M_CAPTURE)

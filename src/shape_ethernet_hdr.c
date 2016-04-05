@@ -1,12 +1,13 @@
 /*
- * author: Darren Bounds <dbounds@intrusense.com>
- * copyright: Copyright (C) 2002 by Darren Bounds
- * license: This software is under GPL version 2 of license
+ * Original author: Darren Bounds <dbounds@intrusense.com>
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
+ * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,9 +16,11 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA  02110-1301, USA.
  *
- * packit official page at http://packit.sourceforge.net
+ * packit official page at https://github.com/eribertomota/packit
+ *
  */
 
 #include "shape_ethernet_hdr.h"
@@ -59,7 +62,8 @@ shape_ethernet_hdr(libnet_t *pkt_d)
     snprintf(ehdr_o.shw_addr, 18, "%0X:%0X:%0X:%0X:%0X:%0X",
         us_addr[0], us_addr[1], us_addr[2], us_addr[3], us_addr[4], us_addr[5]);
 
-    if(ehdr_o.d_addr == NULL && injection_type == ETHERTYPE_ARP)
+    if(ehdr_o.d_addr == NULL
+       && (injection_type == ETHERTYPE_ARP || injection_type == ETHERTYPE_REVARP))
 	ehdr_o.d_addr = ETH_BROADCAST; 
     else
     if(ehdr_o.d_addr == NULL)
@@ -90,7 +94,7 @@ shape_ethernet_hdr(libnet_t *pkt_d)
 }
 
 libnet_t *
-shape_ethernet_hdr_auto(libnet_t *pkt_d)
+shape_ethernet_hdr_auto(libnet_t *pkt_d, u_int16_t type)
 {
     u_int8_t d_addr[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 
@@ -100,7 +104,7 @@ shape_ethernet_hdr_auto(libnet_t *pkt_d)
 
     if(libnet_autobuild_ethernet(
         d_addr,                 
-        ETHERTYPE_ARP, 
+        type,
         pkt_d) == -1)
     {
         fatal_error("Unable to auto-build ethernet header");

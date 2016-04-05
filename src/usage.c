@@ -2,6 +2,7 @@
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
+ * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
  * Copyright 2015      Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
  *
  * This program is free software; you can redistribute it and/or
@@ -125,8 +126,9 @@ print_usage()
     fprintf(stdout, "\n"); 
 
 #ifndef MACOS 
-    fprintf(stdout, "ARP header options\n");
-    fprintf(stdout, "  -A op       Operation type (Default: 1 (ARP request))\n");
+    fprintf(stdout, "ARP and RARP header options\n");
+    fprintf(stdout, "  -A op       Operation type (Default: 1 (ARP request)\n");
+    fprintf(stdout, "              and 3 (Reverse ARP request))\n");
     fprintf(stdout, "  -x address  Source protocol address\n");
     fprintf(stdout, "  -X hwaddr   Source hardware address\n");
     fprintf(stdout, "  -y address  Destination protocol address\n");

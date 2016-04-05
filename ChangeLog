@@ -8,6 +8,10 @@ Version 1.1, 2016-04-04
 * Updated the GPL license text in LICENSE file.
 * Updated all copyright notices.
 
+  [ Mats Erik Andersson ], <gnu@gisladisker.se>, 2013-06-27
+
+* Implement RARP support (patch sent to Debian via bug #652510).
+
   [ LaMont Jones ], <lamont@debian.org>, 2007-09-10
 
 * Allow nostrip (patch created in Debian, closing bug #437731).
