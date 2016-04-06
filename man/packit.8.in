@@ -82,7 +82,7 @@ Don't resolve host addresses or port numbers.
 \fB-r\fR \fIfile\fR
 .br
 .ti +5
-Read packet data from tcpdump formated binary log \fIfile\fR. (example:
+Read packet data from tcpdump formatted binary log \fIfile\fR. (example:
 .br
 .ti +5
 a file created with -w)
@@ -281,7 +281,7 @@ The IP address of the machine you would like to contact.
 \fB-o\fR \fItype of service\fR
 .br
 .ti +5
-TOS values are typically in hexidecimal format, however, packit
+TOS values are typically in hexadecimal format, however, packit
 .br
 .ti +5
 only accepts TOS values as integers.
@@ -331,7 +331,7 @@ The default value is \fB128\fR.
 \fB-V\fR \fIIP protocol number\fR
 .br
 .ti +5
-Specify the IP protocol assocated with this packet (RAWIP only).
+Specify the IP protocol associated with this packet (RAWIP only).
 .br
 .ti +5
 The default value is \fB255\fR.
