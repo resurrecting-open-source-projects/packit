@@ -1,4 +1,3 @@
-#
 # author: Darren Bounds <dbounds@intrusense.com>
 # copyright: Copyright (C) 2002 by Darren Bounds
 # license: This software is under GPL version 2 of license
@@ -18,7 +17,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 # packit official page at http://packit.sourceforge.net
-#
 
 include $(top_srcdir)/Makefile.am.common
 
