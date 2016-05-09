@@ -6,7 +6,8 @@ If you are interested in contribute to Packit development, please, follow
 these steps:
 
 1. Send me a patch that fix an issue or that implement a new feature.
-   Alternatively, you can do a 'pull request'[1] in GitHub.
+   Alternatively, you can do a 'pull request'[1] in GitHub. Other good
+   idea is help to remove the building warnings.
 
    [1] https://help.github.com/articles/using-pull-requests
 
