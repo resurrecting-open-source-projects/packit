@@ -29,9 +29,9 @@ If you are interested to help Packit, read the [CONTRIBUTING.md](CONTRIBUTING.md
 [2] https://packages.qa.debian.org/p/packit.html<br>
 
 
-----------------
-2. WHAT IS AXEL?
-----------------
+------------------
+2. WHAT IS PACKIT?
+------------------
 
 Packit (PACket toolKIT) is a network auditing tool. It uses libpcap
 and can make real packages (frames) that are able to travel in a
@@ -43,14 +43,15 @@ Packit has an ability to customize, inject, monitor and manipulate IP
 traffic. By allowing you to define (spoof) nearly all TCP, UDP, ICMP,
 IP, ARP, RARP, and Ethernet header options, Packit can be useful for
 the following scenarios:
-    - tests in firewalls;
-    - tests in Intrusion Detection Systems (IDS);
-    - tests in Intrusion Prevention Systems (IPS);
-    - tests in proxies;
-    - tests in port scanning detectors;
-    - network traffic simulations;
-    - security tests; and
-    - general TCP/IP auditing and pentests.
+
+    - tests in firewalls; <br>
+    - tests in Intrusion Detection Systems (IDS); <br>
+    - tests in Intrusion Prevention Systems (IPS); <br>
+    - tests in proxies; <br>
+    - tests in port scanning detectors; <br>
+    - network traffic simulations; <br>
+    - security tests; and <br>
+    - general TCP/IP auditing and pentests. <br>
 
 Packit is also an excellent tool for learning TCP/IP. However, this
 program does not support IPv6.
@@ -60,4 +61,18 @@ program does not support IPv6.
 3. BUILDING FROM SOURCE
 -----------------------
 
-Please, read the [INSTALL](INSTALL) file.
+Packit requires the following elements to compile:
+
+    * autoconf >= 2.69 <br>
+    * libnet >= 1.1.2 <br>
+    * libpcap >= 0.8 <br>
+
+Packit source installation is simple:
+
+    $ ./autogen.sh <br>
+    $ ./configure <br>
+    $ make <br>
+
+Then as 'root':
+
+    # make install
