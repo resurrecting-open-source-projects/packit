@@ -2,6 +2,8 @@
 #
 # Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
 # Copyright 2007      LaMont Jones <lamont@debian.org>
+# Copyright 2016      Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
+
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -57,7 +59,7 @@ packit_SOURCES =        ${common_SOURCES} \
 
 packit_LDFLAGS=
 
-INCLUDES=@INCLUDES@
+AM_CPPFLAGS = $(PACKIT_CPPFLAGS)
 
 all:
 	cp @BINS@ $(top_srcdir)

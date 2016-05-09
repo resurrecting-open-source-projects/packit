@@ -3,6 +3,7 @@
 # Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
 # Copyright 2007      LaMont Jones <lamont@debian.org>
 # Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
+# Copyright 2016      Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,16 +22,16 @@
 #
 # packit official page at https://github.com/eribertomota/packit
 
-dnl Copyright (c) 2002-2003 Darren Bounds
-dnl All rights reserved.
-
-AC_INIT(src/main.c)
+AC_PREREQ([2.69])
+PACKIT_VERSION=1.1
+AC_INIT([packit], [1.1], [https://github.com/eribertomota/packit/issues])
+AC_CONFIG_SRCDIR([src/main.c])
+AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS(config.h)
-PACKIT_VERSION=`cat VERSION`
-AC_MSG_RESULT(beginning auto-configuration process for packit-$PACKIT_VERSION...)
-AM_INIT_AUTOMAKE(packit, $PACKIT_VERSION)
+AC_MSG_RESULT(beginning auto-configuration process for packit...)
 AC_SUBST(PACKIT_VERSION)
 AC_PREFIX_DEFAULT(/usr/local)
+AM_INIT_AUTOMAKE([subdir-objects])
 
 AC_PROG_CC
 AC_MSG_CHECKING(for gcc)
@@ -44,7 +45,7 @@ fi
 DEBUG="no"
 BINS="packit"
 
-AC_ARG_ENABLE(debug, 
+AC_ARG_ENABLE(debug,
     [ --enable-debug          Enable debugging],
     [ if test "$GCC" = yes; then
           DEBUG="yes"
@@ -80,7 +81,7 @@ AC_CANONICAL_HOST
 
 SHELL="/bin/sh"
 
-INCLUDES='-I$(top_srcdir) -I$(top_srcdir)/includes'
+PACKIT_CPPFLAGS='-I$(top_srcdir) -I$(top_srcdir)/includes'
 
 dnl Checks for OS type.
 case "$host" in
@@ -100,12 +101,12 @@ case "$host" in
         AC_DEFINE(BSD_DERIVED, 1, OS BSD Derived)
         AC_DEFINE(MACOS, 1, MacOS)
         LDFLAGS="${LDFLAGS} -L/sw/lib"
-        INCLUDES="${INCLUDES} -I/sw/include";
+        PACKIT_CPPFLAGS="${PACKIT_CPPFLAGS} -I/sw/include";
         ;;
     *-linux*)
         AC_DEFINE(SYSV_DERIVED, 1, OS SysV Derived)
         AC_DEFINE(LINUX, 1, Linux)
-        INCLUDES="${INCLUDES} -I/usr/include/pcap";
+        PACKIT_CPPFLAGS="${PACKIT_CPPFLAGS} -I/usr/include/pcap";
         ;;
     *-solaris*)
         AC_DEFINE(SYSV_DERIVED, 1, OS SysV Derived)
@@ -117,11 +118,11 @@ case "$host" in
         ;;
     *-hpux*)
         AC_DEFINE(SYSV_DERIVED, 1, OS SysV Derived)
-        AC_DEFINE(HPUX, 1, HPUX) 
+        AC_DEFINE(HPUX, 1, HPUX)
         ;;
 esac
 
-AC_SUBST(INCLUDES)
+AC_SUBST(PACKIT_CPPFLAGS)
 
 dnl Checks for typedef
 AC_CHECK_TYPE(u_int8_t, unsigned char)
@@ -145,7 +146,7 @@ if test "$LIBNET" = "no"; then
     echo ""
     echo "Error: Can't find libnet 1.1.0 or greater. Visit http://www.packetfactory.net/libnet for the latest version."
     exit;
-fi  
+fi
 
 AC_ARG_WITH(libpcap_includes,
      [  --with-libpcap-includes=DIR   libcap include directory],
@@ -180,7 +181,7 @@ if test "$LIBNET" = "no"; then
     echo ""
     echo "Error: Can't find libnet 1.1.0 or greater. Visit http://www.packetfactory.net/libnet for the latest version."
     exit;
-fi  
+fi
 
 AC_ARG_WITH(libpcap_libraries,
     [  --with-libpcap-libraries=DIR  libcap library directory],
@@ -223,18 +224,19 @@ else
 fi
 
 AC_PROG_INSTALL
-AC_OUTPUT(Makefile src/Makefile man/Makefile man/packit.8 src/version.h)
+AC_CONFIG_FILES([Makefile src/Makefile man/Makefile man/packit.8 src/version.h])
+AC_OUTPUT
 
 BINDIR=`eval echo ${bindir}`; BINDIR=`eval echo ${BINDIR}`;
 MANDIR=`eval echo ${mandir}/${mansubdir}`; MANDIR=`eval echo ${MANDIR}`;
 
 echo ""
-echo "                  _    _ _"   
-echo " _ __   __ _  ___| | _(_) |_" 
+echo "                  _    _ _"
+echo " _ __   __ _  ___| | _(_) |_"
 echo "| '_ \ / _\` |/ __| |/ / | __|"
-echo "| |_) | (_| | (__|   <| | |_" 
+echo "| |_) | (_| | (__|   <| | |_"
 echo "| .__/ \__,_|\___|_|\_\_|\__|"
-echo "|_|                       $PACKIT_VERSION"
+echo "|_|"
 echo ""
 echo "has been configured with the following options:"
 echo "-----------------------------------------------"

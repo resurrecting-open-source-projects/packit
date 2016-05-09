@@ -1,6 +1,7 @@
 # author: Darren Bounds <dbounds@intrusense.com>
-# Copyright 2002 Darren Bounds
-# Copyright 2016 Joao Eriberto Mota Filho
+# 
+# Copyright 2002 Darren Bounds <dbounds@intrusense.com>
+# Copyright 2016 Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
 #
 # license: This software is under GPL version 2 of license
 #
@@ -20,7 +21,7 @@
 #
 # packit official page at http://packit.sourceforge.net
 
-include $(top_srcdir)/Makefile.am.common
+AUTOMAKE_OPTIONS = foreign no-dependencies
 
 SUBDIRS = src man
 
@@ -30,12 +31,15 @@ clean:
 	-rm -f packit \
 	stamp-h1 \
 	src/*.o \
+	src/contrib/*.o \
 	src/packit \
 	src/version.h
 
 clean-local: clean
 	-rm -rf autom4te.cache \
-	src/.deps
+	src/.deps \
+	src/contrib/.deps \
+	src/contrib/.dirstamp
 
 	-rm -f aclocal.m4 \
 	compile \
