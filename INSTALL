@@ -8,7 +8,7 @@ PREREQUISITS
 Packit requires the following elements to compile
 
     autoconf >= 2.69
-    libnet >= 1.1.0
+    libnet >= 1.1.2
     libpcap >= 0.8
 
 
