@@ -23,7 +23,7 @@
  *
  */
 
-#define P_VERSION "@PACKIT_VERSION@"
+#define P_VERSION "1.0"
 #define P_AUTHOR "Darren Bounds <dbounds@intrusense.com> and others"
 #define P_SITE "https://github.com/eribertomota/packit"
 

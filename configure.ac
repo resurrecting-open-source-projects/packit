@@ -23,13 +23,11 @@
 # packit official page at https://github.com/eribertomota/packit
 
 AC_PREREQ([2.69])
-PACKIT_VERSION=1.1
 AC_INIT([packit], [1.1], [https://github.com/eribertomota/packit/issues])
 AC_CONFIG_SRCDIR([src/main.c])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS(config.h)
 AC_MSG_RESULT(beginning auto-configuration process for packit...)
-AC_SUBST(PACKIT_VERSION)
 AC_PREFIX_DEFAULT(/usr/local)
 AM_INIT_AUTOMAKE([subdir-objects])
 

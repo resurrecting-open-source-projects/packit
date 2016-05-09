@@ -1,10 +1,10 @@
 .\"
-.\" $Id: packit v@PACKIT_VERSION@ 2002/10/20 22:26:03 pzn Exp $
+.\" $Id: packit v1.0 2002/10/20 22:26:03 pzn Exp $
 .\"
 .\" Copyright (c) 2002 Darren Bounds <dbounds@intrusense.com>
 .\"
 .\"
-.TH PACKIT 8  "10 20 2002" "Packit @PACKIT_VERSION@" "Packet analysis and injection tool"
+.TH PACKIT 8  "10 20 2002" "Packit 1.0" "Packet analysis and injection tool"
 .SH NAME
 Packit \- Packet analysis and injection tool 
 

@@ -56,7 +56,7 @@ make prefix=$RPM_BUILD_ROOT/usr install
 %defattr(-,root,root)
 %attr(755,root,root)			/usr/sbin/packit
 %attr(644,root,root)			/usr/man/man8/packit.8.gz
-%doc					ChangeLog INSTALL LICENSE VERSION docs/ICMP.txt
+%doc					ChangeLog INSTALL LICENSE docs/ICMP.txt
 
 %clean
 rm -rf $RPM_BUILD_ROOT
