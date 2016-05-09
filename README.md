@@ -76,3 +76,8 @@ Packit source installation is simple:
 Then as 'root':
 
     # make install
+
+The autogen.sh can be used with the 'clean' option to remove all
+generated files. Example:
+
+    $ ./autogen.sh clean
