@@ -1,19 +1,23 @@
 Packit -------------------------------
-The Network Injection and Capture Tool   
+The Network Injection and Capture Tool
 --------------------------------------
 
 PREREQUISITS
+------------
 
-Packit requires libnet 1.1.0 or greater. 
-Let me make this clear. If you're running any version of libnet prior to 1.1.0 (ie: 1.0.2a) PACKIT WILL NOT COMPILE. :)
+Packit requires the following elements to compile
 
-See http://www.packetfactory.net/libnet/ for the latest version of libnet and related information.
+    autoconf >= 2.69
+    libnet >= 1.1.0
+    libpcap >= 0.8
 
 
 INSTALLATION
+------------
 
 Packit source installation is simple:
 
+    ./autogen.sh
     ./configure
     make
 
@@ -22,7 +26,7 @@ Then as 'root':
     make install
 
 
-QUESTIONS
+BUGS
+----
 
-Please email me if you have any problems or questions: Darren Bounds <dbounds@intrusense.com> 
-
+Please, send your bugs to https://github.com/eribertomota/packit/issues
