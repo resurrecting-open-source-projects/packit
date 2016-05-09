@@ -14,6 +14,7 @@ these steps:
    officially. Note that this second step is not compulsory. However,
    to accept you in project, I need a minimum collaboration before.
 
+**TIP: now, Packit needs to understand IPv6. Can you implement it?**
 
 To find issues and bugs to fix, you can check these addresses:
 
