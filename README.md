@@ -44,14 +44,14 @@ traffic. By allowing you to define (spoof) nearly all TCP, UDP, ICMP,
 IP, ARP, RARP, and Ethernet header options, Packit can be useful for
 the following scenarios:
 
-    * tests in firewalls; <br>
-    * tests in Intrusion Detection Systems (IDS); <br>
-    * tests in Intrusion Prevention Systems (IPS); <br>
-    * tests in proxies; <br>
-    * tests in port scanning detectors; <br>
-    * network traffic simulations; <br>
-    * security tests; and <br>
-    * general TCP/IP auditing and pentests. <br>
+  * tests in firewalls; <br>
+  * tests in Intrusion Detection Systems (IDS); <br>
+  * tests in Intrusion Prevention Systems (IPS); <br>
+  * tests in proxies; <br>
+  * tests in port scanning detectors; <br>
+  * network traffic simulations; <br>
+  * security tests; and <br>
+  * general TCP/IP auditing and pentests. <br>
 
 Packit is also an excellent tool for learning TCP/IP. However, this
 program does not support IPv6.
@@ -63,15 +63,15 @@ program does not support IPv6.
 
 Packit requires the following elements to compile:
 
-    * autoconf >= 2.69 <br>
-    * libnet >= 1.1.2 <br>
-    * libpcap >= 0.8 <br>
+  * autoconf >= 2.69 <br>
+  * libnet >= 1.1.2 <br>
+  * libpcap >= 0.8 <br>
 
 Packit source installation is simple:
 
-    $ ./autogen.sh <br>
-    $ ./configure <br>
-    $ make <br>
+    $ ./autogen.sh
+    $ ./configure
+    $ make
 
 Then as 'root':
 
