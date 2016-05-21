@@ -3,6 +3,8 @@
 # autogen.sh with clean option
 # Copyright 2016 Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
 #
+# This file is under BSD-3-Clause license.
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
@@ -11,7 +13,7 @@
 # 2. Redistributions in binary form must reproduce the above copyright
 #    notice, this list of conditions and the following disclaimer in the
 #    documentation and/or other materials provided with the distribution.
-# 3. Neither the name of the University nor the names of its contributors
+# 3. Neither the name of the authors nor the names of its contributors
 #    may be used to endorse or promote products derived from this software
 #    without specific prior written permission.
 #
@@ -33,7 +35,8 @@ if [ "$1" = "clean" -a ! -e Makefile ]
 then
     echo "Vanishing the code"
     rm -rf aclocal.m4 autom4te.cache compile config.guess config.h.in \
-           config.sub configure depcomp install-sh Makefile.in missing
+           config.sub configure depcomp install-sh Makefile.in missing \
+           man/Makefile.in src/Makefile.in
     exit 0
 fi
 
@@ -45,4 +48,9 @@ then
 fi
 
 # Do autoreconf
-autoreconf -i || { echo "We have a problem..."; exit 1; }
+autoreconf -i \
+   && { echo " "; \
+        echo "Done. You can use the 'clean' option to vanish the source code."; \
+        echo "Example of use: $ ./autogen clean"; \
+      } \
+   || { echo "We have a problem..."; exit 1; }
