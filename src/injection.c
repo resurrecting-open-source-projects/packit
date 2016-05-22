@@ -1,12 +1,14 @@
 /*
- * author: Darren Bounds <dbounds@intrusense.com>
- * copyright: Copyright (C) 2002 by Darren Bounds
- * license: This software is under GPL version 2 of license
+ * Packit -- network injection and capture tool
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * Original author: Darren Bounds <dbounds@intrusense.com>
+ *
+ * Copyright 2002 Darren Bounds <dbounds@intrusense.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,9 +17,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA  02110-1301, USA.
  *
- * packit official page at http://packit.sourceforge.net
+ * packit official page at https://github.com/eribertomota/packit
  */
 
 #include "injection.h"
@@ -27,7 +30,7 @@ inject_packet()
 {
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: inject_packet()\n");
-#endif  
+#endif
 
     if(libnet_write(pkt_d) == -1)
         return FAILURE;
@@ -54,7 +57,7 @@ injection_init()
     if(hex_payload)
         if((payload_len = format_hex_payload(payload)) == 0)
             fprintf(stdout, "Warning: Hex payload formatted incorrectly.\n");
-             
+
     if(s_d_port != NULL)
     {
         if(strstr(s_d_port, "-"))
@@ -77,29 +80,29 @@ injection_init()
 
     if(p_mode == M_TRACE)
         fprintf(stdout, "Mode:  Trace Route [Hop Max: %llu] using device: %s\n", cnt, device);
-    else 
+    else
         fprintf(stdout, "Mode:  Packet Injection using device: %s\n", device);
 
     if((pkt_d = libnet_init(init_type, device, error_buf)) == NULL)
         fatal_error("Unable to initialize packet injection");
 
-    if(p_mode == M_INJECT) 
+    if(p_mode == M_INJECT)
         without_response(port_range);
-    else 
+    else
     if(p_mode == M_INJECT_RESPONSE || p_mode == M_TRACE)
-        with_response(port_range); 
+        with_response(port_range);
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: Preparing to clean house and exit\n");
 #endif
-    injection_clean_exit(SUCCESS); 
+    injection_clean_exit(SUCCESS);
 
     return;
 }
 
 u_int16_t
 with_response(u_int32_t port_range)
-{   
+{
     u_int8_t ufilter[1024];
     u_int32_t i, tr_retry = 0;
     u_int32_t dth_r, dstp = 0;
@@ -140,7 +143,7 @@ with_response(u_int32_t port_range)
         pkt_d = shape_packet();
 
         switch(ip4hdr_o.p)
-        {   
+        {
              case IPPROTO_TCP:
                  snprintf(ufilter, 1024,
                      "dst host %s"
@@ -202,8 +205,8 @@ with_response(u_int32_t port_range)
             fatal_error("Unable to determine datalink type: %s", pcap_geterr(pkt));
 
 #ifdef SYSV_DERIVED
-#ifdef HAVE_SETNONBLOCK 
-#ifdef DEBUG 
+#ifdef HAVE_SETNONBLOCK
+#ifdef DEBUG
        fprintf(stdout, "DEBUG: pcap_setnonblock()\n");
 #endif /* DEBUG */
         if(pcap_setnonblock(pkt, 1, error_buf) < 0)
@@ -219,7 +222,7 @@ with_response(u_int32_t port_range)
 start:
         if(!inject_packet())
             fatal_error("Unable to inject packet");
-      
+
         gettimeofday(&bf_pcap, NULL);
 
         if(p_mode != M_TRACE)
@@ -231,30 +234,30 @@ start:
         hdr_len = retrieve_datalink_hdr_len(d_link);
 
 #ifdef DEBUG
-        fprintf(stdout, "DEBUG: start time: %ld.%ld\n", 
+        fprintf(stdout, "DEBUG: start time: %ld.%ld\n",
             bf_pcap.tv_sec, bf_pcap.tv_usec);
         fprintf(stdout, "DEBUG: start dispatch loop\n");
 #endif
- 
+
         while(1)
-        {        
+        {
             dth_r = pcap_dispatch(pkt, 1, (pcap_handler)process_packets, NULL);
 
             if(dth_r < 0)
                 fatal_error("Unable to inject packet");
-            else 
+            else
             if(dth_r > 0)
                 break;
 
             gettimeofday(&af_pcap, NULL);
 
 #ifdef DEBUG
-            fprintf(stdout, "DEBUG: dispatch time: %ld.%ld\n", 
+            fprintf(stdout, "DEBUG: dispatch time: %ld.%ld\n",
                 af_pcap.tv_sec, af_pcap.tv_usec);
 #endif
 
-            if(((af_pcap.tv_sec - bf_pcap.tv_sec) == r_timeout && 
-                (bf_pcap.tv_usec < af_pcap.tv_usec)) || 
+            if(((af_pcap.tv_sec - bf_pcap.tv_sec) == r_timeout &&
+                (bf_pcap.tv_usec < af_pcap.tv_usec)) ||
                 (af_pcap.tv_sec - bf_pcap.tv_sec) > r_timeout)
             {
 
@@ -269,7 +272,7 @@ start:
                     print_separator((p_mode == M_TRACE) ? 0 : 1, 1, "No Response From Peer");
                     break;
                 }
-            }   
+            }
 
             nanosleep(&n_sleep, NULL);
         }
@@ -280,17 +283,17 @@ start:
 
         libnet_clear_packet(pkt_d);
 
-        if(p_mode == M_TRACE) 
+        if(p_mode == M_TRACE)
         {
             if(tr_fin == 1)
                 return FAILURE;
             else
                 ip4hdr_o.ttl++;
         }
-        else 
+        else
         if((ip4hdr_o.p == IPPROTO_TCP || ip4hdr_o.p == IPPROTO_UDP) && port_range)
             d_port++;
-        else 
+        else
         if(ip4hdr_o.p == IPPROTO_ICMP && i4hdr_o.type == ICMP_ECHO)
             i4hdr_o.seqn++;
 
@@ -303,7 +306,7 @@ start:
     return FAILURE;
 }
 
-u_int16_t 
+u_int16_t
 without_response(u_int32_t port_range)
 {
     u_int64_t i;
@@ -315,7 +318,7 @@ without_response(u_int32_t port_range)
 
     gettimeofday(&bf_pcap, NULL);
 
-    if(cnt == 0) dstp = cnt = 1; 
+    if(cnt == 0) dstp = cnt = 1;
 
     for(i = 1; i < cnt + 1; i++)
     {
@@ -326,7 +329,7 @@ without_response(u_int32_t port_range)
         if(!inject_packet())
             fatal_error("Unable to inject packet");
 
-        if(verbose) 
+        if(verbose)
         {
             print_separator(1, 2, "SND %ld", inj_cnt);
             print_injection_details();
@@ -335,20 +338,20 @@ without_response(u_int32_t port_range)
                 sleep(interval_sec);
 
         }
-        else 
+        else
         {
             if(inj_cnt == 1)
-            {   
+            {
                 fprintf(stdout, "\n");
                 print_injection_details();
- 
-                if(dstp) 
+
+                if(dstp)
                     fprintf(stderr, "\nWriting packet(s): ");
-                else 
+                else
                     fprintf(stderr, "\nWriting packet(s) (%llu): ", cnt);
             }
 
-            if(burst_rate != 0 && (inj_cnt % burst_rate) == 0) 
+            if(burst_rate != 0 && (inj_cnt % burst_rate) == 0)
             {
                 fprintf(stderr, ".");
 
@@ -361,13 +364,13 @@ without_response(u_int32_t port_range)
 
         libnet_clear_packet(pkt_d);
 
-        if(ip4hdr_o.p == IPPROTO_ICMP && 
+        if(ip4hdr_o.p == IPPROTO_ICMP &&
             i4hdr_o.type == ICMP_ECHO)
         {
-            i4hdr_o.seqn++; 
+            i4hdr_o.seqn++;
         }
 
-        if((ip4hdr_o.p == IPPROTO_TCP || 
+        if((ip4hdr_o.p == IPPROTO_TCP ||
             ip4hdr_o.p == IPPROTO_UDP) && port_range)
         {
             d_port++;

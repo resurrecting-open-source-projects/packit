@@ -1,4 +1,6 @@
 /*
+ * Packit -- network injection and capture tool
+ *
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
@@ -20,7 +22,6 @@
  * MA  02110-1301, USA.
  *
  * packit official page at https://github.com/eribertomota/packit
- *
  */
 
 #ifndef __GLOBALS_H
@@ -124,14 +125,14 @@
 #define M_INJECT_RESPONSE   		2
 #define M_INJECT_CONNECT		3
 #define M_TRACE				4	
-#define M_CAPTURE           		10 
-#define M_CAPTURE_RESET     		11 
+#define M_CAPTURE           		10
+#define M_CAPTURE_RESET     		11
 
 #define P_UINT8				0xFF
-#define P_INT16            		0x7FFF 
-#define P_UINT16            		0xFFFF 
-#define P_INT32             		0x7FFFFFFF 
-#define P_UINT32            		0xFFFFFFFF 
+#define P_INT16            		0x7FFF
+#define P_UINT16            		0xFFFF
+#define P_INT32             		0x7FFFFFFF
+#define P_UINT32            		0xFFFFFFFF
 #define P_INT64                         0x7FFFFFFFFFFFFFFF
 #define P_UINT64                        0xFFFFFFFFFFFFFFFF
 

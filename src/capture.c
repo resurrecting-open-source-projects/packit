@@ -1,12 +1,14 @@
 /*
- * author: Darren Bounds <dbounds@intrusense.com>
- * copyright: Copyright (C) 2002 by Darren Bounds
- * license: This software is under GPL version 2 of license
+ * Packit -- network injection and capture tool
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * Original author: Darren Bounds <dbounds@intrusense.com>
+ *
+ * Copyright 2002 Darren Bounds <dbounds@intrusense.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,9 +17,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA  02110-1301, USA.
  *
- * packit official page at http://packit.sourceforge.net
+ * packit official page at https://github.com/eribertomota/packit
  */
 
 #include "capture.h"
@@ -51,7 +54,7 @@ capture_init(u_int8_t *filter, u_int64_t cnt)
     if(strlen(r_file) > 0)
     {
         if((pkt = pcap_open_offline(r_file, error_buf)) == NULL)
-            fatal_error("Unable to open file: %s", error_buf); 
+            fatal_error("Unable to open file: %s", error_buf);
 
     }
     else
@@ -87,7 +90,7 @@ capture_init(u_int8_t *filter, u_int64_t cnt)
         fatal_error("Unable to set packet filters: %s", pcap_geterr(pkt));
 
 #ifdef HAVE_FREECODE
-    pcap_freecode(&bpf); 
+    pcap_freecode(&bpf);
 #endif /* HAVE_FREECODE */
 
     if((d_link = pcap_datalink(pkt)) < 0)
@@ -107,8 +110,8 @@ capture_init(u_int8_t *filter, u_int64_t cnt)
 
     fprintf(stdout, "\n");
 
-    if(pcap_loop(pkt, cnt, 
-        (display == 1) ? (pcap_handler)process_packets : (pcap_handler)pcap_dump, 
+    if(pcap_loop(pkt, cnt,
+        (display == 1) ? (pcap_handler)process_packets : (pcap_handler)pcap_dump,
         (display == 1) ? NULL : (u_int8_t *)p_dumper) < 0)
     {
         fatal_error("Unable to initialize pcap_loop: %s", pcap_geterr(pkt));

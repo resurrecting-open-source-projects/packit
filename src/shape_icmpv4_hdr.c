@@ -1,23 +1,26 @@
 /*
- * author: Darren Bounds <dbounds@intrusense.com>
- * copyright: Copyright (C) 2002 by Darren Bounds
- * license: This software is under GPL version 2 of license
+ * Packit -- network injection and capture tool
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * Original author: Darren Bounds <dbounds@intrusense.com>
+ *
+ * Copyright 2002 Darren Bounds <dbounds@intrusense.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA  02110-1301, USA.
  *
- * packit official page at http://packit.sourceforge.net
+ * packit official page at https://github.com/eribertomota/packit
  */
 
 #include "shape_icmpv4_hdr.h"
@@ -119,7 +122,7 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
 	    ih_payload[4] = 0;
 	    ih_payload[5] = 32;
 	    ih_payload[6] = 0;
-	    ih_payload[7] = 0; 
+	    ih_payload[7] = 0;
 
             ih_payload_len = 8;
 
@@ -170,7 +173,7 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
             }
 	    else
             if(i4hdr_o.type == ICMP_REDIRECT)
-	    { 
+	    {
 #ifdef DEBUG
                 fprintf(stdout, "DEBUG: Building ICMP redirect header\n");
 #endif
@@ -207,7 +210,7 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
                     ih_payload_len,
                     pkt_d,
                     0) == -1)
-                {   
+                {
                     fatal_error("Unable to build original IP header: %s", libnet_geterror(pkt_d));
                 }
 
@@ -215,7 +218,7 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
 	            i4hdr_o.type,
 	            i4hdr_o.code,
 	            0,
-                    ihn_gw, 
+                    ihn_gw,
                     NULL,
                     0,
 	            pkt_d,
@@ -254,7 +257,7 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
                     ih_payload_len,
                     pkt_d,
                     0) == -1)
-                {   
+                {
                     fatal_error("Unable to build original IP header: %s", libnet_geterror(pkt_d));
                 }
 
@@ -309,7 +312,7 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
 	    {
 		fatal_error("Unable to build ICMPv4 timestamp header: %s", libnet_geterror(pkt_d));
 	    }
-				   
+				
             break;
 
         case ICMP_MASKREQ: case ICMP_MASKREPLY:
@@ -342,7 +345,7 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
 	        (i4hdr_o.mask != NULL) ? ihn_mask : 0,
 	        i4hdr_o.id,
 	        i4hdr_o.seqn,
-		ihn_mask, 
+		ihn_mask,
 	        payload,
 	        payload_len,
 	        pkt_d,
@@ -354,6 +357,6 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
             break;
     }
 
-    return pkt_d; 
+    return pkt_d;
 }
 

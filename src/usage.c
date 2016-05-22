@@ -1,4 +1,6 @@
 /*
+ * Packit -- network injection and capture tool
+ *
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
@@ -21,7 +23,6 @@
  * MA  02110-1301, USA.
  *
  * packit official page at https://github.com/eribertomota/packit
- *
  */
 
 #include "usage.h"
@@ -30,11 +31,11 @@ void
 print_usage()
 {
     fprintf(stdout, "usage: packit -m mode [-options] 'expression'\n\n");
-    
+
     fprintf(stdout, "Mode:\n");
     fprintf(stdout, "  -m mode     Runtime mode ");
 
-#ifdef WITH_INJECTION 
+#ifdef WITH_INJECTION
     fprintf(stdout, "(Default: injection)\n");
 #else
 #ifdef WITH_CAPTURE
@@ -42,13 +43,13 @@ print_usage()
 #else
     fprintf(stdout, "(Default: none)\n");
 #endif /* WITH_CAPTURE */
-#endif /* WITH_INJECTION */ 
-    
+#endif /* WITH_INJECTION */
+
     fprintf(stdout, "\n");
-    
+
 #ifdef WITH_CAPTURE
     fprintf(stdout, "Packet capture:\n");
-    fprintf(stdout, "  -c count    Number of packets to process\n"); 
+    fprintf(stdout, "  -c count    Number of packets to process\n");
     fprintf(stdout, "  -e          Display link-level data\n");
     fprintf(stdout, "  -G          Display time in GMT\n");
     fprintf(stdout, "  -i device   Select listening interface\n");
@@ -62,22 +63,22 @@ print_usage()
     fprintf(stdout, "  -X          Dump the packet in hex and ascii\n");
     fprintf(stdout, "\n");
 #endif /* WITH_CAPTURE */
-    
+
 #ifdef WITH_INJECTION
     fprintf(stdout, "Packet injection:\n");
     fprintf(stdout, "  -t proto    Select protocol for injection (Default: TCP) \n");
     fprintf(stdout, "\n");
-    
+
     fprintf(stdout, "TCP/UDP header options\n");
     fprintf(stdout, "  -a ack      Acknowledgement number\n");
     fprintf(stdout, "  -D port     Destination port (Range format: start-end)\n");
     fprintf(stdout, "  -F flags    Flags (format: -F UAPRSF)\n");
     fprintf(stdout, "  -q seq      Sequence number\n");
     fprintf(stdout, "  -S port     Source port (Default: Random)\n");
-    fprintf(stdout, "  -u urg      Urgent pointer\n");	
+    fprintf(stdout, "  -u urg      Urgent pointer\n");
     fprintf(stdout, "  -W size     Window size (Default: 65535)\n");
-    fprintf(stdout, "\n"); 
-    
+    fprintf(stdout, "\n");
+
     fprintf(stdout, "ICMPv4 header options\n");
     fprintf(stdout, "  General:\n");
     fprintf(stdout, "  -C code     Code (Default: 0)\n");
@@ -88,13 +89,13 @@ print_usage()
     fprintf(stdout, "  -N id       ID number\n");
     fprintf(stdout, "  -Q seq      Sequence number\n");
     fprintf(stdout, "\n");
-    
+
     fprintf(stdout, "  Unreachable(3) / Redirect(5) / Time Exceeded(11):\n");
     fprintf(stdout, "  -g gateway  Redirect gateway host (ICMP Redirect only)\n");
     fprintf(stdout, "  -j address  Original source address\n");
     fprintf(stdout, "  -J port     Original source port\n");
     fprintf(stdout, "  -l address  Original destination address\n");
-    fprintf(stdout, "  -L port     Original destination port\n"); 
+    fprintf(stdout, "  -L port     Original destination port\n");
     fprintf(stdout, "  -m ttl      Original time to live\n");
     fprintf(stdout, "  -M id       Original ID number\n");
     fprintf(stdout, "  -O tos      Original type of service\n");
@@ -106,7 +107,7 @@ print_usage()
     fprintf(stdout, "  -Q seq      Sequence number\n");
     fprintf(stdout, "  -G mask     Address mask\n");
     fprintf(stdout, "\n");
-    
+
     fprintf(stdout, "  Timestamp Request(13) / Timestamp Reply(14):\n");
     fprintf(stdout, "  -N id       ID number\n");
     fprintf(stdout, "  -Q seq      Sequence number\n");
@@ -114,7 +115,7 @@ print_usage()
     fprintf(stdout, "  -k ts       Received timestamp\n");
     fprintf(stdout, "  -z ts       Transmit timestamp\n");
     fprintf(stdout, "\n");
-    
+
     fprintf(stdout, "IP header options\n");
     fprintf(stdout, "  -d address  Destination address\n");
     fprintf(stdout, "  -f          Don't fragment\n");
@@ -123,9 +124,9 @@ print_usage()
     fprintf(stdout, "  -s address  Source address\n");
     fprintf(stdout, "  -T ttl      Time to live (Default: 128)\n");
     fprintf(stdout, "  -V ipproto  IP protocol number (RAWIP only)\n");
-    fprintf(stdout, "\n"); 
+    fprintf(stdout, "\n");
 
-#ifndef MACOS 
+#ifndef MACOS
     fprintf(stdout, "ARP and RARP header options\n");
     fprintf(stdout, "  -A op       Operation type (Default: 1 (ARP request)\n");
     fprintf(stdout, "              and 3 (Reverse ARP request))\n");
@@ -134,13 +135,13 @@ print_usage()
     fprintf(stdout, "  -y address  Destination protocol address\n");
     fprintf(stdout, "  -Y hwaddr   Destination hardware address\n");
     fprintf(stdout, "\n");
-    
+
     fprintf(stdout, "Ethernet header options\n");
     fprintf(stdout, "  -e ethaddr  Source ethernet address\n");
     fprintf(stdout, "  -E ethaddr  Destination ethernet address\n");
-    fprintf(stdout, "\n"); 
+    fprintf(stdout, "\n");
 #endif /* MACOS */
-    
+
     fprintf(stdout, "General options\n");
     fprintf(stdout, "  -b burst    Send 'burst' packets per interval (Default: 1)\n");
     fprintf(stdout, "  -c count    Number of packets to inject (Default: 1)\n");
@@ -153,9 +154,9 @@ print_usage()
     fprintf(stdout, "  -w seconds  Interval between injecting each burst (Default: 1)\n");
     fprintf(stdout, "  -Z length   Specify the size of the packet to inject (Overrides the -p option)\n");
     fprintf(stdout, "\n");
-#endif /* WITH_INJECTION */ 
-    
-    fprintf(stdout, "Version: %s\n", P_VERSION); 
+#endif /* WITH_INJECTION */
+
+    fprintf(stdout, "Version: %s\n", P_VERSION);
     fprintf(stdout, "Author:  %s\n", P_AUTHOR);
     fprintf(stdout, "Website: %s\n", P_SITE);
     fprintf(stdout, "\nSee the man page for more options, detailed descriptions and examples.\n\n");

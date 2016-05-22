@@ -1,3 +1,5 @@
+# Packit -- network injection and capture tool
+#
 # Original author: Darren Bounds <dbounds@intrusense.com>
 #
 # Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>

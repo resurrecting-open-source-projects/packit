@@ -1,4 +1,6 @@
 /*
+ * Packit -- network injection and capture tool
+ *
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
@@ -22,7 +24,6 @@
  * MA  02110-1301, USA.
  *
  * packit official page at https://github.com/eribertomota/packit
- *
  */
 
 #include "main.h"
@@ -33,7 +34,7 @@ parse_capture_options(int argc, char *argv[])
     p_mode = M_CAPTURE;
     cnt = 0;
     cap_cnt = 0;
-    snap_len = SNAPLEN_DEFAULT; 
+    snap_len = SNAPLEN_DEFAULT;
     resolve = 3;
     verbose = 0;
     display = 1;
@@ -41,7 +42,7 @@ parse_capture_options(int argc, char *argv[])
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: parse_capture_options()\n");
-#endif 
+#endif
 
     while((opt = getopt(argc, argv, "c:eGi:nNr:Rs:vw:xX")) != -1)
     {
@@ -117,7 +118,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
         switch(opt)
         {
             case 't':
-		if(!strncasecmp(optarg, "TCP", 3))        
+		if(!strncasecmp(optarg, "TCP", 3))
                 {
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: TCP injection\n");
@@ -125,9 +126,9 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     ip4hdr_o.p = IPPROTO_TCP;
                     injection_type = ETHERTYPE_IP;
                     opts = "a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
-                }  
-                else 
-                if(!strncasecmp(optarg, "UDP", 3))   
+                }
+                else
+                if(!strncasecmp(optarg, "UDP", 3))
                 {
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: UDP injection\n");
@@ -137,19 +138,19 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     opts = "b:c:d:D:e:E:fhH:i:n:o:p:Rs:S:T:vw:Z:";
                 }
                 else
-                if(!strncasecmp(optarg, "ICMP", 4))  
-                { 
+                if(!strncasecmp(optarg, "ICMP", 4))
+                {
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: ICMP injection\n");
 #endif
                     ip4hdr_o.p = IPPROTO_ICMP;
                     injection_type = ETHERTYPE_IP;
-                    opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:"; 
+                    opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
                 }
 		else
-                if(!strncasecmp(optarg, "ARP", 3))    
-                { 
-                    if(p_mode == M_TRACE) 
+                if(!strncasecmp(optarg, "ARP", 3))
+                {
+                    if(p_mode == M_TRACE)
                         fatal_error("ARP is not supported with trace mode.");
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: ARP injection\n");
@@ -180,8 +181,8 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     opts = "A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:";
                 }
                 else
-                if(!strncasecmp(optarg, "RAWIP", 3)) 
-                { 
+                if(!strncasecmp(optarg, "RAWIP", 3))
+                {
                     if(p_mode == M_TRACE)
                         fatal_error("RAW is not supported with trace mode.");
 #ifdef DEBUG
@@ -191,7 +192,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     injection_type = ETHERTYPE_IP;
                     opts = "b:c:d:e:E:f:i:n:o:p:Rs:T:U:vV:w:Z:";
                 }
-                else 
+                else
                     print_usage();
 
                 goto parse_inject;
@@ -205,7 +206,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                 if(p_mode == M_TRACE)
                 {
                     ip4hdr_o.p = IPPROTO_ICMP;
-                    opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:"; 
+                    opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
                 }
                 else
                 {
@@ -245,7 +246,7 @@ parse_inject:
             case 'c':
                 if(p_mode == M_TRACE && (u_int64_t)atoi(optarg) > 0xFF)
                     fatal_error("Count cannot exceed max TTL value");
-                    
+
                 cnt = (u_int64_t)atoi(optarg);
                 break;
 
@@ -256,7 +257,7 @@ parse_inject:
             case 'd':
 	        if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     ip4hdr_o.rand_d_addr = 1;
-                
+
 		if(!(ip4hdr_o.d_addr = strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
 
@@ -432,7 +433,7 @@ parse_inject:
 
             case 'p':
                 if(!strncasecmp(optarg, "0x", 2))
-                    hex_payload = 1; 
+                    hex_payload = 1;
 
                 if(!(payload = strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
@@ -442,10 +443,10 @@ parse_inject:
             case 'P':
                 if(!strcasecmp(optarg, "UDP"))
                     i4hdr_o.orig_p = 17;
-                else 
+                else
                 if(!strncasecmp(optarg, "TCP", 3))
                     i4hdr_o.orig_p = 6;
-                else 
+                else
                 if(!strncasecmp(optarg, "ICMP", 4))
                     i4hdr_o.orig_p = 1;
                 else
@@ -502,7 +503,7 @@ parse_inject:
             case 'U':
                 i4hdr_o.otime = (u_int32_t)atoi(optarg);
                 break;
- 
+
             case 'v':
                 verbose = 1;
                 break;
@@ -577,7 +578,7 @@ int
 main(int argc, char *argv[])
 {
     if(argc < 2) print_usage();
-    
+
     opterr = 0;
 
 #ifdef DEBUG
@@ -603,9 +604,9 @@ main(int argc, char *argv[])
 		
                 fprintf(stderr, "\nError: Invalid runtime mode\n");
                 print_usage();
- 
+
                 break;
-            default: 
+            default:
                 optind--;
 #ifdef WITH_INJECTION
 		parse_inject_options(argc, argv, M_INJECT);
@@ -625,4 +626,4 @@ main(int argc, char *argv[])
 
     /* Never gets here */
     exit(SUCCESS);
-}        
+}

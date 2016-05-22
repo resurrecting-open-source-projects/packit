@@ -1,4 +1,6 @@
 /*
+ * Packit -- network injection and capture tool
+ *
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
@@ -20,7 +22,6 @@
  * MA  02110-1301, USA.
  *
  * packit official page at https://github.com/eribertomota/packit
- *
  */
 
 #include "exit.h"
@@ -41,7 +42,7 @@ injection_clean_exit(int sig)
             fprintf(stderr, "\n\nWould you like to quit? (y/n): ");
             fgets(a, 2, stdin);
 
-            if(!strncasecmp(a, "Y", 1))            
+            if(!strncasecmp(a, "Y", 1))
                 break;
             else
             if(!strncasecmp(a, "N", 1))

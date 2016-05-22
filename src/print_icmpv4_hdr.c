@@ -1,12 +1,14 @@
 /*
- * author: Darren Bounds <dbounds@intrusense.com>
- * copyright: Copyright (C) 2002 by Darren Bounds
- * license: This software is under GPL version 2 of license
+ * Packit -- network injection and capture tool
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * Original author: Darren Bounds <dbounds@intrusense.com>
+ *
+ * Copyright 2002 Darren Bounds <dbounds@intrusense.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,9 +17,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA  02110-1301, USA.
  *
- * packit official page at http://packit.sourceforge.net
+ * packit official page at https://github.com/eribertomota/packit
  */
 
 #include "print_icmpv4_hdr.h"
@@ -27,11 +30,11 @@ print_icmpv4_hdr(u_int8_t *packet)
 {
     u_int8_t *s_addr, *d_addr;
     u_int8_t *icmp_t, *icmp_c;
-    
+
     struct libnet_icmpv4_hdr *icmphdr;
 
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: print_icmpv4_hdr()\n"); 
+    fprintf(stdout, "DEBUG: print_icmpv4_hdr()\n");
 #endif
 
 #ifndef icmp_iphdr
@@ -48,11 +51,11 @@ print_icmpv4_hdr(u_int8_t *packet)
 
     fprintf(stdout, "ICMP header: Type: %s(%d)  ", icmp_t, icmphdr->icmp_type);
 
-    switch(icmphdr->icmp_type) 
+    switch(icmphdr->icmp_type)
     {
-        case ICMP_REDIRECT: 
-            fprintf(stdout, "Code: %s(%d)  Gateway: %s  ", 
-                icmp_c, icmphdr->icmp_code, 
+        case ICMP_REDIRECT:
+            fprintf(stdout, "Code: %s(%d)  Gateway: %s  ",
+                icmp_c, icmphdr->icmp_code,
                 libnet_addr2name4(ntohl(icmphdr->hun.gateway), 0));
 
             if(verbose)
@@ -75,11 +78,11 @@ print_icmpv4_hdr(u_int8_t *packet)
 
             break;
 
-        case ICMP_UNREACH: 
+        case ICMP_UNREACH:
             fprintf(stdout, "Code: %s(%d)  ", icmp_c, icmphdr->icmp_code);
 
             if(icmphdr->icmp_code == ICMP_UNREACH_NEEDFRAG)
-                fprintf(stdout, "MTU: %d  Pad: %d  ", ntohs(icmphdr->hun.frag.mtu), ntohs(icmphdr->hun.frag.pad)); 
+                fprintf(stdout, "MTU: %d  Pad: %d  ", ntohs(icmphdr->hun.frag.mtu), ntohs(icmphdr->hun.frag.pad));
 
             if(verbose)
             {
@@ -129,10 +132,10 @@ print_icmpv4_hdr(u_int8_t *packet)
                 fprintf(stdout, "Code: %s(%d)  ", icmp_c, icmphdr->icmp_code);
 
             fprintf(stdout, "ID: %d  Seqn: %d\n", icmphdr->icmp_id, icmphdr->icmp_seq);
-            fprintf(stdout, "\t     Original: %lu  Received: %lu  Transmit: %lu", 
-                (u_long)ntohl(icmphdr->icmp_otime), 
-                (u_long)ntohl(icmphdr->icmp_rtime), 
-                (u_long)ntohl(icmphdr->icmp_ttime));    
+            fprintf(stdout, "\t     Original: %lu  Received: %lu  Transmit: %lu",
+                (u_long)ntohl(icmphdr->icmp_otime),
+                (u_long)ntohl(icmphdr->icmp_rtime),
+                (u_long)ntohl(icmphdr->icmp_ttime));
 
             break;
 
@@ -144,7 +147,7 @@ print_icmpv4_hdr(u_int8_t *packet)
             fprintf(stdout, "\t     Mask: %s  ", libnet_addr2name4(ntohl(icmphdr->dun.mask), 0));
             break;
 
-        case ICMP_ECHOREPLY: case ICMP_ECHO: 
+        case ICMP_ECHOREPLY: case ICMP_ECHO:
         case ICMP_MASKREQ: case ICMP_TSTAMP:
             if(icmphdr->icmp_code > 0)
                 fprintf(stdout, "Code: %s(%d)  ", icmp_c, icmphdr->icmp_code);
@@ -158,7 +161,7 @@ print_icmpv4_hdr(u_int8_t *packet)
 
             break;
     }
-    
+
     fprintf(stdout, "\n");
 
     if(icmphdr->icmp_type != 11 || icmphdr->icmp_code != 0)

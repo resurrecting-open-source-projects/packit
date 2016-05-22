@@ -1,4 +1,6 @@
 /*
+ * Packit -- network injection and capture tool
+ *
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
@@ -20,7 +22,6 @@
  * MA  02110-1301, USA.
  *
  * packit official page at https://github.com/eribertomota/packit
- *
  */
 
 #include "shape_ethernet_hdr.h"
@@ -52,23 +53,23 @@ shape_ethernet_hdr(libnet_t *pkt_d)
         if((hw_addr = libnet_get_hwaddr(pkt_d)) == NULL)
             fatal_error("Unable to determine ethernet address: %s", libnet_geterror(pkt_d));
 
-	for(i = 0; i < 6; i++)
-	    us_addr[i] = hw_addr->ether_addr_octet[i];
+        for(i = 0; i < 6; i++)
+            us_addr[i] = hw_addr->ether_addr_octet[i];
     }
     else
         if(format_ethernet_addr(ehdr_o.s_addr, us_addr) == 0)
             fatal_error("Invalid source ethernet address");
-    
+
     snprintf(ehdr_o.shw_addr, 18, "%0X:%0X:%0X:%0X:%0X:%0X",
         us_addr[0], us_addr[1], us_addr[2], us_addr[3], us_addr[4], us_addr[5]);
 
     if(ehdr_o.d_addr == NULL
        && (injection_type == ETHERTYPE_ARP || injection_type == ETHERTYPE_REVARP))
-	ehdr_o.d_addr = ETH_BROADCAST; 
+        ehdr_o.d_addr = ETH_BROADCAST;
     else
     if(ehdr_o.d_addr == NULL)
     {
-	fprintf(stderr, "Warning: Using NULL destination ethernet address. Packets may not reach their destination\n");
+        fprintf(stderr, "Warning: Using NULL destination ethernet address. Packets may not reach their destination\n");
         ehdr_o.d_addr = ETH_DEFAULT;
     }
 
@@ -103,12 +104,12 @@ shape_ethernet_hdr_auto(libnet_t *pkt_d, u_int16_t type)
 #endif
 
     if(libnet_autobuild_ethernet(
-        d_addr,                 
+        d_addr,
         type,
         pkt_d) == -1)
     {
         fatal_error("Unable to auto-build ethernet header");
     }
-		
+
     return pkt_d;
 }

@@ -1,4 +1,6 @@
 /*
+ * Packit -- network injection and capture tool
+ *
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
@@ -20,7 +22,6 @@
  * MA  02110-1301, USA.
  *
  * packit official page at https://github.com/eribertomota/packit
- *
  */
 
 #ifndef __MAIN_H
@@ -45,7 +46,7 @@
 #include "capture.h"
 #include "capture_defs.h"
 
-#define OPT_MAXLEN 32 
+#define OPT_MAXLEN 32
 
 u_int32_t opt;
 char *optarg;

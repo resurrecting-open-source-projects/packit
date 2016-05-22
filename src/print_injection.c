@@ -1,4 +1,6 @@
 /*
+ * Packit -- network injection and capture tool
+ *
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
@@ -21,7 +23,6 @@
  * MA  02110-1301, USA.
  *
  * packit official page at https://github.com/eribertomota/packit
- *
  */
 
 #include "print_injection.h"
@@ -40,8 +41,8 @@ print_injection_details()
 #ifdef DEBUG
         fprintf(stdout, "DEBUG: ETHERTYPE_IP\n");
 #endif
-	thdr_o.flags[0] = '\0';
-		
+        thdr_o.flags[0] = '\0';
+
         if(ip4hdr_o.p == IPPROTO_TCP && !rawip)
         {
             if(thdr_o.syn)
@@ -65,8 +66,8 @@ print_injection_details()
             if(strlen(thdr_o.flags) < 1)
                 strcpy(thdr_o.flags, "None");
 
-	    fprintf(stdout, "TCP header:  Src Port: %d  ", s_port);
- 
+            fprintf(stdout, "TCP header:  Src Port: %d  ", s_port);
+
             if(p_mode == M_INJECT_RESPONSE)
                 fprintf(stdout, "Dst Port: %d  ", d_port);
             else
@@ -74,7 +75,7 @@ print_injection_details()
 
             fprintf(stdout, "Flag(s): %s\n", thdr_o.flags);
 
-	    fprintf(stdout, "\t     Window: %d  ", thdr_o.win);
+            fprintf(stdout, "\t     Window: %d  ", thdr_o.win);
 
             if(thdr_o.seqn)
                 fprintf(stdout, "Seqn: %u  ", thdr_o.seqn);
@@ -108,8 +109,8 @@ print_injection_details()
 
 	    switch(i4hdr_o.type)
 	    {
-		case ICMP_ECHOREPLY: case ICMP_ECHO: case ICMP_TSTAMP: 
-	            fprintf(stdout, "ID: %d  Seqn: %d  ", i4hdr_o.id, i4hdr_o.seqn); 
+		case ICMP_ECHOREPLY: case ICMP_ECHO: case ICMP_TSTAMP:
+	            fprintf(stdout, "ID: %d  Seqn: %d  ", i4hdr_o.id, i4hdr_o.seqn);
 		    break;
 
 		case ICMP_UNREACH: case ICMP_REDIRECT: case ICMP_TIMXCEED:
@@ -124,7 +125,7 @@ print_injection_details()
                     if(i4hdr_o.orig_p == IPPROTO_ICMP)
 			fprintf(stdout, "\t     Protocol: ICMP(%d)  ", i4hdr_o.orig_p);
 
-		    fprintf(stdout, "Src Port: %d  Dst port: %d\n", 
+		    fprintf(stdout, "Src Port: %d  Dst port: %d\n",
 	                i4hdr_o.orig_s_port, i4hdr_o.orig_d_port);
 
 		    fprintf(stdout, "\t     Src Address: %s  Dst Address: %s\n",
@@ -156,10 +157,10 @@ print_injection_details()
         if(!rawip)
 	    fprintf(stdout, "\n");
 
-	fprintf(stdout, "IP header:   Src Address: %s  Dst Address: %s\n", 
-	    ip4hdr_o.s_addr, ip4hdr_o.d_addr); 
+	fprintf(stdout, "IP header:   Src Address: %s  Dst Address: %s\n",
+	    ip4hdr_o.s_addr, ip4hdr_o.d_addr);
 	
-	fprintf(stdout, "\t     TTL: %d  ID: %d  TOS: 0x%X  Len: %d  ", 
+	fprintf(stdout, "\t     TTL: %d  ID: %d  TOS: 0x%X  Len: %d  ",
 	    ip4hdr_o.ttl, ip4hdr_o.id, (u_int8_t)ip4hdr_o.tos, hdr_len);
 
         if(rawip)
@@ -189,14 +190,14 @@ print_injection_details()
                arp_t, ahdr_o.op_type);
 	fprintf(stdout, "     Sender:  Protocol Address: %s  Hardware Address: %.17s\n",
 	    ahdr_o.s_paddr,
-	    ahdr_o.shw_addr); 
+	    ahdr_o.shw_addr);
 	
 	fprintf(stdout, "     Target:  Protocol Address: %s  Hardware Address: %.17s\n",
 	    ahdr_o.r_paddr,
-	    ahdr_o.rhw_addr); 
+	    ahdr_o.rhw_addr);
 
         if(ehdr_o.s_addr || ehdr_o.d_addr)
-            fprintf(stdout, "Eth header:  Src Address: %s  Dst Address: %s", 
+            fprintf(stdout, "Eth header:  Src Address: %s  Dst Address: %s",
 	        ehdr_o.shw_addr,
 	        ehdr_o.dhw_addr);
     }
@@ -205,4 +206,4 @@ print_injection_details()
 
     return;
 }
-  
+

@@ -1,4 +1,4 @@
-## HOW TO CONTRIBUTE TO AXEL DEVELOPMENT
+## HOW TO CONTRIBUTE TO PACKIT DEVELOPMENT
 
 Packit is available at https://github.com/eribertomota/packit
 

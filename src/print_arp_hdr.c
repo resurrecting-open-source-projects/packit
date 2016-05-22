@@ -1,4 +1,6 @@
 /*
+ * Packit -- network injection and capture tool
+ *
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
@@ -20,17 +22,16 @@
  * MA  02110-1301, USA.
  *
  * packit official page at https://github.com/eribertomota/packit
- *
  */
 
 #include "print_arp_hdr.h"
 
-void 
+void
 print_arp_hdr(u_int8_t *packet)
 {
     u_int8_t *arp_t, *arp_hw_t;
     u_int16_t frame_t;
-    
+
     struct libnet_arp_hdr *ahdr;
 
 #ifdef DEBUG
@@ -48,13 +49,13 @@ print_arp_hdr(u_int8_t *packet)
     fprintf(stdout, "%s header:  Type: %s(%d)\n",
             (frame_t == ETHERTYPE_REVARP) ? "RARP": "ARP",
             arp_t, htons(ahdr->ar_op));
-    fprintf(stdout, "     Hardware Format: %s  Length: %d\n", 
-        arp_hw_t, 
-	ahdr->ar_hln);
-    
-    fprintf(stdout, "     Protocol Format: %d  Length: %d\n", 
-        ahdr->ar_pro, 
-	ahdr->ar_pln);
+    fprintf(stdout, "     Hardware Format: %s  Length: %d\n",
+        arp_hw_t,
+        ahdr->ar_hln);
+
+    fprintf(stdout, "     Protocol Format: %d  Length: %d\n",
+        ahdr->ar_pro,
+        ahdr->ar_pln);
 
     return;
 }

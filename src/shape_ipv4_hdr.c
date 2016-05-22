@@ -51,7 +51,7 @@ shape_ipv4_hdr(libnet_t *pkt_d)
 
     if(ip4hdr_o.d_addr == NULL)
         fatal_error("No destination IP address defined");
-   
+
     if((ip4hdr_o.n_daddr = libnet_name2addr4(pkt_d, ip4hdr_o.d_addr, 1)) == -1)
         fatal_error("Invalid destination IP address: %s", ip4hdr_o.d_addr);
 

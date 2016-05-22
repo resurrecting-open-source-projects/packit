@@ -1,4 +1,6 @@
 /*
+ * Packit -- network injection and capture tool
+ *
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
@@ -20,7 +22,6 @@
  * MA  02110-1301, USA.
  *
  * packit official page at https://github.com/eribertomota/packit
- *
  */
 
 #include "utils.h"
@@ -52,7 +53,7 @@ retrieve_datalink_hdr_len(u_int32_t d_link)
 #endif
 
     switch(d_link)
-    {   
+    {
         case DLT_NULL:
             len = 4;
             break;
@@ -83,10 +84,10 @@ retrieve_rand_ipv4_addr(u_int8_t *ip)
 #endif
 
     for(oct_cnt = 1; oct_cnt < 5; oct_cnt++)
-    {   
+    {
 
         while(1)
-        {   
+        {
             oct = (u_int8_t)retrieve_rand_int(0xFF);
 
             if(oct_cnt != 1 ||
@@ -193,7 +194,7 @@ retrieve_icmp_code(u_int16_t type, u_int16_t code)
                 sprintf(icmp_c, "Need Fragment");
                 break;
 
-            case ICMP_UNREACH_SRCFAIL: 
+            case ICMP_UNREACH_SRCFAIL:
                 sprintf(icmp_c, "Source Fail");
                 break;
 
@@ -201,15 +202,15 @@ retrieve_icmp_code(u_int16_t type, u_int16_t code)
                 sprintf(icmp_c, "Network Unknown");
                 break;
 
-            case ICMP_UNREACH_HOST_UNKNOWN: 
+            case ICMP_UNREACH_HOST_UNKNOWN:
                 sprintf(icmp_c, "Host Unknown");
                 break;
 
-            case ICMP_UNREACH_ISOLATED: 
+            case ICMP_UNREACH_ISOLATED:
                 sprintf(icmp_c, "Isolated");
                 break;
 
-            case ICMP_UNREACH_NET_PROHIB: 
+            case ICMP_UNREACH_NET_PROHIB:
                 sprintf(icmp_c, "Network Prohibited");
                 break;
 
@@ -217,23 +218,23 @@ retrieve_icmp_code(u_int16_t type, u_int16_t code)
                 sprintf(icmp_c, "Host Prohibited");
                 break;
 
-            case ICMP_UNREACH_TOSNET: 
+            case ICMP_UNREACH_TOSNET:
                 sprintf(icmp_c, "ToS Network");
                 break;
 
-            case ICMP_UNREACH_TOSHOST: 
+            case ICMP_UNREACH_TOSHOST:
                 sprintf(icmp_c, "ToS Host");
                 break;
 
-            case ICMP_UNREACH_FILTER_PROHIB: 
+            case ICMP_UNREACH_FILTER_PROHIB:
                 sprintf(icmp_c, "Filter Prohibited");
                 break;
 
-            case ICMP_UNREACH_HOST_PRECEDENCE: 
+            case ICMP_UNREACH_HOST_PRECEDENCE:
                 sprintf(icmp_c, "Host Precedence");
                 break;
 
-            case ICMP_UNREACH_PRECEDENCE_CUTOFF: 
+            case ICMP_UNREACH_PRECEDENCE_CUTOFF:
                 sprintf(icmp_c, "Precedence Cutoff");
                 break;
 
@@ -247,11 +248,11 @@ retrieve_icmp_code(u_int16_t type, u_int16_t code)
     {
         switch(code)
         {
-            case ICMP_REDIRECT_NET: 
+            case ICMP_REDIRECT_NET:
                 sprintf(icmp_c, "Network");
                 break;
 
-            case ICMP_REDIRECT_HOST: 
+            case ICMP_REDIRECT_HOST:
                 sprintf(icmp_c, "Host");
                 break;
 
@@ -273,11 +274,11 @@ retrieve_icmp_code(u_int16_t type, u_int16_t code)
     {
         switch(code)
         {
-            case ICMP_TIMXCEED_INTRANS: 
+            case ICMP_TIMXCEED_INTRANS:
                 sprintf(icmp_c, "In Transit");
                 break;
 
-            case ICMP_TIMXCEED_REASS: 
+            case ICMP_TIMXCEED_REASS:
                 sprintf(icmp_c, "Reassembly");
                 break;
 
@@ -661,7 +662,7 @@ format_hex_payload(u_int8_t *string)
     u_int8_t *i, pl[65535];
     u_int8_t *delim = " ";
     u_int8_t tchar[2];
-    long c; 
+    long c;
     u_int32_t len = 0;
 
 #ifdef DEBUG
@@ -669,12 +670,12 @@ format_hex_payload(u_int8_t *string)
 #endif
 
     strncpy(pl, string, 65535);
-    pl[0] = pl[1] = 20; 
+    pl[0] = pl[1] = 20;
 
     memset(string, 0, sizeof(u_int8_t *));
     memset(tchar, 0, 2);
 
-    /* 
+    /*
      * skip the first 3 chars because we know they are spaces
      */
     for(i = strtok(pl+3, delim);

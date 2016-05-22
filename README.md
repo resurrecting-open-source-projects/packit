@@ -54,7 +54,7 @@ the following scenarios:
   * general TCP/IP auditing and pentests. <br>
 
 Packit is also an excellent tool for learning TCP/IP. However, this
-program does not support IPv6.
+program does not support IPv6. (but you can help to implement it)
 
 
 -----------------------

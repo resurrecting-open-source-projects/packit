@@ -1,9 +1,10 @@
+# Packit -- network injection and capture tool
+#
 # Original author: Darren Bounds <dbounds@intrusense.com>
 #
 # Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
 # Copyright 2007      LaMont Jones <lamont@debian.org>
 # Copyright 2016      Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
-
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

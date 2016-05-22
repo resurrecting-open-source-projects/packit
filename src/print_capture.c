@@ -1,4 +1,6 @@
 /*
+ * Packit -- network injection and capture tool
+ *
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
@@ -20,7 +22,6 @@
  * MA  02110-1301, USA.
  *
  * packit official page at https://github.com/eribertomota/packit
- *
  */
 
 #include "print_capture.h"
@@ -48,7 +49,7 @@ print_capture(struct pcap_pkthdr *pkthdr, u_int8_t *packet)
 
             if(p_mode == M_CAPTURE)
                 print_separator(1, 2, "PID %lld", (u_int64_t)cap_cnt + 1);
-            else 
+            else
             if(p_mode == M_INJECT_RESPONSE)
                 print_separator(1, 2, "RCV %lld", (u_int64_t)inj_cnt);
 
@@ -66,39 +67,39 @@ print_capture(struct pcap_pkthdr *pkthdr, u_int8_t *packet)
             {
                 if(p_mode != M_TRACE)
                     print_ts(pkthdr->ts);
-                else 
+                else
                 if(iphdr->ip_p != IPPROTO_ICMP)
                     tr_fin = 1;
-                    
+
 #ifdef DEBUG
 	        fprintf(stdout, "DEBUG: ip_p: %d\n", iphdr->ip_p);
 #endif
 
                 switch(iphdr->ip_p)
                 {
-                    case IPPROTO_TCP: 
+                    case IPPROTO_TCP:
                         print_tcp_hdr(packet);
                         break;
 
-                    case IPPROTO_UDP: 
+                    case IPPROTO_UDP:
                         print_udp_hdr(packet);
                         break;
 
-                    case IPPROTO_ICMP: 
+                    case IPPROTO_ICMP:
                         print_icmpv4_hdr(packet);
                         break;
                 }
 
                 print_ipv4_hdr(iphdr);
-  
+
                 if(link_layer)
                     print_ethernet_hdr(ehdr);
 		
                 if(dump_pkt && pkthdr->caplen > hdr_len)
-                    print_packet_hexdump(packet + hdr_len, pkthdr->caplen - hdr_len);    
+                    print_packet_hexdump(packet + hdr_len, pkthdr->caplen - hdr_len);
             }
         }
-        else 
+        else
         if(ehdr->ether_type == htons(ETHERTYPE_ARP)
            || ehdr->ether_type == htons(ETHERTYPE_REVARP))
         {
@@ -109,7 +110,7 @@ print_capture(struct pcap_pkthdr *pkthdr, u_int8_t *packet)
 
             if(p_mode == M_CAPTURE)
                 print_separator(1, 2, "PID %lld", (u_int64_t)cap_cnt + 1);
-            else 
+            else
             if(p_mode == M_INJECT_RESPONSE)
                 print_separator(1, 2, "RCV %lld", (u_int64_t)inj_cnt);
 
@@ -124,6 +125,6 @@ print_capture(struct pcap_pkthdr *pkthdr, u_int8_t *packet)
     }
 
     cap_cnt++;
-    
+
     return;
 }
