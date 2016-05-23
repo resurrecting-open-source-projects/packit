@@ -3,6 +3,7 @@
 # Original author: Darren Bounds <dbounds@intrusense.com>
 #
 # Copyright 2002 Darren Bounds <dbounds@intrusense.com>
+# Copyright 2016 Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

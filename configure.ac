@@ -224,7 +224,7 @@ else
 fi
 
 AC_PROG_INSTALL
-AC_CONFIG_FILES([Makefile src/Makefile man/Makefile man/packit.8 src/version.h])
+AC_CONFIG_FILES([Makefile src/Makefile man/Makefile src/version.h])
 AC_OUTPUT
 
 BINDIR=`eval echo ${bindir}`; BINDIR=`eval echo ${BINDIR}`;
