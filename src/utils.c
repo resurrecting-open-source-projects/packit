@@ -622,10 +622,11 @@ parse_port_range(u_int8_t *rangestr)
     return range;
 }
 
-u_int8_t *
+char *
 generate_padding(u_int16_t clen, u_int16_t dlen)
 {
-    u_int8_t c = 48, *string;
+    u_int8_t c = 48;
+    char *string;
     u_int16_t i;
 
 #ifdef DEBUG
