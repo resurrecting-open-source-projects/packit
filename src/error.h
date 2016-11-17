@@ -34,6 +34,6 @@
 
 char error_buf[ERRBUF_MAXLEN];
 
-void fatal_error(u_int8_t *,...);
+void fatal_error(char *,...);
 
 #endif /* __ERROR_H */

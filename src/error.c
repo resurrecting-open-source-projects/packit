@@ -26,7 +26,7 @@
 #include "error.h"
 
 void
-fatal_error(u_int8_t *err,...)
+fatal_error(char *err,...)
 {
     va_list va;
 

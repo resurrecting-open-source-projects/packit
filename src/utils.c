@@ -587,9 +587,9 @@ format_ethernet_addr(char *ethstr, u_int8_t u_eaddr[6])
 }
 
 u_int16_t
-parse_port_range(u_int8_t *rangestr)
+parse_port_range(char *rangestr)
 {
-    u_int8_t o_rangestr[11], *ptr, *delim = "-";
+    char o_rangestr[11], *ptr, *delim = "-";
     u_int16_t i, range = 0;
     int spread[10];
 
