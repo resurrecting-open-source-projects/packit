@@ -61,13 +61,3 @@ packit_SOURCES =        ${common_SOURCES} \
 packit_LDFLAGS=
 
 AM_CPPFLAGS = $(PACKIT_CPPFLAGS)
-
-all:
-	cp @BINS@ $(top_srcdir)
-
-clean:
-	rm -f $(top_srcdir)/packit
-
-distclean:
-	rm -f $(top_srcdir)/packit
-
