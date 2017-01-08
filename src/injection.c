@@ -71,7 +71,7 @@ injection_init()
     {
         if(strstr((char*)s_d_port, "-"))
         {
-            cnt = parse_port_range(s_d_port);
+            cnt = parse_port_range((char*)s_d_port);
 
             if(cnt < 1 || cnt > 65535)
                 fatal_error("Invalid port range: %s", s_d_port);

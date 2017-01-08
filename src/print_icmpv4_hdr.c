@@ -28,8 +28,8 @@
 void
 print_icmpv4_hdr(u_int8_t *packet)
 {
-    u_int8_t *s_addr, *d_addr;
-    u_int8_t *icmp_t, *icmp_c;
+    char *s_addr, *d_addr;
+    char *icmp_t, *icmp_c;
 
     struct libnet_icmpv4_hdr *icmphdr;
 
@@ -43,8 +43,8 @@ print_icmpv4_hdr(u_int8_t *packet)
 
     icmphdr = (struct libnet_icmpv4_hdr *)(packet + IPV4_H + hdr_len);
 
-    s_addr = (u_int8_t *)malloc(sizeof(s_addr));
-    d_addr = (u_int8_t *)malloc(sizeof(d_addr));
+    s_addr = malloc(sizeof(s_addr));
+    d_addr = malloc(sizeof(d_addr));
 
     icmp_t = retrieve_icmp_type(icmphdr->icmp_type);
     icmp_c = retrieve_icmp_code(icmphdr->icmp_type, icmphdr->icmp_code);

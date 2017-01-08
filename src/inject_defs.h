@@ -62,7 +62,7 @@ struct tcphdr_opts
     u_int16_t s_port;              /* tcp source port */
     u_int16_t d_port;              /* tcp destination port */
 
-    u_int8_t flags[6];                 /* total number of possible flags */
+    char flags[6];                 /* total number of possible flags */
     u_int16_t urg;                 /* tcp urg flag */
     u_int16_t ack;                 /* tcp ack flag */
     u_int16_t psh;                 /* tcp psh flag */

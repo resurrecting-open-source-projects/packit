@@ -28,7 +28,7 @@
 void
 print_ipv4_hdr(struct libnet_ipv4_hdr *iphdr)
 {
-    u_int8_t *s_addr, *d_addr;
+    char *s_addr, *d_addr;
 
     struct in_addr ip_src, ip_dst;
 
@@ -36,8 +36,8 @@ print_ipv4_hdr(struct libnet_ipv4_hdr *iphdr)
     fprintf(stdout, "DEBUG: print_ipv4_hdr()\n");
 #endif
 
-    s_addr = (u_int8_t *)malloc(sizeof(s_addr));
-    d_addr = (u_int8_t *)malloc(sizeof(d_addr));
+    s_addr = malloc(sizeof(s_addr));
+    d_addr = malloc(sizeof(d_addr));
 
     memset(&ip_src, 0, sizeof(struct in_addr));
     memset(&ip_dst, 0, sizeof(struct in_addr));

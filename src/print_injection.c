@@ -30,7 +30,7 @@
 void
 print_injection_details()
 {
-    u_int8_t *arp_t, *icmp_t, *icmp_c = NULL;
+    char *arp_t, *icmp_t, *icmp_c = NULL;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: print_injection() init_type: %d\n", init_type);

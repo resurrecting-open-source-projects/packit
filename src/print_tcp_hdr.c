@@ -28,7 +28,7 @@
 void
 print_tcp_hdr(u_int8_t *packet)
 {
-    u_int8_t flags[7];
+    char flags[7];
 
     struct libnet_tcp_hdr *tcphdr;
     struct servent *port_src, *port_dst;

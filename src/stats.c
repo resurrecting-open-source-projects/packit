@@ -49,7 +49,7 @@ injection_stats()
         tm_diff = 1;
 
     if(p_mode == M_INJECT)
-        fprintf(stdout, "Injected: %llu  Packets/Sec: %llu.%llu  Bytes/Sec: %llu.%llu  ",
+        fprintf(stdout, "Injected: %lu  Packets/Sec: %lu.%lu  Bytes/Sec: %lu.%lu  ",
             (u_int64_t)ln_stats.packets_sent,
             (u_int64_t)ln_stats.packets_sent / tm_diff,
             (u_int64_t)ln_stats.packets_sent % tm_diff,
@@ -58,7 +58,7 @@ injection_stats()
     else
     if(p_mode == M_INJECT_RESPONSE)
     {
-        fprintf(stdout, "Injected: %llu  Received: %llu  Loss: %llu.%llu%%  Bytes Written: %llu  ",
+        fprintf(stdout, "Injected: %lu  Received: %lu  Loss: %lu.%lu%%  Bytes Written: %lu  ",
             (u_int64_t)ln_stats.packets_sent, cap_cnt,
             (u_int64_t)(ln_stats.packets_sent == 0) ? 0 : (100 - (cap_cnt * 100) / ln_stats.packets_sent),
             (u_int64_t)(cap_cnt * 100) % ln_stats.packets_sent,
@@ -66,11 +66,11 @@ injection_stats()
     }
     else
     if(p_mode == M_TRACE)
-        fprintf(stdout, "Hop Count: %llu  Responses: %llu  Bytes Written: %llu  ",
+        fprintf(stdout, "Hop Count: %lu  Responses: %lu  Bytes Written: %lu  ",
             inj_cnt, cap_cnt,
             (u_int64_t)ln_stats.bytes_written);
 
-    fprintf(stdout, "Errors: %llu",
+    fprintf(stdout, "Errors: %lu",
         (u_int64_t)ln_stats.packet_errors);
 
     fprintf(stdout, "\n");
@@ -93,7 +93,7 @@ capture_stats()
 
     print_separator(0, 1, "Packet Capture Statistics");
 
-    fprintf(stdout, "Received: %u  Dropped: %u  Processed: %llu",
+    fprintf(stdout, "Received: %u  Dropped: %u  Processed: %lu",
         p_stats.ps_recv, p_stats.ps_drop, inj_cnt);
 
     fprintf(stdout, "\n");

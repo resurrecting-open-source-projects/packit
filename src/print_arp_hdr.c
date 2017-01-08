@@ -29,7 +29,7 @@
 void
 print_arp_hdr(u_int8_t *packet)
 {
-    u_int8_t *arp_t, *arp_hw_t;
+    char *arp_t, *arp_hw_t;
     u_int16_t frame_t;
 
     struct libnet_arp_hdr *ahdr;

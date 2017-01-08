@@ -63,7 +63,6 @@ parse_capture_options(int argc, char *argv[])
             case 'i':
                 if(!(device = strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
-		
                 break;
 
             case 'w':
@@ -100,7 +99,7 @@ parse_capture_options(int argc, char *argv[])
 void
 parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 {
-    u_int8_t *opts = NULL;
+    char *opts = NULL;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: parse_inject_options(%d)\n", p_mode);
@@ -258,7 +257,7 @@ parse_inject:
 	        if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     ip4hdr_o.rand_d_addr = 1;
 
-		if(!(ip4hdr_o.d_addr = strdup(optarg)))
+		if(!(ip4hdr_o.d_addr = (u_int8_t*)strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
@@ -267,7 +266,7 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     rand_d_port = 1;
 
-                if(!(s_d_port = strdup(optarg)) && !rand_d_port)
+                if(!(s_d_port = (u_int8_t*)strdup(optarg)) && !rand_d_port)
 		    fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
@@ -280,7 +279,7 @@ parse_inject:
 		if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     ehdr_o.rand_s_addr = 1;
 
-      		if(!(ehdr_o.s_addr = strdup(optarg)))
+      		if(!(ehdr_o.s_addr = (u_int8_t*)strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
 
                 init_type = 0;
@@ -295,7 +294,7 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     ehdr_o.rand_d_addr = 1;
 
-                if(!(ehdr_o.d_addr = strdup(optarg)))
+                if(!(ehdr_o.d_addr = (u_int8_t*)strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
 
                 init_type = 0;
@@ -331,13 +330,13 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     i4hdr_o.rand_gw = 1;
 
-                if(!(i4hdr_o.gw = strdup(optarg)))
+                if(!(i4hdr_o.gw = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
 
             case 'G':
-                if(!(i4hdr_o.mask = strdup(optarg)))
+                if(!(i4hdr_o.mask = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
@@ -362,7 +361,7 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     i4hdr_o.rand_orig_s_addr = 1;
 
-                if(!(i4hdr_o.orig_s_addr = strdup(optarg)))
+                if(!(i4hdr_o.orig_s_addr = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
@@ -387,7 +386,7 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     i4hdr_o.rand_orig_d_addr = 1;
 
-                if(!(i4hdr_o.orig_d_addr = strdup(optarg)))
+                if(!(i4hdr_o.orig_d_addr = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
@@ -435,7 +434,7 @@ parse_inject:
                 if(!strncasecmp(optarg, "0x", 2))
                     hex_payload = 1;
 
-                if(!(payload = strdup(optarg)))
+                if(!(payload = (u_int8_t*)strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
@@ -474,9 +473,8 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     ip4hdr_o.rand_s_addr = 1;
 
-                if(!(ip4hdr_o.s_addr = strdup(optarg)))
+                if(!(ip4hdr_o.s_addr = (u_int8_t*)strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
-		
                 break;
 
             case 'S':
@@ -527,7 +525,7 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     ahdr_o.rand_s_paddr = 1;
 
-                if(!(ahdr_o.s_paddr = strdup(optarg)))
+                if(!(ahdr_o.s_paddr = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
@@ -536,7 +534,7 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     ahdr_o.rand_s_eaddr = 1;
 
-                if(!(ahdr_o.s_eaddr = strdup(optarg)))
+                if(!(ahdr_o.s_eaddr = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
@@ -545,7 +543,7 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     ahdr_o.rand_r_paddr = 1;
 
-                if(!(ahdr_o.r_paddr = strdup(optarg)))
+                if(!(ahdr_o.r_paddr = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
@@ -554,7 +552,7 @@ parse_inject:
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     ahdr_o.rand_r_eaddr = 1;
 
-                if(!(ahdr_o.r_eaddr = strdup(optarg)))
+                if(!(ahdr_o.r_eaddr = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;

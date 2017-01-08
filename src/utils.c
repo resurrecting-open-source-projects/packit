@@ -575,9 +575,7 @@ u_int8_t format_ethernet_addr(u_int8_t *ethstr, u_int8_t u_eaddr[6]) {
     return 1;
 }
 
-u_int16_t
-parse_port_range(u_int8_t *rangestr)
-{
+u_int16_t parse_port_range(char *rangestr) {
     char o_rangestr[11], *ptr, *delim = "-";
     u_int16_t i, range = 0;
     int spread[10];
@@ -651,11 +649,11 @@ unsigned char *generate_padding(u_int16_t clen, u_int16_t dlen)
     return string;
 }
 
-u_int32_t format_hex_payload(unsigned char *string)
+u_int32_t format_hex_payload(u_int8_t *string)
 {
-    u_int8_t *i, pl[65535];
-    u_int8_t *delim = " ";
-    u_int8_t tchar[2];
+    u_int8_t pl[65535];
+    char *i, *delim = " ";
+    char tchar[2];
     long c;
     u_int32_t len = 0;
 
@@ -663,24 +661,21 @@ u_int32_t format_hex_payload(unsigned char *string)
     fprintf(stdout, "DEBUG: format_hex_payload()\n");
 #endif
 
-    strncpy(pl, string, 65535);
+    memcpy(pl, string, 65535);
     pl[0] = pl[1] = 20;
 
-    memset(string, 0, sizeof(u_int8_t *));
+    memset(string, 0, 65535);
     memset(tchar, 0, 2);
 
     /*
      * skip the first 3 chars because we know they are spaces
      */
-    for(i = strtok(pl+3, delim);
-        i;
-        i = strtok(NULL, delim))
-    {
+    for(i = strtok((char*)(pl+3), delim); i; i = strtok(NULL, delim)) {
         if((c = strtol(i, 0, 16)) > 0xff)
             return 0;
 
         sprintf(tchar,"%c",(u_int8_t)c);
-        strncpy(string+len,tchar,2);
+        strncpy((char*)(string+len),tchar,2);
         len++;
     }
 
