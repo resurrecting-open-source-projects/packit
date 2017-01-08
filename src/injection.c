@@ -45,7 +45,7 @@ injection_init()
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: injection_init()\n");
-    fprintf(stdout, "DEBUG: cnt: %lld, interval_sec %d\n", g_cnt, interval_sec);
+    fprintf(stdout, "DEBUG: cnt: %lu, interval_sec %d\n", g_cnt, interval_sec);
     fprintf(stdout, "DEBUG: p_mode: %d  burst_rate: %d\n", g_p_mode, burst_rate);
 #endif
 
@@ -144,7 +144,7 @@ with_response(u_int32_t port_range)
     for(i = 1; i < g_cnt + 1; i++)
     {
 #ifdef DEBUG
-        fprintf(stdout, "DEBUG: for() inj_cnt: %lld  cnt: %lld\n", g_inj_cnt, g_cnt);
+        fprintf(stdout, "DEBUG: for() inj_cnt: %lu  cnt: %lu\n", g_inj_cnt, g_cnt);
 #endif
 
         if(dstp) i = 0;

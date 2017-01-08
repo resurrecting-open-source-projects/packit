@@ -65,12 +65,12 @@ shape_ethernet_hdr(libnet_t *pkt_d)
 
     if(ehdr_o.d_addr == NULL
        && (injection_type == ETHERTYPE_ARP || injection_type == ETHERTYPE_REVARP))
-        ehdr_o.d_addr = ETH_BROADCAST; // TODO: this is wrong.. we should use malloc instead
+        ehdr_o.d_addr = ETH_BROADCAST;
     else
     if(ehdr_o.d_addr == NULL)
     {
         fprintf(stderr, "Warning: Using NULL destination ethernet address. Packets may not reach their destination\n");
-        ehdr_o.d_addr = ETH_DEFAULT; // TODO: this is wrong.. we should use malloc instead
+        ehdr_o.d_addr = ETH_DEFAULT;
     }
 
     if(format_ethernet_addr(ehdr_o.d_addr, ud_addr) == 0)
