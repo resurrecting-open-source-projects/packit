@@ -75,8 +75,7 @@ retrieve_datalink_hdr_len(u_int32_t d_link)
     return len;
 }
 
-u_int8_t *
-retrieve_rand_ipv4_addr(u_int8_t *ip)
+char *retrieve_rand_ipv4_addr(char *ip)
 {
     u_int8_t oct, oct_cnt;
 
@@ -548,8 +547,7 @@ retrieve_tcp_flags()
     return flags;
 }
 
-u_int32_t
-format_ethernet_addr(char *ethstr, u_int8_t u_eaddr[6])
+char *format_ethernet_addr(char *ethstr, u_int8_t u_eaddr[6])
 {
     int i = 0;
     long base16;
@@ -634,11 +632,10 @@ parse_port_range(char *rangestr)
  * @param dlen - Packet length
  * @return malloc'ed u_int8_t array with the new payload
  */
-char *
-generate_padding(u_int16_t clen, u_int16_t dlen)
+unsigned char *generate_padding(u_int16_t clen, u_int16_t dlen)
 {
     u_int8_t c = 48;
-    char *string;
+    unsigned char *string;
     u_int16_t i;
 
 #ifdef DEBUG
@@ -664,8 +661,7 @@ generate_padding(u_int16_t clen, u_int16_t dlen)
     return string;
 }
 
-u_int32_t
-format_hex_payload(u_int8_t *string)
+u_int32_t format_hex_payload(unsigned char *string)
 {
     u_int8_t *i, pl[65535];
     u_int8_t *delim = " ";

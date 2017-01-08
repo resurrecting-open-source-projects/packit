@@ -33,7 +33,7 @@ process_packets(u_int8_t *user, struct pcap_pkthdr *pkthdr, u_int8_t *packet)
 }
 
 void
-capture_init(u_int8_t *filter, u_int64_t cnt)
+capture_init(const char *filter, u_int64_t cnt)
 {
     u_int32_t d_link, localnet, netmask;
     pcap_dumper_t *p_dumper = NULL;

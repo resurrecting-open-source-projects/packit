@@ -53,7 +53,7 @@ shape_tcp_hdr(libnet_t *pkt_d)
     if(pkt_len)
     {
         payload = generate_padding(hdr_len + IPV4_H, pkt_len);
-        payload_len = strlen(payload);
+        payload_len = strlen((char*)payload);
         pkt_len = 0;
     }
 

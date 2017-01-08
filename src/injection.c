@@ -61,7 +61,7 @@ injection_init()
     }
     else if(payload)
     {
-	    payload_len = strlen(payload);
+	    payload_len = strlen((char*)payload);
 #ifdef DEBUG
 	    fprintf(stdout, "DEBUG: payload_len=%d\n", payload_len);
 #endif
@@ -88,7 +88,7 @@ injection_init()
     if(strstr(device, "any")) strcpy(device, "lo");
 
     if(p_mode == M_TRACE)
-        fprintf(stdout, "Mode:  Trace Route [Hop Max: %llu] using device: %s\n", cnt, device);
+        fprintf(stdout, "Mode:  Trace Route [Hop Max: %lu] using device: %s\n", cnt, device);
     else
         fprintf(stdout, "Mode:  Packet Injection using device: %s\n", device);
 
@@ -112,7 +112,7 @@ injection_init()
 u_int16_t
 with_response(u_int32_t port_range)
 {
-    u_int8_t ufilter[1024];
+    char ufilter[1024];
     u_int32_t i, tr_retry = 0;
     u_int32_t dth_r, dstp = 0;
     u_int32_t localnet, netmask;
@@ -194,7 +194,7 @@ with_response(u_int32_t port_range)
                  break;
         }
 
-        filter = (u_int8_t *)ufilter;
+        filter = ufilter;
 
 #ifdef DEBUG
         fprintf(stdout, "DEBUG: filter: %s\n", filter);

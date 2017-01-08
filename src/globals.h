@@ -142,8 +142,8 @@ char r_file[OPT_MAXLEN];
 
 pcap_t *pkt;
 u_int8_t tr_fin;
-u_int8_t *filter;
-u_int8_t *device;
+char *filter;
+char *device;
 u_int16_t hdr_len;
 u_int16_t pkt_len;
 u_int16_t verbose;
