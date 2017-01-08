@@ -28,8 +28,7 @@
 void
 print_icmpv4_hdr(u_int8_t *packet)
 {
-    u_int8_t *s_addr, *d_addr;
-    u_int8_t *icmp_t, *icmp_c;
+    char *s_addr, *d_addr, *icmp_t, *icmp_c;
 
     struct libnet_icmpv4_hdr *icmphdr;
 
@@ -41,10 +40,10 @@ print_icmpv4_hdr(u_int8_t *packet)
 #define icmp_iphdr icmphdr->dun.ip.idi_ip
 #endif
 
-    icmphdr = (struct libnet_icmpv4_hdr *)(packet + IPV4_H + hdr_len);
+    icmphdr = (struct libnet_icmpv4_hdr *)(packet + IPV4_H + g_hdr_len);
 
-    s_addr = (u_int8_t *)malloc(sizeof(s_addr));
-    d_addr = (u_int8_t *)malloc(sizeof(d_addr));
+    s_addr = malloc(sizeof(s_addr));
+    d_addr = malloc(sizeof(d_addr));
 
     icmp_t = retrieve_icmp_type(icmphdr->icmp_type);
     icmp_c = retrieve_icmp_code(icmphdr->icmp_type, icmphdr->icmp_code);
@@ -58,7 +57,7 @@ print_icmpv4_hdr(u_int8_t *packet)
                 icmp_c, icmphdr->icmp_code,
                 libnet_addr2name4(ntohl(icmphdr->hun.gateway), 0));
 
-            if(verbose)
+            if(g_verbose)
             {
                 s_addr = libnet_addr2name4(icmp_iphdr.ip_src.s_addr, 0);
                 d_addr = libnet_addr2name4(icmp_iphdr.ip_dst.s_addr, 0);
@@ -84,7 +83,7 @@ print_icmpv4_hdr(u_int8_t *packet)
             if(icmphdr->icmp_code == ICMP_UNREACH_NEEDFRAG)
                 fprintf(stdout, "MTU: %d  Pad: %d  ", ntohs(icmphdr->hun.frag.mtu), ntohs(icmphdr->hun.frag.pad));
 
-            if(verbose)
+            if(g_verbose)
             {
                 s_addr = libnet_addr2name4(icmp_iphdr.ip_src.s_addr, 0);
                 d_addr = libnet_addr2name4(icmp_iphdr.ip_dst.s_addr, 0);
@@ -107,7 +106,7 @@ print_icmpv4_hdr(u_int8_t *packet)
         case ICMP_TIMXCEED: case ICMP_PARAMPROB:
             fprintf(stdout, "Code: %s(%d)  ", icmp_c, icmphdr->icmp_code);
 
-            if(verbose)
+            if(g_verbose)
             {
                 s_addr = libnet_addr2name4(icmp_iphdr.ip_src.s_addr, 0);
                 d_addr = libnet_addr2name4(icmp_iphdr.ip_dst.s_addr, 0);
@@ -165,7 +164,7 @@ print_icmpv4_hdr(u_int8_t *packet)
     fprintf(stdout, "\n");
 
     if(icmphdr->icmp_type != 11 || icmphdr->icmp_code != 0)
-        tr_fin = 1;
+        g_tr_fin = 1;
 
     return;
 }

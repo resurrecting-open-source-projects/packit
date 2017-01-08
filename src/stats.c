@@ -38,39 +38,39 @@ injection_stats()
 
     memset(&ln_stats, 0, sizeof(struct libnet_stats));
 
-    if(p_mode == M_TRACE)
+    if(g_p_mode == M_TRACE)
         print_separator(1, 1, "Trace Route Statistics");
     else
-        print_separator((p_mode == M_INJECT_RESPONSE) ? 1 : 2, 1, "Packet Injection Statistics");
+        print_separator((g_p_mode == M_INJECT_RESPONSE) ? 1 : 2, 1, "Packet Injection Statistics");
 
     libnet_stats(pkt_d, &ln_stats);
 
     if((tm_diff = af_pcap.tv_sec - bf_pcap.tv_sec) == 0)
         tm_diff = 1;
 
-    if(p_mode == M_INJECT)
-        fprintf(stdout, "Injected: %llu  Packets/Sec: %llu.%llu  Bytes/Sec: %llu.%llu  ",
+    if(g_p_mode == M_INJECT)
+        fprintf(stdout, "Injected: %lu  Packets/Sec: %lu.%lu  Bytes/Sec: %lu.%lu  ",
             (u_int64_t)ln_stats.packets_sent,
             (u_int64_t)ln_stats.packets_sent / tm_diff,
             (u_int64_t)ln_stats.packets_sent % tm_diff,
             (u_int64_t)ln_stats.bytes_written / tm_diff,
             (u_int64_t)ln_stats.bytes_written % tm_diff);
     else
-    if(p_mode == M_INJECT_RESPONSE)
+    if(g_p_mode == M_INJECT_RESPONSE)
     {
-        fprintf(stdout, "Injected: %llu  Received: %llu  Loss: %llu.%llu%%  Bytes Written: %llu  ",
-            (u_int64_t)ln_stats.packets_sent, cap_cnt,
-            (u_int64_t)(ln_stats.packets_sent == 0) ? 0 : (100 - (cap_cnt * 100) / ln_stats.packets_sent),
-            (u_int64_t)(cap_cnt * 100) % ln_stats.packets_sent,
+        fprintf(stdout, "Injected: %lu  Received: %lu  Loss: %lu.%lu%%  Bytes Written: %lu  ",
+            (u_int64_t)ln_stats.packets_sent, g_cap_cnt,
+            (u_int64_t)(ln_stats.packets_sent == 0) ? 0 : (100 - (g_cap_cnt * 100) / ln_stats.packets_sent),
+            (u_int64_t)(g_cap_cnt * 100) % ln_stats.packets_sent,
             (u_int64_t)ln_stats.bytes_written);
     }
     else
-    if(p_mode == M_TRACE)
-        fprintf(stdout, "Hop Count: %llu  Responses: %llu  Bytes Written: %llu  ",
-            inj_cnt, cap_cnt,
+    if(g_p_mode == M_TRACE)
+        fprintf(stdout, "Hop Count: %lu  Responses: %lu  Bytes Written: %lu  ",
+            g_inj_cnt, g_cap_cnt,
             (u_int64_t)ln_stats.bytes_written);
 
-    fprintf(stdout, "Errors: %llu",
+    fprintf(stdout, "Errors: %lu",
         (u_int64_t)ln_stats.packet_errors);
 
     fprintf(stdout, "\n");
@@ -89,12 +89,12 @@ capture_stats()
 
     memset(&p_stats, 0, sizeof(struct pcap_stat));
 
-    pcap_stats(pkt, &p_stats);
+    pcap_stats(g_pkt, &p_stats);
 
     print_separator(0, 1, "Packet Capture Statistics");
 
-    fprintf(stdout, "Received: %u  Dropped: %u  Processed: %llu",
-        p_stats.ps_recv, p_stats.ps_drop, inj_cnt);
+    fprintf(stdout, "Received: %u  Dropped: %u  Processed: %lu",
+        p_stats.ps_recv, p_stats.ps_drop, g_inj_cnt);
 
     fprintf(stdout, "\n");
 

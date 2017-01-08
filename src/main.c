@@ -31,12 +31,12 @@
 void
 parse_capture_options(int argc, char *argv[])
 {
-    p_mode = M_CAPTURE;
-    cnt = 0;
-    cap_cnt = 0;
+    g_p_mode = M_CAPTURE;
+    g_cnt = 0;
+    g_cap_cnt = 0;
     snap_len = SNAPLEN_DEFAULT;
-    resolve = 3;
-    verbose = 0;
+    g_resolve = 3;
+    g_verbose = 0;
     display = 1;
     link_layer = 0;
 
@@ -49,7 +49,7 @@ parse_capture_options(int argc, char *argv[])
         switch(opt)
         {
             case 'c':
-                cnt = (u_int64_t)atoi(optarg);
+                g_cnt = (u_int64_t)atoi(optarg);
                 break;
 
             case 'e':
@@ -61,7 +61,7 @@ parse_capture_options(int argc, char *argv[])
 		break;
 
             case 'i':
-                if(!(device = strdup(optarg)))
+                if(!(g_device = strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
 		
                 break;
@@ -79,11 +79,11 @@ parse_capture_options(int argc, char *argv[])
 		break;
 
             case 'v':
-               verbose = 1;
+               g_verbose = 1;
                break;
 
             case 'n':
-                resolve--;
+                g_resolve--;
 	        break;
 
 	    case 'x': case 'X':
@@ -92,7 +92,7 @@ parse_capture_options(int argc, char *argv[])
         }
     }
 
-    capture_init(argv[optind], cnt);
+    capture_init(argv[optind], g_cnt);
 
     return;
 }
@@ -100,15 +100,15 @@ parse_capture_options(int argc, char *argv[])
 void
 parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 {
-    u_int8_t *opts = NULL;
+    char *opts = NULL;
 
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: parse_inject_options(%d)\n", p_mode);
+    fprintf(stdout, "DEBUG: parse_inject_options(%d)\n", g_p_mode);
 #endif
 
     if(getuid() != 0) fatal_error("Sorry, you're not root!");
 
-    p_mode = iopt;
+    g_p_mode = iopt;
 
     define_injection_defaults();
     injection_struct_init();
@@ -150,7 +150,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 		else
                 if(!strncasecmp(optarg, "ARP", 3))
                 {
-                    if(p_mode == M_TRACE)
+                    if(g_p_mode == M_TRACE)
                         fatal_error("ARP is not supported with trace mode.");
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: ARP injection\n");
@@ -166,7 +166,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                 else
                 if(!strncasecmp(optarg, "RARP", 4))
                 {
-                    if(p_mode == M_TRACE)
+                    if(g_p_mode == M_TRACE)
                         fatal_error("RARP is not supported with trace mode.");
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: RARP injection\n");
@@ -183,7 +183,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                 else
                 if(!strncasecmp(optarg, "RAWIP", 3))
                 {
-                    if(p_mode == M_TRACE)
+                    if(g_p_mode == M_TRACE)
                         fatal_error("RAW is not supported with trace mode.");
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: raw IP injection\n");
@@ -203,7 +203,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                 if(optind > 1) optind--;
                 injection_type = ETHERTYPE_IP;
 
-                if(p_mode == M_TRACE)
+                if(g_p_mode == M_TRACE)
                 {
                     ip4hdr_o.p = IPPROTO_ICMP;
                     opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
@@ -244,10 +244,10 @@ parse_inject:
                 break;
 
             case 'c':
-                if(p_mode == M_TRACE && (u_int64_t)atoi(optarg) > 0xFF)
+                if(g_p_mode == M_TRACE && (u_int64_t)atoi(optarg) > 0xFF)
                     fatal_error("Count cannot exceed max TTL value");
 
-                cnt = (u_int64_t)atoi(optarg);
+                g_cnt = (u_int64_t)atoi(optarg);
                 break;
 
             case 'C':
@@ -343,8 +343,8 @@ parse_inject:
                 break;
 
 	    case 'h':
-                if(p_mode == M_INJECT)
-	            p_mode = M_INJECT_RESPONSE;	
+                if(g_p_mode == M_INJECT)
+	            g_p_mode = M_INJECT_RESPONSE;	
 
 		break;
 
@@ -353,7 +353,7 @@ parse_inject:
                 break;
 
             case 'i':
-                if(!(device = strdup(optarg)))
+                if(!(g_device = strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
@@ -467,7 +467,7 @@ parse_inject:
                 break;
 
             case 'R':
-                resolve = 0;
+                g_resolve = 0;
                 break;
 
             case 's':
@@ -505,7 +505,7 @@ parse_inject:
                 break;
 
             case 'v':
-                verbose = 1;
+                g_verbose = 1;
                 break;
 
             case 'V':
@@ -564,7 +564,7 @@ parse_inject:
                 break;
 
             case 'Z':
-                pkt_len = (u_int16_t)atoi(optarg);
+                g_pkt_len = (u_int16_t)atoi(optarg);
                 break;
         }
     }

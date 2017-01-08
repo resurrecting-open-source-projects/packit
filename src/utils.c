@@ -75,8 +75,8 @@ retrieve_datalink_hdr_len(u_int32_t d_link)
     return len;
 }
 
-u_int8_t *
-retrieve_rand_ipv4_addr(u_int8_t *ip)
+char *
+retrieve_rand_ipv4_addr(char *ip)
 {
     u_int8_t oct, oct_cnt;
 
@@ -105,8 +105,8 @@ retrieve_rand_ipv4_addr(u_int8_t *ip)
     return ip;
 }
 
-u_int8_t *
-retrieve_rand_ethernet_addr(u_int8_t *eaddr)
+char *
+retrieve_rand_ethernet_addr(char *eaddr)
 {
     u_int16_t oct, oct_cnt;
 
@@ -128,12 +128,12 @@ retrieve_rand_ethernet_addr(u_int8_t *eaddr)
 }
 
 void
-print_separator(int bnl, int anl, u_int8_t *msgp, ...)
+print_separator(int bnl, int anl, const char *msgp, ...)
 {
     u_int16_t i;
     u_int16_t max_len = 76;
     u_int16_t msg_len = 0;
-    u_int8_t msg[255];
+    char msg[255];
 
     va_list va;
 
@@ -160,16 +160,16 @@ print_separator(int bnl, int anl, u_int8_t *msgp, ...)
     return;
 }
 
-u_int8_t *
+char *
 retrieve_icmp_code(u_int16_t type, u_int16_t code)
 {
-    u_int8_t *icmp_c;
+    char *icmp_c;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: retrieve_icmp_code()\n");
 #endif
 
-    icmp_c = malloc(sizeof(u_int8_t) * 32);
+    icmp_c = malloc(32);
 
     if(type == ICMP_UNREACH)
     {
@@ -310,10 +310,10 @@ retrieve_icmp_code(u_int16_t type, u_int16_t code)
     return icmp_c;
 }
 
-u_int8_t *
+char *
 retrieve_icmp_type(u_int16_t type)
 {
-    u_int8_t *icmp_t;
+    char *icmp_t;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: retrieve_icmp_type()\n");
@@ -396,16 +396,16 @@ retrieve_icmp_type(u_int16_t type)
     return icmp_t;
 }
 
-u_int8_t *
+char *
 retrieve_arp_type(u_int16_t op_type)
 {
-    u_int8_t *arp_t;
+    char *arp_t;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: retrieve_arp_type() OPTYPE: %d\n", op_type);
 #endif
 
-    arp_t = malloc(sizeof(u_int8_t) * 32);
+    arp_t = malloc(32);
 
     switch(op_type)
     {
@@ -445,16 +445,16 @@ retrieve_arp_type(u_int16_t op_type)
     return arp_t;
 }
 
-u_int8_t *
+char *
 retrieve_arp_hw_type(u_int16_t hw_type)
 {
-    u_int8_t *hw_t;
+    char *hw_t;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: retrieve_arp_hw_type() HWTYPE: %d\n", hw_type);
 #endif
 
-    hw_t = malloc(sizeof(u_int8_t) * 32);
+    hw_t = malloc(32);
 
     switch(hw_type)
     {
@@ -549,12 +549,12 @@ retrieve_tcp_flags()
 }
 
 u_int32_t
-format_ethernet_addr(char *ethstr, u_int8_t u_eaddr[6])
+format_ethernet_addr(char *ethstr, char u_eaddr[6])
 {
     int i = 0;
     long base16;
-    u_int8_t *eptr, *delim = ":";
-    u_int8_t o_ethstr[18] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+    char *eptr, *delim = ":";
+    char o_ethstr[18] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: format_ethernet_addr()\n");
@@ -665,11 +665,11 @@ generate_padding(u_int16_t clen, u_int16_t dlen)
 }
 
 u_int32_t
-format_hex_payload(u_int8_t *string)
+format_hex_payload(char *string)
 {
-    u_int8_t *i, pl[65535];
-    u_int8_t *delim = " ";
-    u_int8_t tchar[2];
+    char *i, pl[65535];
+    char *delim = " ";
+    char tchar[2];
     long c;
     u_int32_t len = 0;
 

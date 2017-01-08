@@ -65,17 +65,17 @@ shape_ipv4_hdr(libnet_t *pkt_d)
     if(ip4hdr_o.rand_id)
         ip4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-    if(rawip && pkt_len)
+    if(rawip && g_pkt_len)
     {
-        payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+        payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
         payload_len = strlen(payload);
-        pkt_len = 0;
+        g_pkt_len = 0;
     }
 
-    hdr_len = hdr_len + IPV4_H + payload_len;
+    g_hdr_len = g_hdr_len + IPV4_H + payload_len;
 
     if(libnet_build_ipv4(
-        hdr_len,
+        g_hdr_len,
         ip4hdr_o.tos,
         ip4hdr_o.id,
         ip4hdr_o.frag,
@@ -84,7 +84,7 @@ shape_ipv4_hdr(libnet_t *pkt_d)
         ip4hdr_o.sum,
         ip4hdr_o.n_saddr,
         ip4hdr_o.n_daddr,
-        (rawip) ? payload : NULL,
+        (rawip) ? (const u_int8_t *) payload : NULL,
         (rawip) ? payload_len : 0,
         pkt_d,
         0) == -1)

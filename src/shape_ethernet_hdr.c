@@ -30,8 +30,8 @@ libnet_t *
 shape_ethernet_hdr(libnet_t *pkt_d)
 {
     int i;
-    u_int8_t us_addr[6];
-    u_int8_t ud_addr[6];
+    char us_addr[6];
+    char ud_addr[6];
 	
     struct libnet_ether_addr *hw_addr;
 
@@ -65,12 +65,12 @@ shape_ethernet_hdr(libnet_t *pkt_d)
 
     if(ehdr_o.d_addr == NULL
        && (injection_type == ETHERTYPE_ARP || injection_type == ETHERTYPE_REVARP))
-        ehdr_o.d_addr = ETH_BROADCAST;
+        ehdr_o.d_addr = ETH_BROADCAST; // TODO: this is wrong.. we should use malloc instead
     else
     if(ehdr_o.d_addr == NULL)
     {
         fprintf(stderr, "Warning: Using NULL destination ethernet address. Packets may not reach their destination\n");
-        ehdr_o.d_addr = ETH_DEFAULT;
+        ehdr_o.d_addr = ETH_DEFAULT; // TODO: this is wrong.. we should use malloc instead
     }
 
     if(format_ethernet_addr(ehdr_o.d_addr, ud_addr) == 0)
@@ -80,8 +80,8 @@ shape_ethernet_hdr(libnet_t *pkt_d)
         ud_addr[0], ud_addr[1], ud_addr[2], ud_addr[3], ud_addr[4], ud_addr[5]);
 
     if(libnet_build_ethernet(
-        ud_addr,
-        us_addr,
+        (const u_int8_t *) ud_addr,
+        (const u_int8_t *) us_addr,
         injection_type,
         NULL,
         0,

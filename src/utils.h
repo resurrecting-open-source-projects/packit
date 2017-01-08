@@ -32,19 +32,19 @@
 #include "capture_defs.h"
 #include "pcap.h"
 
-void print_separator(int, int, u_int8_t *, ...);
-u_int8_t *retrieve_rand_ipv4_addr(u_int8_t *);
-u_int8_t *retrieve_rand_ethernet_addr(u_int8_t *);
-u_int8_t *retrieve_arp_hw_type(u_int16_t);
-u_int8_t *retrieve_arp_type(u_int16_t);
-u_int8_t *retrieve_icmp_type(u_int16_t);
-u_int8_t *retrieve_icmp_code(u_int16_t, u_int16_t);
+void print_separator(int, int, const char *, ...);
+char *retrieve_rand_ipv4_addr(char *);
+char *retrieve_rand_ethernet_addr(char *);
+char *retrieve_arp_hw_type(u_int16_t);
+char *retrieve_arp_type(u_int16_t);
+char *retrieve_icmp_type(u_int16_t);
+char *retrieve_icmp_code(u_int16_t, u_int16_t);
 char *generate_padding(u_int16_t, u_int16_t);
-u_int32_t format_hex_payload(u_int8_t *);
+u_int32_t format_hex_payload(char *);
 u_int16_t parse_port_range(char *);
 u_int16_t retrieve_datalink_hdr_len(u_int32_t);
 u_int32_t retrieve_rand_int(u_int32_t);
-u_int32_t format_ethernet_addr(char *, u_int8_t[]);
+u_int32_t format_ethernet_addr(char *, char[]);
 int retrieve_tcp_flags();
 
 #endif /* __UTILS_H */

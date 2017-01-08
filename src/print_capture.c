@@ -47,29 +47,29 @@ print_capture(struct pcap_pkthdr *pkthdr, u_int8_t *packet)
             fprintf(stdout, "DEBUG: ether_type: ip\n");
 #endif
 
-            if(p_mode == M_CAPTURE)
-                print_separator(1, 2, "PID %lld", (u_int64_t)cap_cnt + 1);
+            if(g_p_mode == M_CAPTURE)
+                print_separator(1, 2, "PID %lld", (u_int64_t)g_cap_cnt + 1);
             else
-            if(p_mode == M_INJECT_RESPONSE)
-                print_separator(1, 2, "RCV %lld", (u_int64_t)inj_cnt);
+            if(g_p_mode == M_INJECT_RESPONSE)
+                print_separator(1, 2, "RCV %lld", (u_int64_t)g_inj_cnt);
 
-            iphdr = (struct libnet_ipv4_hdr *)(packet + hdr_len);
+            iphdr = (struct libnet_ipv4_hdr *)(packet + g_hdr_len);
 
-            if(p_mode == M_TRACE && !verbose)
+            if(g_p_mode == M_TRACE && !g_verbose)
             {
                  print_ipv4_hdr(iphdr);
 
-                 tr_icmphdr = (struct libnet_icmpv4_hdr *)(packet + IPV4_H + hdr_len);
+                 tr_icmphdr = (struct libnet_icmpv4_hdr *)(packet + IPV4_H + g_hdr_len);
                  if(tr_icmphdr->icmp_type != 11 || tr_icmphdr->icmp_code != 0)
-                     tr_fin = 1;
+                     g_tr_fin = 1;
             }
             else
             {
-                if(p_mode != M_TRACE)
+                if(g_p_mode != M_TRACE)
                     print_ts(pkthdr->ts);
                 else
                 if(iphdr->ip_p != IPPROTO_ICMP)
-                    tr_fin = 1;
+                    g_tr_fin = 1;
 
 #ifdef DEBUG
 	        fprintf(stdout, "DEBUG: ip_p: %d\n", iphdr->ip_p);
@@ -95,8 +95,8 @@ print_capture(struct pcap_pkthdr *pkthdr, u_int8_t *packet)
                 if(link_layer)
                     print_ethernet_hdr(ehdr);
 		
-                if(dump_pkt && pkthdr->caplen > hdr_len)
-                    print_packet_hexdump(packet + hdr_len, pkthdr->caplen - hdr_len);
+                if(dump_pkt && pkthdr->caplen > g_hdr_len)
+                    print_packet_hexdump(packet + g_hdr_len, pkthdr->caplen - g_hdr_len);
             }
         }
         else
@@ -108,23 +108,23 @@ print_capture(struct pcap_pkthdr *pkthdr, u_int8_t *packet)
                     (ehdr->ether_type == ETHERTYPE_REVARP) ? "RARP" : "ARP");
 #endif
 
-            if(p_mode == M_CAPTURE)
-                print_separator(1, 2, "PID %lld", (u_int64_t)cap_cnt + 1);
+            if(g_p_mode == M_CAPTURE)
+                print_separator(1, 2, "PID %lld", (u_int64_t)g_cap_cnt + 1);
             else
-            if(p_mode == M_INJECT_RESPONSE)
-                print_separator(1, 2, "RCV %lld", (u_int64_t)inj_cnt);
+            if(g_p_mode == M_INJECT_RESPONSE)
+                print_separator(1, 2, "RCV %lld", (u_int64_t)g_inj_cnt);
 
             print_ts(pkthdr->ts);
             print_arp_hdr(packet);
 	    print_ethernet_hdr(ehdr);
 
             if(dump_pkt)
-                if(pkthdr->caplen > hdr_len)
-                    print_packet_hexdump(packet + hdr_len, pkthdr->caplen - hdr_len);
+                if(pkthdr->caplen > g_hdr_len)
+                    print_packet_hexdump(packet + g_hdr_len, pkthdr->caplen - g_hdr_len);
 	}
     }
 
-    cap_cnt++;
+    g_cap_cnt++;
 
     return;
 }

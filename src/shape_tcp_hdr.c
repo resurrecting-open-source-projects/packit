@@ -35,7 +35,7 @@ shape_tcp_hdr(libnet_t *pkt_d)
 #endif
 
     ip4hdr_o.p = IPPROTO_TCP;
-    hdr_len = TCP_H;
+    g_hdr_len = TCP_H;
 
     if(rand_s_port)
         s_port = (u_int16_t)retrieve_rand_int(P_UINT16);
@@ -50,11 +50,11 @@ shape_tcp_hdr(libnet_t *pkt_d)
 
     // If packet length is provided, create a packet with a sequence
     // as payload
-    if(pkt_len)
+    if(g_pkt_len)
     {
-        payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+        payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
         payload_len = strlen(payload);
-        pkt_len = 0;
+        g_pkt_len = 0;
     }
 
     if(libnet_build_tcp(
@@ -66,8 +66,8 @@ shape_tcp_hdr(libnet_t *pkt_d)
         thdr_o.win,
         0,
         thdr_o.urp,
-        hdr_len + payload_len,
-        payload,
+        g_hdr_len + payload_len,
+        (const u_int8_t *) payload,
         payload_len,
         pkt_d,
         0) == -1)

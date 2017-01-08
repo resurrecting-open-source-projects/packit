@@ -140,17 +140,17 @@
 char w_file[OPT_MAXLEN];
 char r_file[OPT_MAXLEN];
 
-pcap_t *pkt;
-u_int8_t tr_fin;
-u_int8_t *filter;
-u_int8_t *device;
-u_int16_t hdr_len;
-u_int16_t pkt_len;
-u_int16_t verbose;
-u_int16_t resolve;
-u_int16_t p_mode;
-u_int64_t cnt;
-u_int64_t inj_cnt;
-u_int64_t cap_cnt;
+pcap_t *g_pkt;
+u_int8_t g_tr_fin;
+char *g_filter;
+char *g_device;
+u_int16_t g_hdr_len;
+u_int16_t g_pkt_len;
+u_int16_t g_verbose;
+u_int16_t g_resolve;
+u_int16_t g_p_mode;
+u_int64_t g_cnt;
+u_int64_t g_inj_cnt;
+u_int64_t g_cap_cnt;
 
 #endif /* __GLOBALS_H */

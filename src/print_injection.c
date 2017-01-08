@@ -30,7 +30,7 @@
 void
 print_injection_details()
 {
-    u_int8_t *arp_t, *icmp_t, *icmp_c = NULL;
+    char *arp_t, *icmp_t, *icmp_c = NULL;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: print_injection() init_type: %d\n", init_type);
@@ -68,7 +68,7 @@ print_injection_details()
 
             fprintf(stdout, "TCP header:  Src Port: %d  ", s_port);
 
-            if(p_mode == M_INJECT_RESPONSE)
+            if(g_p_mode == M_INJECT_RESPONSE)
                 fprintf(stdout, "Dst Port: %d  ", d_port);
             else
                 fprintf(stdout, "Dst Port(s): %s  ", s_d_port);
@@ -161,7 +161,7 @@ print_injection_details()
 	    ip4hdr_o.s_addr, ip4hdr_o.d_addr);
 	
 	fprintf(stdout, "\t     TTL: %d  ID: %d  TOS: 0x%X  Len: %d  ",
-	    ip4hdr_o.ttl, ip4hdr_o.id, (u_int8_t)ip4hdr_o.tos, hdr_len);
+	    ip4hdr_o.ttl, ip4hdr_o.id, (u_int8_t)ip4hdr_o.tos, g_hdr_len);
 
         if(rawip)
             fprintf(stdout, "IP Protocol: %d  ", ip4hdr_o.p);

@@ -40,7 +40,7 @@ injection_struct_init()
     ahdr_o.r_eaddr = ETH_DEFAULT;
 
     memset(&ip4hdr_o, 0, sizeof(struct ip4hdr_opts));
-    ip4hdr_o.ttl = (p_mode == M_INJECT) ? 128 : 1;
+    ip4hdr_o.ttl = (g_p_mode == M_INJECT) ? 128 : 1;
     ip4hdr_o.frag = 0;
     ip4hdr_o.tos = 0;
     ip4hdr_o.sum = 0;

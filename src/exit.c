@@ -29,7 +29,7 @@
 void
 injection_clean_exit(int sig)
 {
-    u_int8_t a[2];
+    char a[2];
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: injection_clean_exit(%d)\n", sig);
@@ -74,7 +74,7 @@ capture_clean_exit(int sig)
     fprintf(stdout, "\n");
 
     capture_stats();
-    pcap_close(pkt);
+    pcap_close(g_pkt);
 
     fprintf(stdout, "\n");
 

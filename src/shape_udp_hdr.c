@@ -32,7 +32,7 @@ shape_udp_hdr(libnet_t *pkt_d)
     fprintf(stdout, "DEBUG: shape_udp_hdr()\n");
 #endif
 
-    hdr_len = UDP_H;
+    g_hdr_len = UDP_H;
     ip4hdr_o.p = IPPROTO_UDP;
 
     if(rand_d_port)
@@ -43,19 +43,19 @@ shape_udp_hdr(libnet_t *pkt_d)
 
     // If packet length is provided, create a packet with a sequence
     // as payload
-    if(pkt_len)
+    if(g_pkt_len)
     {
-        payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+        payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
         payload_len = strlen(payload);
-        pkt_len = 0;
+        g_pkt_len = 0;
     }
 
     if(libnet_build_udp(
         s_port,
         d_port,
-        hdr_len + payload_len,
+        g_hdr_len + payload_len,
         0,
-        payload,
+        (const u_int8_t *) payload,
         payload_len,
         pkt_d,
         0) == -1)

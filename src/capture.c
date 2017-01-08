@@ -33,7 +33,7 @@ process_packets(u_int8_t *user, struct pcap_pkthdr *pkthdr, u_int8_t *packet)
 }
 
 void
-capture_init(u_int8_t *filter, u_int64_t cnt)
+capture_init(char *filter, u_int64_t cnt)
 {
     u_int32_t d_link, localnet, netmask;
     pcap_dumper_t *p_dumper = NULL;
@@ -53,18 +53,18 @@ capture_init(u_int8_t *filter, u_int64_t cnt)
 
     if(strlen(r_file) > 0)
     {
-        if((pkt = pcap_open_offline(r_file, error_buf)) == NULL)
+        if((g_pkt = pcap_open_offline(r_file, error_buf)) == NULL)
             fatal_error("Unable to open file: %s", error_buf);
 
     }
     else
     {
-        if(device == NULL)
-            if((device = pcap_lookupdev(error_buf)) == NULL)
+        if(g_device == NULL)
+            if((g_device = pcap_lookupdev(error_buf)) == NULL)
                 fatal_error("%s: Check device permissions", error_buf);
 
 
-        if((pkt = pcap_open_live(device, snap_len, 1, READ_TIMEOUT, error_buf)) == NULL)
+        if((g_pkt = pcap_open_live(g_device, snap_len, 1, READ_TIMEOUT, error_buf)) == NULL)
             fatal_error("Unable to open device: %s", error_buf);
     }
 
@@ -74,47 +74,47 @@ capture_init(u_int8_t *filter, u_int64_t cnt)
         fprintf(stdout, "DEBUG: Writing to capture file: %s\n", w_file);
 #endif
 
-        if((p_dumper = pcap_dump_open(pkt, w_file)) == NULL)
-            fatal_error("Unable to initialize packet capture: %s", pcap_geterr(pkt));
+        if((p_dumper = pcap_dump_open(g_pkt, w_file)) == NULL)
+            fatal_error("Unable to initialize packet capture: %s", pcap_geterr(g_pkt));
 
         display--;
     }
 
-    if(pcap_lookupnet(device, &localnet, &netmask, error_buf) < 0)
+    if(pcap_lookupnet(g_device, &localnet, &netmask, error_buf) < 0)
 	fprintf(stderr, "\nWarning: Unable to lookup network: %s\n", error_buf);
 
-    if(pcap_compile(pkt, &bpf, filter, 0, netmask) < 0)
-        fprintf(stderr, "\nWarning: Unable to compile packet filters: %s\n", pcap_geterr(pkt));
+    if(pcap_compile(g_pkt, &bpf, filter, 0, netmask) < 0)
+        fprintf(stderr, "\nWarning: Unable to compile packet filters: %s\n", pcap_geterr(g_pkt));
 
-    if(pcap_setfilter(pkt, &bpf) < 0)
-        fatal_error("Unable to set packet filters: %s", pcap_geterr(pkt));
+    if(pcap_setfilter(g_pkt, &bpf) < 0)
+        fatal_error("Unable to set packet filters: %s", pcap_geterr(g_pkt));
 
 #ifdef HAVE_FREECODE
     pcap_freecode(&bpf);
 #endif /* HAVE_FREECODE */
 
-    if((d_link = pcap_datalink(pkt)) < 0)
-        fatal_error("Unable to determine datalink type: %s", pcap_geterr(pkt));
+    if((d_link = pcap_datalink(g_pkt)) < 0)
+        fatal_error("Unable to determine datalink type: %s", pcap_geterr(g_pkt));
 
-    hdr_len = retrieve_datalink_hdr_len(d_link);
+    g_hdr_len = retrieve_datalink_hdr_len(d_link);
 
     fprintf(stdout, "Mode:  Packet Capture ");
 
     if(strlen(r_file) > 0)
         fprintf(stdout, "using file: %s ", r_file);
     else
-        fprintf(stdout, "using device: %s ", device);
+        fprintf(stdout, "using device: %s ", g_device);
 
-    if(filter)
+    if(g_filter)
         fprintf(stdout, "[%s]", filter);
 
     fprintf(stdout, "\n");
 
-    if(pcap_loop(pkt, cnt,
+    if(pcap_loop(g_pkt, cnt,
         (display == 1) ? (pcap_handler)process_packets : (pcap_handler)pcap_dump,
         (display == 1) ? NULL : (u_int8_t *)p_dumper) < 0)
     {
-        fatal_error("Unable to initialize pcap_loop: %s", pcap_geterr(pkt));
+        fatal_error("Unable to initialize pcap_loop: %s", pcap_geterr(g_pkt));
     }
 
     capture_clean_exit(SUCCESS);

@@ -53,13 +53,13 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
             if(i4hdr_o.rand_id)
                 i4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-            hdr_len = ICMPV4_ECHO_H;
+            g_hdr_len = ICMPV4_ECHO_H;
 
-            if(pkt_len)
+            if(g_pkt_len)
             {
-                payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+                payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
                 payload_len = strlen(payload);
-                pkt_len = 0;
+                g_pkt_len = 0;
             }
 
             if(libnet_build_icmpv4_echo(
@@ -68,7 +68,7 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
 	        0,
 	        i4hdr_o.id,
 	        i4hdr_o.seqn,
-	        payload,
+	        (const u_int8_t *) payload,
 	        payload_len,
 	        pkt_d,
 	        0) == -1)
@@ -132,13 +132,13 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
                 fprintf(stdout, "DEBUG: Building ICMP unreachable header\n");
 #endif
 
-                hdr_len = ICMPV4_UNREACH_H;
+                g_hdr_len = ICMPV4_UNREACH_H;
 
-                if(pkt_len)
+                if(g_pkt_len)
                 {
-                    payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+                    payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
                     payload_len = strlen(payload);
-                    pkt_len = 0;
+                    g_pkt_len = 0;
                 }
 
                 if(libnet_build_ipv4(
@@ -187,13 +187,13 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
                 if((ihn_gw = libnet_name2addr4(pkt_d, i4hdr_o.gw, 1)) == -1)
 	            fatal_error("Invalid gateway IP address: %s", i4hdr_o.gw);
 
-                hdr_len = ICMPV4_REDIRECT_H;
+                g_hdr_len = ICMPV4_REDIRECT_H;
 
-                if(pkt_len)
+                if(g_pkt_len)
                 {
-                    payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+                    payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
                     payload_len = strlen(payload);
-                    pkt_len = 0;
+                    g_pkt_len = 0;
                 }
 
                 if(libnet_build_ipv4(
@@ -234,13 +234,13 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
                 fprintf(stdout, "DEBUG: Building ICMP timelimit exceeded header\n");
 #endif
 
-                hdr_len = ICMPV4_TIMXCEED_H;
+                g_hdr_len = ICMPV4_TIMXCEED_H;
 
-                if(pkt_len)
+                if(g_pkt_len)
                 {
-                    payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+                    payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
                     payload_len = strlen(payload);
-                    pkt_len = 0;
+                    g_pkt_len = 0;
                 }
 
                 if(libnet_build_ipv4(
@@ -287,13 +287,13 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
             if(i4hdr_o.rand_id)
                 i4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-            hdr_len = ICMPV4_TSTAMP_H;
+            g_hdr_len = ICMPV4_TSTAMP_H;
 
-            if(pkt_len)
+            if(g_pkt_len)
             {
-                payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+                payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
                 payload_len = strlen(payload);
-                pkt_len = 0;
+                g_pkt_len = 0;
             }
 
             if(libnet_build_icmpv4_timestamp(
@@ -305,7 +305,7 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
 		i4hdr_o.otime,
 		i4hdr_o.rtime,
 		i4hdr_o.ttime,
-		payload,
+		(const u_int8_t *) payload,
 		payload_len,
 		pkt_d,
 		0) == -1)
@@ -330,13 +330,13 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
                 if((ihn_mask = libnet_name2addr4(pkt_d, i4hdr_o.mask, 1)) == -1)
 	            fatal_error("Invalid mask address: %s", i4hdr_o.mask);
 
-            hdr_len = ICMPV4_MASK_H;
+            g_hdr_len = ICMPV4_MASK_H;
 
-            if(pkt_len)
+            if(g_pkt_len)
             {
-                payload = generate_padding(hdr_len + IPV4_H, pkt_len);
+                payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
                 payload_len = strlen(payload);
-                pkt_len = 0;
+                g_pkt_len = 0;
             }
 
 	    if(libnet_build_icmpv4_mask(
@@ -346,7 +346,7 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
 	        i4hdr_o.id,
 	        i4hdr_o.seqn,
 		ihn_mask,
-	        payload,
+	        (const u_int8_t *) payload,
 	        payload_len,
 	        pkt_d,
 	        0) == -1)

@@ -40,7 +40,7 @@ struct ip4hdr_opts
     u_int16_t id;                  /* id number */
     u_int16_t rand_id;
 
-    u_int8_t *s_addr;              /* src address string */
+    char *s_addr;                  /* src address string */
     u_int8_t *src_addr_o1;
     u_int8_t *src_addr_o2;
     u_int8_t *src_addr_o3;
@@ -48,7 +48,7 @@ struct ip4hdr_opts
     u_int32_t n_saddr;             /* src address network byte order */
     u_int16_t rand_s_addr;
 
-    u_int8_t *d_addr;              /* dst address string */
+    char *d_addr;                  /* dst address string */
     u_int8_t *dst_addr_o1;
     u_int8_t *dst_addr_o2;
     u_int8_t *dst_addr_o3;
@@ -99,7 +99,7 @@ struct icmp4hdr_opts
     u_int16_t seqn;                /* icmp4 sequence number */
     u_int16_t rand_seqn;
 
-    u_int8_t *gw;                       /* gateway redirect address */
+    char *gw;                           /* gateway redirect address */
     u_int16_t rand_gw;
 
     u_int16_t orig_id;             /* original id */
@@ -111,19 +111,19 @@ struct icmp4hdr_opts
     u_int16_t orig_sum;                 /* original checksum */
     u_int16_t orig_p;                   /* original protocol */
 
-    u_int8_t *orig_s_addr;              /* original source address */
+    char *orig_s_addr;                  /* original source address */
     u_int16_t rand_orig_s_addr;
 
     u_int16_t orig_s_port;         /* original source port */
     u_int16_t rand_orig_s_port;
 
-    u_int8_t *orig_d_addr;              /* original destination address */
+    char *orig_d_addr;                 /* original destination address */
     u_int16_t rand_orig_d_addr;
 
     u_int16_t orig_d_port;         /* original destination port */
     u_int16_t rand_orig_d_port;
 
-    u_int8_t *mask;                     /* icmp4 mask */
+    char *mask;                         /* icmp4 mask */
 
     u_int32_t otime;                    /* original timestamp */
     u_int32_t rtime;                    /* recieved timestamp */
@@ -135,30 +135,30 @@ struct enethdr_opts
     u_int16_t rand_s_addr;
     u_int16_t rand_d_addr;
 
-    u_int8_t *s_addr;                   /* source ethernet address string */
-    u_int8_t shw_addr[18];
-    u_int8_t *d_addr;                   /* destination ethernet address string */
-    u_int8_t dhw_addr[18];
+    char *s_addr;                      /* source ethernet address string */
+    char shw_addr[18];
+    char *d_addr;                      /* destination ethernet address string */
+    char dhw_addr[18];
 } ehdr_o;
 
 struct arphdr_opts
 {
     u_int16_t op_type;                  /* arp operation */
 
-    u_int8_t *s_paddr;                  /* sender protocol address */
+    char *s_paddr;                      /* sender protocol address */
     u_int16_t rand_s_paddr;
 
-    u_int8_t *r_paddr;                  /* receiver protocol address */
+    char *r_paddr;                      /* receiver protocol address */
     u_int16_t rand_r_paddr;
 
-    u_int8_t *s_eaddr;                  /* sender ethernet address */
+    char *s_eaddr;                      /* sender ethernet address */
     u_int16_t rand_s_eaddr;
 
-    u_int8_t *r_eaddr;                  /* receiver ethernet address */
+    char *r_eaddr;                      /* receiver ethernet address */
     u_int16_t rand_r_eaddr;
 
-    u_int8_t shw_addr[18];
-    u_int8_t rhw_addr[18];
+    char shw_addr[18];
+    char rhw_addr[18];
 } ahdr_o;
 
 libnet_t *pkt_d;
@@ -175,7 +175,7 @@ u_int16_t injection_type;
 u_int16_t r_timeout;
 u_int16_t burst_rate;
 u_int16_t payload_len;
-u_int8_t *payload;
+char *payload;
 u_int8_t hex_payload;
 char *s_d_port;
 u_int8_t hwaddr_p[18];

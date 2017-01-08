@@ -29,8 +29,8 @@ libnet_t *
 shape_arp_hdr(libnet_t *pkt_d)
 {
     u_int32_t i, s_paddr, r_paddr;
-    u_int8_t s_neaddr[6];
-    u_int8_t r_neaddr[6];
+    char s_neaddr[6];
+    char r_neaddr[6];
 
     struct libnet_ether_addr *hw_addr;
 
@@ -151,11 +151,11 @@ shape_arp_hdr(libnet_t *pkt_d)
         6,
         4,
         ahdr_o.op_type,
-        s_neaddr,
+        (const u_int8_t *) s_neaddr,
         (u_int8_t *)&s_paddr,
-        r_neaddr,
+        (const u_int8_t *) r_neaddr,
         (u_int8_t *)&r_paddr,
-        payload,
+        (const u_int8_t *) payload,
         payload_len,
         pkt_d,
         0) == -1)

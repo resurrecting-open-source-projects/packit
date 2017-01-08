@@ -29,7 +29,7 @@
 void
 print_arp_hdr(u_int8_t *packet)
 {
-    u_int8_t *arp_t, *arp_hw_t;
+    char *arp_t, *arp_hw_t;
     u_int16_t frame_t;
 
     struct libnet_arp_hdr *ahdr;
@@ -38,13 +38,13 @@ print_arp_hdr(u_int8_t *packet)
     fprintf(stdout, "DEBUG: print_arp_hdr()\n");
 #endif
 
-    ahdr = (struct libnet_arp_hdr *)(packet + hdr_len);
+    ahdr = (struct libnet_arp_hdr *)(packet + g_hdr_len);
 
     arp_t = retrieve_arp_type(htons(ahdr->ar_op));
     arp_hw_t = retrieve_arp_hw_type(htons(ahdr->ar_hrd));
 
     fprintf(stdout, "ARP header:  Type: %s(%d)\n", arp_t, htons(ahdr->ar_op));
-    frame_t = ntohs(*(u_int16_t *)(packet + hdr_len - sizeof(u_int16_t)));
+    frame_t = ntohs(*(u_int16_t *)(packet + g_hdr_len - sizeof(u_int16_t)));
 
     fprintf(stdout, "%s header:  Type: %s(%d)\n",
             (frame_t == ETHERTYPE_REVARP) ? "RARP": "ARP",
