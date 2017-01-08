@@ -43,16 +43,16 @@ shape_ipv4_hdr(libnet_t *pkt_d)
         if((ip4hdr_o.n_saddr = libnet_get_ipaddr4(pkt_d)) == -1)
             fatal_error("Unable to retrieve local IP address: %s", libnet_geterror(pkt_d));
 
-        ip4hdr_o.s_addr = libnet_addr2name4(ip4hdr_o.n_saddr, 1);
+        ip4hdr_o.s_addr = (u_int8_t*)libnet_addr2name4(ip4hdr_o.n_saddr, 1);
     }
     else
-        if((ip4hdr_o.n_saddr = libnet_name2addr4(pkt_d, ip4hdr_o.s_addr, 1)) == -1)
+        if((ip4hdr_o.n_saddr = libnet_name2addr4(pkt_d, (char*)ip4hdr_o.s_addr, 1)) == -1)
             fatal_error("Invalid source IP address: %s", ip4hdr_o.s_addr);
 
     if(ip4hdr_o.d_addr == NULL)
         fatal_error("No destination IP address defined");
 
-    if((ip4hdr_o.n_daddr = libnet_name2addr4(pkt_d, ip4hdr_o.d_addr, 1)) == -1)
+    if((ip4hdr_o.n_daddr = libnet_name2addr4(pkt_d, (char*)ip4hdr_o.d_addr, 1)) == -1)
         fatal_error("Invalid destination IP address: %s", ip4hdr_o.d_addr);
 
 #ifdef DEBUG
@@ -68,7 +68,7 @@ shape_ipv4_hdr(libnet_t *pkt_d)
     if(rawip && pkt_len)
     {
         payload = generate_padding(hdr_len + IPV4_H, pkt_len);
-        payload_len = strlen(payload);
+        payload_len = strlen((char*)payload);
         pkt_len = 0;
     }
 

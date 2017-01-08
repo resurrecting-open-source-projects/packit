@@ -75,7 +75,7 @@ retrieve_datalink_hdr_len(u_int32_t d_link)
     return len;
 }
 
-char *retrieve_rand_ipv4_addr(char *ip)
+u_int8_t *retrieve_rand_ipv4_addr(u_int8_t *ip)
 {
     u_int8_t oct, oct_cnt;
 
@@ -96,16 +96,15 @@ char *retrieve_rand_ipv4_addr(char *ip)
         }
 
         if(oct_cnt != 1)
-            sprintf(ip, "%s.%d", ip, oct);
+            sprintf((char*)ip, "%s.%d", ip, oct);
         else
-            sprintf(ip, "%d", oct);
+            sprintf((char*)ip, "%d", oct);
     }
 
     return ip;
 }
 
-u_int8_t *
-retrieve_rand_ethernet_addr(u_int8_t *eaddr)
+u_int8_t *retrieve_rand_ethernet_addr(u_int8_t *eaddr)
 {
     u_int16_t oct, oct_cnt;
 
@@ -118,21 +117,21 @@ retrieve_rand_ethernet_addr(u_int8_t *eaddr)
         oct = (u_int8_t)retrieve_rand_int(0xFF);
 
        if(oct_cnt != 1)
-           sprintf(eaddr, "%s:%0x", eaddr, oct);
+           sprintf((char*)eaddr, "%s:%0x", eaddr, oct);
        else
-           sprintf(eaddr, "%0x", oct);
+           sprintf((char*)eaddr, "%0x", oct);
    }
 
     return eaddr;
 }
 
 void
-print_separator(int bnl, int anl, u_int8_t *msgp, ...)
+print_separator(int bnl, int anl, char *msgp, ...)
 {
     u_int16_t i;
     u_int16_t max_len = 76;
     u_int16_t msg_len = 0;
-    u_int8_t msg[255];
+    char msg[255];
 
     va_list va;
 
@@ -159,16 +158,14 @@ print_separator(int bnl, int anl, u_int8_t *msgp, ...)
     return;
 }
 
-u_int8_t *
-retrieve_icmp_code(u_int16_t type, u_int16_t code)
-{
-    u_int8_t *icmp_c;
+char *retrieve_icmp_code(u_int16_t type, u_int16_t code) {
+    char *icmp_c;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: retrieve_icmp_code()\n");
 #endif
 
-    icmp_c = malloc(sizeof(u_int8_t) * 32);
+    icmp_c = malloc(sizeof(char) * 32);
 
     if(type == ICMP_UNREACH)
     {
@@ -309,17 +306,15 @@ retrieve_icmp_code(u_int16_t type, u_int16_t code)
     return icmp_c;
 }
 
-u_int8_t *
-retrieve_icmp_type(u_int16_t type)
-{
-    u_int8_t *icmp_t;
+char *retrieve_icmp_type(u_int16_t type) {
+    char *icmp_t;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: retrieve_icmp_type()\n");
 #endif
 
-    icmp_t = malloc(sizeof(u_int8_t) * 32);
-    memset(icmp_t, 0, sizeof(u_int8_t) * 32);
+    icmp_t = malloc(sizeof(char) * 32);
+    memset(icmp_t, 0, sizeof(char) * 32);
 
     switch(type)
     {
@@ -395,16 +390,14 @@ retrieve_icmp_type(u_int16_t type)
     return icmp_t;
 }
 
-u_int8_t *
-retrieve_arp_type(u_int16_t op_type)
-{
-    u_int8_t *arp_t;
+char *retrieve_arp_type(u_int16_t op_type) {
+    char *arp_t;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: retrieve_arp_type() OPTYPE: %d\n", op_type);
 #endif
 
-    arp_t = malloc(sizeof(u_int8_t) * 32);
+    arp_t = malloc(sizeof(char) * 32);
 
     switch(op_type)
     {
@@ -444,16 +437,14 @@ retrieve_arp_type(u_int16_t op_type)
     return arp_t;
 }
 
-u_int8_t *
-retrieve_arp_hw_type(u_int16_t hw_type)
-{
-    u_int8_t *hw_t;
+char *retrieve_arp_hw_type(u_int16_t hw_type) {
+    char *hw_t;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: retrieve_arp_hw_type() HWTYPE: %d\n", hw_type);
 #endif
 
-    hw_t = malloc(sizeof(u_int8_t) * 32);
+    hw_t = malloc(sizeof(char) * 32);
 
     switch(hw_type)
     {
@@ -547,11 +538,10 @@ retrieve_tcp_flags()
     return flags;
 }
 
-char *format_ethernet_addr(char *ethstr, u_int8_t u_eaddr[6])
-{
+u_int8_t format_ethernet_addr(u_int8_t *ethstr, u_int8_t u_eaddr[6]) {
     int i = 0;
     long base16;
-    u_int8_t *eptr, *delim = ":";
+    char *eptr, *delim = ":";
     u_int8_t o_ethstr[18] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 
 #ifdef DEBUG
@@ -559,14 +549,14 @@ char *format_ethernet_addr(char *ethstr, u_int8_t u_eaddr[6])
 #endif
 
     if(ethstr)
-        strncpy(o_ethstr, ethstr, 18);
+        strncpy((char*)o_ethstr, (char*)ethstr, 18);
     else
     {
         u_eaddr = o_ethstr;
         return 1;
     }
 
-    for(eptr = strtok(o_ethstr, delim);
+    for(eptr = strtok((char*)o_ethstr, delim);
          eptr;
          eptr = strtok(NULL, delim))
     {
@@ -586,7 +576,7 @@ char *format_ethernet_addr(char *ethstr, u_int8_t u_eaddr[6])
 }
 
 u_int16_t
-parse_port_range(char *rangestr)
+parse_port_range(u_int8_t *rangestr)
 {
     char o_rangestr[11], *ptr, *delim = "-";
     u_int16_t i, range = 0;

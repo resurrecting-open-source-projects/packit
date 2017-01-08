@@ -40,7 +40,7 @@ struct ip4hdr_opts
     u_int16_t id;                  /* id number */
     u_int16_t rand_id;
 
-    char *s_addr;                  /* src address string */
+    u_int8_t *s_addr;                  /* src address string */
     u_int8_t *src_addr_o1;
     u_int8_t *src_addr_o2;
     u_int8_t *src_addr_o3;
@@ -48,7 +48,7 @@ struct ip4hdr_opts
     u_int32_t n_saddr;             /* src address network byte order */
     u_int16_t rand_s_addr;
 
-    char *d_addr;                  /* dst address string */
+    u_int8_t *d_addr;                  /* dst address string */
     u_int8_t *dst_addr_o1;
     u_int8_t *dst_addr_o2;
     u_int8_t *dst_addr_o3;
@@ -62,7 +62,7 @@ struct tcphdr_opts
     u_int16_t s_port;              /* tcp source port */
     u_int16_t d_port;              /* tcp destination port */
 
-    char flags[6];                 /* total number of possible flags */
+    u_int8_t flags[6];                 /* total number of possible flags */
     u_int16_t urg;                 /* tcp urg flag */
     u_int16_t ack;                 /* tcp ack flag */
     u_int16_t psh;                 /* tcp psh flag */
@@ -175,9 +175,9 @@ u_int16_t injection_type;
 u_int16_t r_timeout;
 u_int16_t burst_rate;
 u_int16_t payload_len;
-unsigned char *payload;
+u_int8_t *payload;
 u_int8_t hex_payload;
-char *s_d_port;
+u_int8_t *s_d_port;
 u_int8_t hwaddr_p[18];
 u_int8_t rawip;
 

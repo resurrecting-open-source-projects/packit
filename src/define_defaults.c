@@ -35,7 +35,11 @@ define_injection_defaults()
     rawip = 0;
     s_port = 0;
     rand_s_port = 1;
-    s_d_port = "0";
+
+    // s_d_port = "0";
+    s_d_port = malloc(4);
+    strcpy((char*)s_d_port, "0");
+
     d_port = 0;
     rand_d_port = (p_mode == M_TRACE) ? 1 : 0;
     r_timeout = 1;

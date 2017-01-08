@@ -60,12 +60,14 @@ shape_ethernet_hdr(libnet_t *pkt_d)
         if(format_ethernet_addr(ehdr_o.s_addr, us_addr) == 0)
             fatal_error("Invalid source ethernet address");
 
-    snprintf(ehdr_o.shw_addr, 18, "%0X:%0X:%0X:%0X:%0X:%0X",
+    snprintf((char*)ehdr_o.shw_addr, 18, "%0X:%0X:%0X:%0X:%0X:%0X",
         us_addr[0], us_addr[1], us_addr[2], us_addr[3], us_addr[4], us_addr[5]);
 
     if(ehdr_o.d_addr == NULL
-       && (injection_type == ETHERTYPE_ARP || injection_type == ETHERTYPE_REVARP))
-        ehdr_o.d_addr = ETH_BROADCAST;
+       && (injection_type == ETHERTYPE_ARP || injection_type == ETHERTYPE_REVARP)) {
+            ehdr_o.d_addr = malloc(6);
+            memset(ehdr_o.d_addr, 0xff, 6);
+        }
     else
     if(ehdr_o.d_addr == NULL)
     {
@@ -76,7 +78,7 @@ shape_ethernet_hdr(libnet_t *pkt_d)
     if(format_ethernet_addr(ehdr_o.d_addr, ud_addr) == 0)
         fatal_error("Invalid destination ethernet address");
 
-    snprintf(ehdr_o.dhw_addr, 18, "%0X:%0X:%0X:%0X:%0X:%0X",
+    snprintf((char*)ehdr_o.dhw_addr, 18, "%0X:%0X:%0X:%0X:%0X:%0X",
         ud_addr[0], ud_addr[1], ud_addr[2], ud_addr[3], ud_addr[4], ud_addr[5]);
 
     if(libnet_build_ethernet(

@@ -106,13 +106,13 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
             if(i4hdr_o.orig_s_addr == NULL)
 	        fatal_error("No original source IP address defined");
 
-	    if((ihn_saddr = libnet_name2addr4(pkt_d, i4hdr_o.orig_s_addr, 1)) == -1)
+	    if((ihn_saddr = libnet_name2addr4(pkt_d, (char*)i4hdr_o.orig_s_addr, 1)) == -1)
 	        fatal_error("Invalid original source IP address: %s", i4hdr_o.orig_s_addr);
 
 	    if(i4hdr_o.orig_d_addr == NULL)
 	        fatal_error("No original destination IP address defined");
 
-	    if((ihn_daddr = libnet_name2addr4(pkt_d, i4hdr_o.orig_d_addr, 1)) == -1)
+	    if((ihn_daddr = libnet_name2addr4(pkt_d, (char*)i4hdr_o.orig_d_addr, 1)) == -1)
 	        fatal_error("Invalid original destination IP address: %s", i4hdr_o.orig_d_addr);
 
             ih_payload[0] = (i4hdr_o.orig_s_port >> 8) & 0xff;
@@ -184,7 +184,7 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
                 if(i4hdr_o.gw == NULL)
 	            fatal_error("No gateway IP address defined");
 
-                if((ihn_gw = libnet_name2addr4(pkt_d, i4hdr_o.gw, 1)) == -1)
+                if((ihn_gw = libnet_name2addr4(pkt_d, (char*)i4hdr_o.gw, 1)) == -1)
 	            fatal_error("Invalid gateway IP address: %s", i4hdr_o.gw);
 
                 hdr_len = ICMPV4_REDIRECT_H;
@@ -327,7 +327,7 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
                 i4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
 
             if(i4hdr_o.mask != NULL)
-                if((ihn_mask = libnet_name2addr4(pkt_d, i4hdr_o.mask, 1)) == -1)
+                if((ihn_mask = libnet_name2addr4(pkt_d, (char*)i4hdr_o.mask, 1)) == -1)
 	            fatal_error("Invalid mask address: %s", i4hdr_o.mask);
 
             hdr_len = ICMPV4_MASK_H;

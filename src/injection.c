@@ -69,7 +69,7 @@ injection_init()
 
     if(s_d_port != NULL)
     {
-        if(strstr(s_d_port, "-"))
+        if(strstr((char*)s_d_port, "-"))
         {
             cnt = parse_port_range(s_d_port);
 
@@ -79,7 +79,7 @@ injection_init()
             port_range = 1;
         }
 
-        d_port = (u_int16_t)atoi(s_d_port);
+        d_port = (u_int16_t)atoi((char*)s_d_port);
     }
 
     if(!device && (device = pcap_lookupdev(error_buf)) == NULL)
@@ -357,7 +357,7 @@ without_response(u_int32_t port_range)
                 if(dstp)
                     fprintf(stderr, "\nWriting packet(s): ");
                 else
-                    fprintf(stderr, "\nWriting packet(s) (%llu): ", cnt);
+                    fprintf(stderr, "\nWriting packet(s) (%lu): ", cnt);
             }
 
             if(burst_rate != 0 && (inj_cnt % burst_rate) == 0)

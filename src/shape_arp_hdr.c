@@ -63,7 +63,7 @@ shape_arp_hdr(libnet_t *pkt_d)
                 if((s_paddr = libnet_get_ipaddr4(pkt_d)) == -1)
                     fatal_error("Unable to retrieve local IP address: %s", libnet_geterror(pkt_d));
 
-                ahdr_o.s_paddr = libnet_addr2name4(s_paddr, 0);
+                ahdr_o.s_paddr = (u_int8_t*)libnet_addr2name4(s_paddr, 0);
 		break;
 		
 	    default:
@@ -72,7 +72,7 @@ shape_arp_hdr(libnet_t *pkt_d)
 	}
     }
 
-    if((s_paddr = libnet_name2addr4(pkt_d, ahdr_o.s_paddr, 0)) == -1)
+    if((s_paddr = libnet_name2addr4(pkt_d, (char*)ahdr_o.s_paddr, 0)) == -1)
         fatal_error("Invalid sender protocol address: %s", ahdr_o.s_paddr);
 
     if(ahdr_o.s_eaddr == NULL)
@@ -97,7 +97,7 @@ shape_arp_hdr(libnet_t *pkt_d)
     if(format_ethernet_addr(ahdr_o.s_eaddr, s_neaddr) == 0)
         fatal_error("Invalid sender ethernet address");
 
-    snprintf(ahdr_o.shw_addr, 18, "%0X:%0X:%0X:%0X:%0X:%0X",
+    snprintf((char*)ahdr_o.shw_addr, 18, "%0X:%0X:%0X:%0X:%0X:%0X",
         s_neaddr[0], s_neaddr[1], s_neaddr[2], s_neaddr[3], s_neaddr[4], s_neaddr[5]);
 
     if(ahdr_o.r_paddr == NULL)
@@ -108,7 +108,7 @@ shape_arp_hdr(libnet_t *pkt_d)
                 if((r_paddr = libnet_get_ipaddr4(pkt_d)) == -1)
 	            fatal_error("Unable to retrieve local IP address: %s", libnet_geterror(pkt_d));
 
-                ahdr_o.r_paddr = libnet_addr2name4(r_paddr, 0);
+                ahdr_o.r_paddr = (u_int8_t*)libnet_addr2name4(r_paddr, 0);
 		break;
 	
 	    default:
@@ -117,7 +117,7 @@ shape_arp_hdr(libnet_t *pkt_d)
 	}
     }
 
-    if((r_paddr = libnet_name2addr4(pkt_d, ahdr_o.r_paddr, 0)) == -1)
+    if((r_paddr = libnet_name2addr4(pkt_d, (char*)ahdr_o.r_paddr, 0)) == -1)
         fatal_error("Invalid receiver protocol address: %s", ahdr_o.r_paddr);
 
     if(ahdr_o.r_eaddr == NULL)
@@ -142,7 +142,7 @@ shape_arp_hdr(libnet_t *pkt_d)
     if(format_ethernet_addr(ahdr_o.r_eaddr, r_neaddr) == 0)
         fatal_error("Invalid receiver ethernet address");
 
-    snprintf(ahdr_o.rhw_addr, 18, "%0X:%0X:%0X:%0X:%0X:%0X",
+    snprintf((char*)ahdr_o.rhw_addr, 18, "%0X:%0X:%0X:%0X:%0X:%0X",
         r_neaddr[0], r_neaddr[1], r_neaddr[2], r_neaddr[3], r_neaddr[4], r_neaddr[5]);
 
     if(libnet_build_arp(
