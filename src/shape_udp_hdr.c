@@ -41,6 +41,8 @@ shape_udp_hdr(libnet_t *pkt_d)
     if(rand_s_port)
         s_port = (u_int16_t)retrieve_rand_int(P_UINT16);
 
+    // If packet length is provided, create a packet with a sequence
+    // as payload
     if(pkt_len)
     {
         payload = generate_padding(hdr_len + IPV4_H, pkt_len);

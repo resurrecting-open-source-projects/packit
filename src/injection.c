@@ -55,8 +55,17 @@ injection_init()
     signal(SIGHUP, injection_clean_exit);
 
     if(hex_payload)
+    {
         if((payload_len = format_hex_payload(payload)) == 0)
             fprintf(stdout, "Warning: Hex payload formatted incorrectly.\n");
+    }
+    else if(payload)
+    {
+	    payload_len = strlen(payload);
+#ifdef DEBUG
+	    fprintf(stdout, "DEBUG: payload_len=%d\n", payload_len);
+#endif
+    }
 
     if(s_d_port != NULL)
     {
