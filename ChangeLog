@@ -1,3 +1,8 @@
+Version 1.2, 2017-XX-XX
+
+* fixed payload length when given without 0x
+* fixed compiling warnings
+
 Version 1.1, 2016-05-20
 
   [ Joao Eriberto Mota Filho ], <eriberto@eriberto.pro.br>, 2016
