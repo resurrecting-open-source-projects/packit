@@ -105,7 +105,7 @@ capture_init(char *filter, u_int64_t cnt)
     else
         fprintf(stdout, "using device: %s ", g_device);
 
-    if(g_filter)
+    if(filter)
         fprintf(stdout, "[%s]", filter);
 
     fprintf(stdout, "\n");
