@@ -622,6 +622,17 @@ parse_port_range(u_int8_t *rangestr)
     return range;
 }
 
+/**
+ * Creates fake payload of size
+ *   (packet length) - (current header length)
+ *
+ * The payload consists of u_int8_t values from from 48 .. 126
+ * followed by 33 .. 126 as many times as needed.
+ *
+ * @param clen - Header length (already being used in the packet)
+ * @param dlen - Packet length
+ * @return malloc'ed u_int8_t array with the new payload
+ */
 u_int8_t *
 generate_padding(u_int16_t clen, u_int16_t dlen)
 {
@@ -640,18 +651,13 @@ generate_padding(u_int16_t clen, u_int16_t dlen)
 
     string = malloc(sizeof(u_int8_t *) * (dlen - clen + 1));
 
-    for(i = 0; clen < dlen; i++, clen++)
+    for(i = 0; clen < dlen; ++i, ++clen)
     {
         if(c > 126)
             c = 33;
-
-        if(i == 0)
-            sprintf(string, "%c", c);
-        else
-            sprintf(string, "%s%c", string, c);
-
-        c++;
+        string[i] = c++;
     }
+    string[i] = 0;
 
     return string;
 }

@@ -48,6 +48,8 @@ shape_tcp_hdr(libnet_t *pkt_d)
 
     flags = retrieve_tcp_flags();
 
+    // If packet length is provided, create a packet with a sequence
+    // as payload
     if(pkt_len)
     {
         payload = generate_padding(hdr_len + IPV4_H, pkt_len);
