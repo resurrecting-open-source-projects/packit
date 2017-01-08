@@ -28,28 +28,7 @@ SUBDIRS = src man
 
 EXTRA_DIST = Makefile.am.common
 
-clean:
-	-rm -f packit \
-	stamp-h1 \
-	src/*.o \
-	src/contrib/*.o \
-	src/packit \
-	src/version.h
-
-clean-local: clean
-	-rm -rf autom4te.cache \
-	src/.deps \
-	src/contrib/.deps \
-	src/contrib/.dirstamp
-
-	-rm -f aclocal.m4 \
-	compile \
-	config.* \
-	configure \
-	depcomp \
-	install-sh \
-	Makefile.in \
-	missing \
-	man/Makefile.in \
-	src/Makefile \
-	src/Makefile.in
+distclean-local:
+	rm -rf autom4te.cache
+	rm -f aclocal.m4 compile config.* configure depcomp install-sh \
+              Makefile.in missing man/Makefile.in src/Makefile.in

@@ -4,6 +4,7 @@
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002 Darren Bounds <dbounds@intrusense.com>
+ * Copyright 2016 Robert Krause <ruport@f00l.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,6 +35,6 @@
 
 char error_buf[ERRBUF_MAXLEN];
 
-void fatal_error(u_int8_t *,...);
+void fatal_error(char *,...);
 
 #endif /* __ERROR_H */

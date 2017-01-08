@@ -5,6 +5,7 @@
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
  * Copyright 2007      Kumar Appaiah <akumar@ee.iitm.ac.in>
+ * Copyright 2016      Robert Krause <ruport@f00l.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -49,11 +50,11 @@
 #include "exit.h"
 #include "version.h"
 
-#define IPV4_DEFAULT                    "0.0.0.0"
+#define IPV4_DEFAULT                    0x00000000		/* 0.0.0.0 */
 #define IPV4_BROADCAST                  "255.255.255.255"
 #define MASK_DEFAULT                    "255.255.255.0"
-#define ETH_DEFAULT                     "0:0:0:0:0:0"
-#define ETH_BROADCAST                   "ff:ff:ff:ff:ff:ff"
+#define ETH_DEFAULT                     0x000000000000		/* 00:00:00:00:00:00 */
+#define ETH_BROADCAST                   0xffffffffffff		/* ff:ff:ff:ff:ff:ff */
 
 #define ARP_H            		0x1c    /* ARP header:          28 bytes */
 #define DNS_H                 		0xc     /* DNS header base:     12 bytes */

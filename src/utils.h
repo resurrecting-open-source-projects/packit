@@ -4,6 +4,7 @@
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002 Darren Bounds <dbounds@intrusense.com>
+ * Copyright 2016 Robert Krause <ruport@f00l.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,9 +39,9 @@ u_int8_t *retrieve_arp_hw_type(u_int16_t);
 u_int8_t *retrieve_arp_type(u_int16_t);
 u_int8_t *retrieve_icmp_type(u_int16_t);
 u_int8_t *retrieve_icmp_code(u_int16_t, u_int16_t);
-u_int8_t *generate_padding(u_int16_t, u_int16_t);
+char *generate_padding(u_int16_t, u_int16_t);
 u_int32_t format_hex_payload(u_int8_t *);
-u_int16_t parse_port_range(u_int8_t *);
+u_int16_t parse_port_range(char *);
 u_int16_t retrieve_datalink_hdr_len(u_int32_t);
 u_int32_t retrieve_rand_int(u_int32_t);
 u_int32_t format_ethernet_addr(char *, u_int8_t[]);

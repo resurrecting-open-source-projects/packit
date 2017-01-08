@@ -5,6 +5,7 @@
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
  * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
+ * Copyright 2016      Robert Krause <ruport@f00l.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -61,7 +62,7 @@ struct tcphdr_opts
     u_int16_t s_port;              /* tcp source port */
     u_int16_t d_port;              /* tcp destination port */
 
-    u_int8_t flags[6];             /* total number of possible flags */
+    char flags[6];                 /* total number of possible flags */
     u_int16_t urg;                 /* tcp urg flag */
     u_int16_t ack;                 /* tcp ack flag */
     u_int16_t psh;                 /* tcp psh flag */
@@ -176,7 +177,7 @@ u_int16_t burst_rate;
 u_int16_t payload_len;
 u_int8_t *payload;
 u_int8_t hex_payload;
-u_int8_t *s_d_port;
+char *s_d_port;
 u_int8_t hwaddr_p[18];
 u_int8_t rawip;
 

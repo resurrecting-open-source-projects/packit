@@ -5,6 +5,7 @@
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
  * Copyright 2015      Gentoo Linux
+ * Copyright 2016      Robert Krause <ruport@f00l.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -587,9 +588,9 @@ format_ethernet_addr(char *ethstr, u_int8_t u_eaddr[6])
 }
 
 u_int16_t
-parse_port_range(u_int8_t *rangestr)
+parse_port_range(char *rangestr)
 {
-    u_int8_t o_rangestr[11], *ptr, *delim = "-";
+    char o_rangestr[11], *ptr, *delim = "-";
     u_int16_t i, range = 0;
     int spread[10];
 
@@ -633,10 +634,11 @@ parse_port_range(u_int8_t *rangestr)
  * @param dlen - Packet length
  * @return malloc'ed u_int8_t array with the new payload
  */
-u_int8_t *
+char *
 generate_padding(u_int16_t clen, u_int16_t dlen)
 {
-    u_int8_t c = 48, *string;
+    u_int8_t c = 48;
+    char *string;
     u_int16_t i;
 
 #ifdef DEBUG
