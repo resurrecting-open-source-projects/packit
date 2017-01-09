@@ -35,9 +35,9 @@ injection_struct_init()
     memset(&ahdr_o, 0, sizeof(struct arphdr_opts));
     ahdr_o.op_type = ARPOP_REQUEST;
     ahdr_o.s_paddr = IPV4_DEFAULT;
-    ahdr_o.s_eaddr = ETH_DEFAULT;
+    ahdr_o.s_eaddr = (u_int8_t *) ETH_DEFAULT;
     ahdr_o.r_paddr = IPV4_DEFAULT;
-    ahdr_o.r_eaddr = ETH_DEFAULT;
+    ahdr_o.r_eaddr = (u_int8_t *) ETH_DEFAULT;
 
     memset(&ip4hdr_o, 0, sizeof(struct ip4hdr_opts));
     ip4hdr_o.ttl = (p_mode == M_INJECT) ? 128 : 1;

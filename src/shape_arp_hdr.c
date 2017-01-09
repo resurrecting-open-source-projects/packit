@@ -89,7 +89,7 @@ shape_arp_hdr(libnet_t *pkt_d)
 		break;
 
 	    default:
-                ahdr_o.s_eaddr = ETH_DEFAULT;
+                ahdr_o.s_eaddr = (u_int8_t *) ETH_DEFAULT;
                 break;
         }
     }
@@ -134,7 +134,7 @@ shape_arp_hdr(libnet_t *pkt_d)
 		break;
 
 	    default:
-                ahdr_o.r_eaddr = ETH_DEFAULT;
+                ahdr_o.r_eaddr = (u_int8_t *) ETH_DEFAULT;
 		break;
 	}
     }

@@ -65,14 +65,13 @@ shape_ethernet_hdr(libnet_t *pkt_d)
 
     if(ehdr_o.d_addr == NULL
        && (injection_type == ETHERTYPE_ARP || injection_type == ETHERTYPE_REVARP)) {
-            ehdr_o.d_addr = malloc(6);
-            memset(ehdr_o.d_addr, 0xff, 6);
+            ehdr_o.d_addr = (u_int8_t *) ETH_BROADCAST;
         }
     else
     if(ehdr_o.d_addr == NULL)
     {
         fprintf(stderr, "Warning: Using NULL destination ethernet address. Packets may not reach their destination\n");
-        ehdr_o.d_addr = ETH_DEFAULT;
+        ehdr_o.d_addr = (u_int8_t *) ETH_DEFAULT;
     }
 
     if(format_ethernet_addr(ehdr_o.d_addr, ud_addr) == 0)
