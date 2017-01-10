@@ -49,7 +49,7 @@ void injection_clean_exit(int sig) {
     }
 
     injection_stats();
-    libnet_destroy(pkt_d);
+    libnet_destroy(g_pkt_d);
 
     fprintf(stdout, "\n");
 
@@ -72,7 +72,7 @@ capture_clean_exit(int sig)
     fprintf(stdout, "\n");
 
     capture_stats();
-    pcap_close(pkt);
+    pcap_close(g_pkt);
 
     fprintf(stdout, "\n");
 

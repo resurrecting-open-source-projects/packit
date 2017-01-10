@@ -31,14 +31,14 @@
 void
 parse_capture_options(int argc, char *argv[])
 {
-    p_mode = M_CAPTURE;
-    cnt = 0;
-    cap_cnt = 0;
-    snap_len = SNAPLEN_DEFAULT;
-    resolve = 3;
-    verbose = 0;
-    display = 1;
-    link_layer = 0;
+    g_p_mode = M_CAPTURE;
+    g_cnt = 0;
+    g_cap_cnt = 0;
+    g_snap_len = SNAPLEN_DEFAULT;
+    g_resolve = 3;
+    g_verbose = 0;
+    g_display = 1;
+    g_link_layer = 0;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: parse_capture_options()\n");
@@ -49,49 +49,49 @@ parse_capture_options(int argc, char *argv[])
         switch(opt)
         {
             case 'c':
-                cnt = (u_int64_t)atoi(optarg);
+                g_cnt = (u_int64_t)atoi(optarg);
                 break;
 
             case 'e':
-                link_layer = 1;
+                g_link_layer = 1;
                 break;
 
 	    case 'G':
-		time_gmt = 1;
+		g_time_gmt = 1;
 		break;
 
             case 'i':
-                if(!(device = strdup(optarg)))
+                if(!(g_device = strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
                 break;
 
             case 'w':
-                strncpy(w_file, optarg, OPT_MAXLEN);
+                strncpy(g_w_file, optarg, OPT_MAXLEN);
                 break;
 
             case 'r':
-                strncpy(r_file, optarg, OPT_MAXLEN);
+                strncpy(g_r_file, optarg, OPT_MAXLEN);
                 break;
 
             case 's':
-		snap_len = (u_int16_t)atoi(optarg);
+		g_snap_len = (u_int16_t)atoi(optarg);
 		break;
 
             case 'v':
-               verbose = 1;
+               g_verbose = 1;
                break;
 
             case 'n':
-                resolve--;
+                g_resolve--;
 	        break;
 
 	    case 'x': case 'X':
-		dump_pkt = 1;
+		g_dump_pkt = 1;
 		break;
         }
     }
 
-    capture_init(argv[optind], cnt);
+    capture_init(argv[optind], g_cnt);
 
     return;
 }
@@ -102,12 +102,12 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
     char *opts = NULL;
 
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: parse_inject_options(%d)\n", p_mode);
+    fprintf(stdout, "DEBUG: parse_inject_options(%d)\n", g_p_mode);
 #endif
 
     if(getuid() != 0) fatal_error("Sorry, you're not root!");
 
-    p_mode = iopt;
+    g_p_mode = iopt;
 
     define_injection_defaults();
     injection_struct_init();
@@ -122,8 +122,8 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: TCP injection\n");
 #endif
-                    ip4hdr_o.p = IPPROTO_TCP;
-                    injection_type = ETHERTYPE_IP;
+                    g_ip4hdr_o.p = IPPROTO_TCP;
+                    g_injection_type = ETHERTYPE_IP;
                     opts = "a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
                 }
                 else
@@ -132,8 +132,8 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: UDP injection\n");
 #endif
-                    ip4hdr_o.p = IPPROTO_UDP;
-                    injection_type = ETHERTYPE_IP;
+                    g_ip4hdr_o.p = IPPROTO_UDP;
+                    g_injection_type = ETHERTYPE_IP;
                     opts = "b:c:d:D:e:E:fhH:i:n:o:p:Rs:S:T:vw:Z:";
                 }
                 else
@@ -142,14 +142,14 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: ICMP injection\n");
 #endif
-                    ip4hdr_o.p = IPPROTO_ICMP;
-                    injection_type = ETHERTYPE_IP;
+                    g_ip4hdr_o.p = IPPROTO_ICMP;
+                    g_injection_type = ETHERTYPE_IP;
                     opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
                 }
 		else
                 if(!strncasecmp(optarg, "ARP", 3))
                 {
-                    if(p_mode == M_TRACE)
+                    if(g_p_mode == M_TRACE)
                         fatal_error("ARP is not supported with trace mode.");
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: ARP injection\n");
@@ -158,14 +158,14 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     fprintf(stderr, "\nError: ARP injection is not yet supported on this OS platform.\n");
                     exit(FAILURE);
 #endif
-                    injection_type = ETHERTYPE_ARP;
-                    init_type = 0;
+                    g_injection_type = ETHERTYPE_ARP;
+                    g_init_type = 0;
                     opts = "A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:";
                 }
                 else
                 if(!strncasecmp(optarg, "RARP", 4))
                 {
-                    if(p_mode == M_TRACE)
+                    if(g_p_mode == M_TRACE)
                         fatal_error("RARP is not supported with trace mode.");
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: RARP injection\n");
@@ -174,21 +174,21 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     fprintf(stderr, "\nError: RARP injection is not yet supported on this OS platform.\n");
                     exit(FAILURE);
 #endif
-                    injection_type = ETHERTYPE_REVARP;
-                    ahdr_o.op_type = ARPOP_REVREQUEST; /* Update init */
-                    init_type = 0;
+                    g_injection_type = ETHERTYPE_REVARP;
+                    g_ahdr_o.op_type = ARPOP_REVREQUEST; /* Update init */
+                    g_init_type = 0;
                     opts = "A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:";
                 }
                 else
                 if(!strncasecmp(optarg, "RAWIP", 3))
                 {
-                    if(p_mode == M_TRACE)
+                    if(g_p_mode == M_TRACE)
                         fatal_error("RAW is not supported with trace mode.");
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: raw IP injection\n");
 #endif
-                    rawip = ip4hdr_o.p = IPPROTO_RAW;
-                    injection_type = ETHERTYPE_IP;
+                    g_rawip = g_ip4hdr_o.p = IPPROTO_RAW;
+                    g_injection_type = ETHERTYPE_IP;
                     opts = "b:c:d:e:E:f:i:n:o:p:Rs:T:U:vV:w:Z:";
                 }
                 else
@@ -200,16 +200,16 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 
             default:
                 if(optind > 1) optind--;
-                injection_type = ETHERTYPE_IP;
+                g_injection_type = ETHERTYPE_IP;
 
-                if(p_mode == M_TRACE)
+                if(g_p_mode == M_TRACE)
                 {
-                    ip4hdr_o.p = IPPROTO_ICMP;
+                    g_ip4hdr_o.p = IPPROTO_ICMP;
                     opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
                 }
                 else
                 {
-                    ip4hdr_o.p = IPPROTO_TCP;
+                    g_ip4hdr_o.p = IPPROTO_TCP;
                     opts = "a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
                 }
 
@@ -231,42 +231,42 @@ parse_inject:
         switch(opt)
         {
             case 'a':
-                thdr_o.ackn = (u_int32_t)strtoll(optarg, (char **)NULL, 10);
+                g_thdr_o.ackn = (u_int32_t)strtoll(optarg, (char **)NULL, 10);
                 break;
 
             case 'A':
-                ahdr_o.op_type = (u_int16_t)atoi(optarg);
+                g_ahdr_o.op_type = (u_int16_t)atoi(optarg);
                 break;
 
             case 'b':
-                burst_rate = (u_int16_t)atoi(optarg);
+                g_burst_rate = (u_int16_t)atoi(optarg);
                 break;
 
             case 'c':
-                if(p_mode == M_TRACE && (u_int64_t)atoi(optarg) > 0xFF)
+                if(g_p_mode == M_TRACE && (u_int64_t)atoi(optarg) > 0xFF)
                     fatal_error("Count cannot exceed max TTL value");
 
-                cnt = (u_int64_t)atoi(optarg);
+                g_cnt = (u_int64_t)atoi(optarg);
                 break;
 
             case 'C':
-                i4hdr_o.code = (u_int16_t)atoi(optarg);
+                g_i4hdr_o.code = (u_int16_t)atoi(optarg);
                 break;
 
             case 'd':
 	        if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    ip4hdr_o.rand_d_addr = 1;
+                    g_ip4hdr_o.rand_d_addr = 1;
 
-		if(!(ip4hdr_o.d_addr = (u_int8_t*)strdup(optarg)))
+		if(!(g_ip4hdr_o.d_addr = (u_int8_t*)strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
 
             case 'D':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    rand_d_port = 1;
+                    g_rand_d_port = 1;
 
-                if(!(s_d_port = (u_int8_t*)strdup(optarg)) && !rand_d_port)
+                if(!(g_s_d_port = (u_int8_t*)strdup(optarg)) && !g_rand_d_port)
 		    fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
@@ -277,13 +277,13 @@ parse_inject:
 	    break;
 #endif
 		if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    ehdr_o.rand_s_addr = 1;
+                    g_ehdr_o.rand_s_addr = 1;
 
-      		if(!(ehdr_o.s_addr = (u_int8_t*)strdup(optarg)))
+      		if(!(g_ehdr_o.s_addr = (u_int8_t*)strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
 
-                init_type = 0;
-                link_layer = 1;
+                g_init_type = 0;
+                g_link_layer = 1;
                 break;
 
             case 'E':
@@ -292,277 +292,277 @@ parse_inject:
 		break;
 #endif
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    ehdr_o.rand_d_addr = 1;
+                    g_ehdr_o.rand_d_addr = 1;
 
-                if(!(ehdr_o.d_addr = (u_int8_t*)strdup(optarg)))
+                if(!(g_ehdr_o.d_addr = (u_int8_t*)strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
 
-                init_type = 0;
-                link_layer = 1;
+                g_init_type = 0;
+                g_link_layer = 1;
                 break;
 
 	    case 'f':
-		ip4hdr_o.frag = 0x4000;
+		g_ip4hdr_o.frag = 0x4000;
 		break;
 
             case 'F':
                 if(strrchr(optarg, 'U'))
-                    thdr_o.urg = 1;
+                    g_thdr_o.urg = 1;
 
                 if(strrchr(optarg, 'A'))
-                    thdr_o.ack = 1;
+                    g_thdr_o.ack = 1;
 
                 if(strrchr(optarg, 'P'))
-                    thdr_o.psh = 1;
+                    g_thdr_o.psh = 1;
 
                 if(strrchr(optarg, 'R'))
-                    thdr_o.rst = 1;
+                    g_thdr_o.rst = 1;
 
                 if(strrchr(optarg, 'S'))
-                    thdr_o.syn = 1;
+                    g_thdr_o.syn = 1;
 
                 if(strrchr(optarg, 'F'))
-                    thdr_o.fin = 1;
+                    g_thdr_o.fin = 1;
 
                 break;
 
             case 'g':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    i4hdr_o.rand_gw = 1;
+                    g_i4hdr_o.rand_gw = 1;
 
-                if(!(i4hdr_o.gw = (u_int8_t*)strdup(optarg)))
+                if(!(g_i4hdr_o.gw = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
 
             case 'G':
-                if(!(i4hdr_o.mask = (u_int8_t*)strdup(optarg)))
+                if(!(g_i4hdr_o.mask = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
 
 	    case 'h':
-                if(p_mode == M_INJECT)
-	            p_mode = M_INJECT_RESPONSE;	
+                if(g_p_mode == M_INJECT)
+	            g_p_mode = M_INJECT_RESPONSE;	
 
 		break;
 
             case 'H':
-                r_timeout = (u_int8_t)atoi(optarg);
+                g_r_timeout = (u_int8_t)atoi(optarg);
                 break;
 
             case 'i':
-                if(!(device = strdup(optarg)))
+                if(!(g_device = strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
 
             case 'j':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    i4hdr_o.rand_orig_s_addr = 1;
+                    g_i4hdr_o.rand_orig_s_addr = 1;
 
-                if(!(i4hdr_o.orig_s_addr = (u_int8_t*)strdup(optarg)))
+                if(!(g_i4hdr_o.orig_s_addr = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
 
             case 'J':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    i4hdr_o.rand_orig_s_port = 1;
+                    g_i4hdr_o.rand_orig_s_port = 1;
                 else
-                    i4hdr_o.orig_s_port = (u_int16_t)atoi(optarg);
+                    g_i4hdr_o.orig_s_port = (u_int16_t)atoi(optarg);
 
                 break;
 
             case 'k':
-                i4hdr_o.rtime = (u_int32_t)atoi(optarg);
+                g_i4hdr_o.rtime = (u_int32_t)atoi(optarg);
                 break;
 
             case 'K':
-                i4hdr_o.type = (u_int16_t)atoi(optarg);
+                g_i4hdr_o.type = (u_int16_t)atoi(optarg);
                 break;
 
             case 'l':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    i4hdr_o.rand_orig_d_addr = 1;
+                    g_i4hdr_o.rand_orig_d_addr = 1;
 
-                if(!(i4hdr_o.orig_d_addr = (u_int8_t*)strdup(optarg)))
+                if(!(g_i4hdr_o.orig_d_addr = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
 
             case 'L':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    i4hdr_o.rand_orig_d_port = 1;
+                    g_i4hdr_o.rand_orig_d_port = 1;
                 else
-                    i4hdr_o.orig_d_port = (u_int16_t)atoi(optarg);
+                    g_i4hdr_o.orig_d_port = (u_int16_t)atoi(optarg);
 
                 break;
 
             case 'm':
-                i4hdr_o.orig_ttl = (u_int16_t)atoi(optarg);
+                g_i4hdr_o.orig_ttl = (u_int16_t)atoi(optarg);
                 break;
 
             case 'M':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    i4hdr_o.rand_orig_id = 1;
+                    g_i4hdr_o.rand_orig_id = 1;
 
-                i4hdr_o.orig_id = (u_int16_t)atoi(optarg);
+                g_i4hdr_o.orig_id = (u_int16_t)atoi(optarg);
                 break;
 
             case 'n':
-                ip4hdr_o.id = (u_int16_t)atoi(optarg);
-                ip4hdr_o.rand_id = 0;
+                g_ip4hdr_o.id = (u_int16_t)atoi(optarg);
+                g_ip4hdr_o.rand_id = 0;
                 break;
 
             case 'N':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    i4hdr_o.rand_id = 1;
+                    g_i4hdr_o.rand_id = 1;
 
-                i4hdr_o.id = (u_int16_t)atoi(optarg);
+                g_i4hdr_o.id = (u_int16_t)atoi(optarg);
                 break;
 
             case 'o':
-                ip4hdr_o.tos = (u_int8_t)atoi(optarg);
+                g_ip4hdr_o.tos = (u_int8_t)atoi(optarg);
                 break;
 
             case 'O':
-                i4hdr_o.orig_tos = (u_int8_t)atoi(optarg);
+                g_i4hdr_o.orig_tos = (u_int8_t)atoi(optarg);
                 break;
 
             case 'p':
                 if(!strncasecmp(optarg, "0x", 2))
-                    hex_payload = 1;
+                    g_hex_payload = 1;
 
-                if(!(payload = (u_int8_t*)strdup(optarg)))
+                if(!(g_payload = (u_int8_t*)strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
 
             case 'P':
                 if(!strcasecmp(optarg, "UDP"))
-                    i4hdr_o.orig_p = 17;
+                    g_i4hdr_o.orig_p = 17;
                 else
                 if(!strncasecmp(optarg, "TCP", 3))
-                    i4hdr_o.orig_p = 6;
+                    g_i4hdr_o.orig_p = 6;
                 else
                 if(!strncasecmp(optarg, "ICMP", 4))
-                    i4hdr_o.orig_p = 1;
+                    g_i4hdr_o.orig_p = 1;
                 else
                     fatal_error("Unknown ICMP original protocol: %s", optarg);
 
                 break;
 
             case 'q':
-                thdr_o.seqn = (u_int32_t)strtoll(optarg, (char **)NULL, 10);
-                thdr_o.rand_seqn = 0;
+                g_thdr_o.seqn = (u_int32_t)strtoll(optarg, (char **)NULL, 10);
+                g_thdr_o.rand_seqn = 0;
                 break;
 
             case 'Q':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    i4hdr_o.rand_seqn = 1;
+                    g_i4hdr_o.rand_seqn = 1;
 
-                i4hdr_o.seqn = (u_int16_t)strtoll(optarg, (char **)NULL, 10);
+                g_i4hdr_o.seqn = (u_int16_t)strtoll(optarg, (char **)NULL, 10);
                 break;
 
             case 'R':
-                resolve = 0;
+                g_resolve = 0;
                 break;
 
             case 's':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    ip4hdr_o.rand_s_addr = 1;
+                    g_ip4hdr_o.rand_s_addr = 1;
 
-                if(!(ip4hdr_o.s_addr = (u_int8_t*)strdup(optarg)))
+                if(!(g_ip4hdr_o.s_addr = (u_int8_t*)strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
                 break;
 
             case 'S':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    rand_s_port = 1;
+                    g_rand_s_port = 1;
                 else
-                    rand_s_port = 0;
+                    g_rand_s_port = 0;
 
-                s_port = (u_int16_t)atoi(optarg);
+                g_s_port = (u_int16_t)atoi(optarg);
                 break;
 
             case 'T':
                 if(atoi(optarg) > 0xFF)
                     fatal_error("Invalid TTL value: %s", optarg);
 
-                ip4hdr_o.ttl = (u_int16_t)atoi(optarg);
+                g_ip4hdr_o.ttl = (u_int16_t)atoi(optarg);
 
                 break;
 
             case 'u':
-                thdr_o.urp = (u_int16_t)atoi(optarg);
+                g_thdr_o.urp = (u_int16_t)atoi(optarg);
                 break;
 
             case 'U':
-                i4hdr_o.otime = (u_int32_t)atoi(optarg);
+                g_i4hdr_o.otime = (u_int32_t)atoi(optarg);
                 break;
 
             case 'v':
-                verbose = 1;
+                g_verbose = 1;
                 break;
 
             case 'V':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    ip4hdr_o.rand_p = 1;
+                    g_ip4hdr_o.rand_p = 1;
 
-                ip4hdr_o.p = (u_int16_t)atoi(optarg);
+                g_ip4hdr_o.p = (u_int16_t)atoi(optarg);
                 break;
 
             case 'w':
-                interval_sec = (u_int16_t)atoi(optarg);
+                g_interval_sec = (u_int16_t)atoi(optarg);
                 break;
 
             case 'W':
-                thdr_o.win = (u_int16_t)atoi(optarg);
+                g_thdr_o.win = (u_int16_t)atoi(optarg);
                 break;
 
             case 'x':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    ahdr_o.rand_s_paddr = 1;
+                    g_ahdr_o.rand_s_paddr = 1;
 
-                if(!(ahdr_o.s_paddr = (u_int8_t*)strdup(optarg)))
+                if(!(g_ahdr_o.s_paddr = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
 
             case 'X':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    ahdr_o.rand_s_eaddr = 1;
+                    g_ahdr_o.rand_s_eaddr = 1;
 
-                if(!(ahdr_o.s_eaddr = (u_int8_t*)strdup(optarg)))
+                if(!(g_ahdr_o.s_eaddr = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
 
             case 'y':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    ahdr_o.rand_r_paddr = 1;
+                    g_ahdr_o.rand_r_paddr = 1;
 
-                if(!(ahdr_o.r_paddr = (u_int8_t*)strdup(optarg)))
+                if(!(g_ahdr_o.r_paddr = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
 
             case 'Y':
                 if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    ahdr_o.rand_r_eaddr = 1;
+                    g_ahdr_o.rand_r_eaddr = 1;
 
-                if(!(ahdr_o.r_eaddr = (u_int8_t*)strdup(optarg)))
+                if(!(g_ahdr_o.r_eaddr = (u_int8_t*)strdup(optarg)))
                     fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
 
             case 'z':
-                i4hdr_o.ttime = (u_int32_t)atoi(optarg);
+                g_i4hdr_o.ttime = (u_int32_t)atoi(optarg);
                 break;
 
             case 'Z':
-                pkt_len = (u_int16_t)atoi(optarg);
+                g_pkt_len = (u_int16_t)atoi(optarg);
                 break;
         }
     }

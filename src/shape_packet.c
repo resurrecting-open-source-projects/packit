@@ -33,59 +33,59 @@ shape_packet()
     fprintf(stdout, "DEBUG: shape_packet()\n");
 #endif
 
-    switch(injection_type)
+    switch(g_injection_type)
     {
         case ETHERTYPE_IP:
 #ifdef DEBUG
             fprintf(stdout, "DEBUG: Injecting IP traffic\n");
 #endif
-            switch(ip4hdr_o.p)
+            switch(g_ip4hdr_o.p)
             {
                 case IPPROTO_TCP:
-                    if((pkt_d = shape_tcp_hdr(pkt_d)) == NULL)
-                        return pkt_d;
+                    if((g_pkt_d = shape_tcp_hdr(g_pkt_d)) == NULL)
+                        return g_pkt_d;
 
                     break;
 
                 case IPPROTO_UDP:
-                    if((pkt_d = shape_udp_hdr(pkt_d)) == NULL)
-                        return pkt_d;
+                    if((g_pkt_d = shape_udp_hdr(g_pkt_d)) == NULL)
+                        return g_pkt_d;
 
                     break;
 
                 case IPPROTO_ICMP:
-                    if((pkt_d = shape_icmpv4_hdr(pkt_d)) == NULL)
-                        return pkt_d;
+                    if((g_pkt_d = shape_icmpv4_hdr(g_pkt_d)) == NULL)
+                        return g_pkt_d;
 
                     break;
             }
 
-            if((pkt_d = shape_ipv4_hdr(pkt_d)) == NULL)
-                return pkt_d;
+            if((g_pkt_d = shape_ipv4_hdr(g_pkt_d)) == NULL)
+                return g_pkt_d;
 
             break;
 
         case ETHERTYPE_ARP:
         case ETHERTYPE_REVARP:
-            if((pkt_d = shape_arp_hdr(pkt_d)) == NULL)
-                return pkt_d;
+            if((g_pkt_d = shape_arp_hdr(g_pkt_d)) == NULL)
+                return g_pkt_d;
 
             break;
     }
 
-    if(ehdr_o.s_addr || ehdr_o.d_addr)
+    if(g_ehdr_o.s_addr || g_ehdr_o.d_addr)
     {
-        if((pkt_d = shape_ethernet_hdr(pkt_d)) == NULL)
-            return pkt_d;
+        if((g_pkt_d = shape_ethernet_hdr(g_pkt_d)) == NULL)
+            return g_pkt_d;
     }
     else
-    if(injection_type == ETHERTYPE_ARP || injection_type == ETHERTYPE_REVARP)
-        if((pkt_d = shape_ethernet_hdr_auto(pkt_d, injection_type)) == NULL)
-            return pkt_d;
+    if(g_injection_type == ETHERTYPE_ARP || g_injection_type == ETHERTYPE_REVARP)
+        if((g_pkt_d = shape_ethernet_hdr_auto(g_pkt_d, g_injection_type)) == NULL)
+            return g_pkt_d;
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: End shape_packet()\n");
 #endif
 
-    return pkt_d;
+    return g_pkt_d;
 }

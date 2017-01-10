@@ -55,7 +55,7 @@ struct ip4hdr_opts
     u_int8_t *dst_addr_o4;
     u_int32_t n_daddr;             /* dst address network byte order */
     u_int16_t rand_d_addr;
-} ip4hdr_o;
+} g_ip4hdr_o;
 
 struct tcphdr_opts
 {
@@ -78,7 +78,7 @@ struct tcphdr_opts
     u_int16_t win;                 /* tcp window size */
     u_int16_t rand_win;            /* random tcp window size */
 
-} thdr_o;
+} g_thdr_o;
 
 struct udphdr_opts
 {
@@ -86,7 +86,7 @@ struct udphdr_opts
     u_int16_t d_port;              /* udp destination port */
 
     u_int16_t sum;                      /* udp checksum */
-} uhdr_o;
+} g_uhdr_o;
 
 struct icmp4hdr_opts
 {
@@ -128,7 +128,7 @@ struct icmp4hdr_opts
     u_int32_t otime;                    /* original timestamp */
     u_int32_t rtime;                    /* recieved timestamp */
     u_int32_t ttime;                    /* transmit timestamp */
-} i4hdr_o;
+} g_i4hdr_o;
 
 struct enethdr_opts
 {
@@ -139,7 +139,7 @@ struct enethdr_opts
     u_int8_t shw_addr[18];
     u_int8_t *d_addr;                   /* destination ethernet address string */
     u_int8_t dhw_addr[18];
-} ehdr_o;
+} g_ehdr_o;
 
 struct arphdr_opts
 {
@@ -159,30 +159,30 @@ struct arphdr_opts
 
     u_int8_t shw_addr[18];
     u_int8_t rhw_addr[18];
-} ahdr_o;
+} g_ahdr_o;
 
-libnet_t *pkt_d;
+libnet_t *g_pkt_d;
 
-u_int16_t init_type;
-u_int16_t rand_d_port;
-u_int16_t rand_s_port;
-u_int16_t s_port;
-u_int16_t d_port;
-u_int16_t port_range;
-u_int16_t interval_sec;
-u_int16_t interval_usec;
-u_int16_t injection_type;
-u_int16_t r_timeout;
-u_int16_t burst_rate;
-u_int16_t payload_len;
-u_int8_t *payload;
-u_int8_t hex_payload;
-u_int8_t *s_d_port;
-u_int8_t hwaddr_p[18];
-u_int8_t rawip;
+u_int16_t g_init_type;
+u_int16_t g_rand_d_port;
+u_int16_t g_rand_s_port;
+u_int16_t g_s_port;
+u_int16_t g_d_port;
+u_int16_t g_port_range;
+u_int16_t g_interval_sec;
+u_int16_t g_interval_usec;
+u_int16_t g_injection_type;
+u_int16_t g_r_timeout;
+u_int16_t g_burst_rate;
+u_int16_t g_payload_len;
+u_int8_t *g_payload;
+u_int8_t g_hex_payload;
+u_int8_t *g_s_d_port;
+u_int8_t g_hwaddr_p[18];
+u_int8_t g_rawip;
 
-struct timeval bf_pcap;
-struct timeval af_pcap;
+struct timeval g_bf_pcap;
+struct timeval g_af_pcap;
 
 
 #endif /* __INJECTION_STRUCTS_H */

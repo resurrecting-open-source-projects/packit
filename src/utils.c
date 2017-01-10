@@ -69,7 +69,7 @@ retrieve_datalink_hdr_len(u_int32_t d_link)
     }
 
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: hdr_len: %d\n", len);
+    fprintf(stdout, "DEBUG: g_hdr_len: %d\n", len);
 #endif
 
     return len;
@@ -517,22 +517,22 @@ retrieve_tcp_flags()
     fprintf(stdout, "DEBUG: retrieve_tcp_flags()\n");
 #endif
 
-    if(thdr_o.urg)
+    if(g_thdr_o.urg)
         flags |= TH_URG;
 
-    if(thdr_o.ack)
+    if(g_thdr_o.ack)
         flags |= TH_ACK;
 
-    if(thdr_o.psh)
+    if(g_thdr_o.psh)
         flags |= TH_PUSH;
 
-    if(thdr_o.rst)
+    if(g_thdr_o.rst)
         flags |= TH_RST;
 
-    if(thdr_o.syn)
+    if(g_thdr_o.syn)
         flags |= TH_SYN;
 
-    if(thdr_o.fin)
+    if(g_thdr_o.fin)
         flags |= TH_FIN;
 
     return flags;
@@ -601,7 +601,7 @@ u_int16_t parse_port_range(char *rangestr) {
 
     rangestr = o_rangestr;
     range = spread[1] - spread[0] + 1;
-    d_port = (u_int16_t)spread[0];
+    g_d_port = (u_int16_t)spread[0];
 
     if(range < 1 || i != 2)
         return -1;

@@ -45,7 +45,7 @@ print_ts(struct timeval ts)
     tvp = malloc(sizeof(struct timeval));
     memset(tvp, 0, sizeof(struct timeval));
 
-    if(time_gmt)
+    if(g_time_gmt)
         snprintf(timestamp, TIMESTAMP_MAXLEN, "%02lu:%02lu:%02lu.%06lu",
             (u_long)(ts.tv_sec % 86400) / 3600,
             (u_long)((ts.tv_sec % 86400) % 3600) / 60,
