@@ -26,7 +26,7 @@
 #include "shape_icmpv4_hdr.h"
 
 libnet_t *
-shape_icmpv4_hdr(libnet_t *pkt_d)
+shape_icmpv4_hdr(libnet_t *g_pkt_d)
 {
     u_int8_t ih_payload[8];
     u_int32_t ih_payload_len = 8;
@@ -35,90 +35,90 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
     u_int32_t orig_hlen = IPV4_H + ICMPV4_H;
 
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: shape_icmpv4_hdr(): type: %d  code: %d\n", i4hdr_o.type, i4hdr_o.code);
+    fprintf(stdout, "DEBUG: shape_icmpv4_hdr(): type: %d  code: %d\n", g_i4hdr_o.type, g_i4hdr_o.code);
 #endif
 
-    ip4hdr_o.p = IPPROTO_ICMP;
+    g_ip4hdr_o.p = IPPROTO_ICMP;
 
-    switch(i4hdr_o.type)
+    switch(g_i4hdr_o.type)
     {
         case ICMP_ECHOREPLY: case ICMP_ECHO: default:
 #ifdef DEBUG
             fprintf(stdout, "DEBUG: Building ICMP echo header\n");
 #endif
 
-            if(i4hdr_o.rand_seqn)
-                i4hdr_o.seqn = (u_int16_t)retrieve_rand_int(P_UINT16);
+            if(g_i4hdr_o.rand_seqn)
+                g_i4hdr_o.seqn = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-            if(i4hdr_o.rand_id)
-                i4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
+            if(g_i4hdr_o.rand_id)
+                g_i4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-            hdr_len = ICMPV4_ECHO_H;
+            g_hdr_len = ICMPV4_ECHO_H;
 
-            if(pkt_len)
+            if(g_pkt_len)
             {
-                payload = generate_padding(hdr_len + IPV4_H, pkt_len);
-                payload_len = strlen((char*)payload);
-                pkt_len = 0;
+                g_payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
+                g_payload_len = strlen((char*)g_payload);
+                g_pkt_len = 0;
             }
 
             if(libnet_build_icmpv4_echo(
-	        i4hdr_o.type,
-	        i4hdr_o.code,
+	        g_i4hdr_o.type,
+	        g_i4hdr_o.code,
 	        0,
-	        i4hdr_o.id,
-	        i4hdr_o.seqn,
-	        payload,
-	        payload_len,
-	        pkt_d,
+	        g_i4hdr_o.id,
+	        g_i4hdr_o.seqn,
+	        g_payload,
+	        g_payload_len,
+	        g_pkt_d,
 	        0) == -1)
 	    {
-	        fatal_error("Unable to build ICMPv4 echo header: %s", libnet_geterror(pkt_d));
+	        fatal_error("Unable to build ICMPv4 echo header: %s", libnet_geterror(g_pkt_d));
 	    }
 
             break;
 
 	case ICMP_UNREACH: case ICMP_REDIRECT: case ICMP_TIMXCEED:
-            if(i4hdr_o.orig_p == IPPROTO_TCP)
+            if(g_i4hdr_o.orig_p == IPPROTO_TCP)
 	        orig_hlen = IPV4_H + TCP_H;
 	    else
-            if(i4hdr_o.orig_p == IPPROTO_UDP)
+            if(g_i4hdr_o.orig_p == IPPROTO_UDP)
                 orig_hlen = IPV4_H + UDP_H;
             else
-            if(i4hdr_o.orig_p == IPPROTO_ICMP)
+            if(g_i4hdr_o.orig_p == IPPROTO_ICMP)
 	        orig_hlen = IPV4_H + ICMPV4_H;
 
-	    if(i4hdr_o.rand_orig_s_addr)
-                i4hdr_o.orig_s_addr = retrieve_rand_ipv4_addr(i4hdr_o.orig_s_addr);
+	    if(g_i4hdr_o.rand_orig_s_addr)
+                g_i4hdr_o.orig_s_addr = retrieve_rand_ipv4_addr(g_i4hdr_o.orig_s_addr);
 
-            if(i4hdr_o.rand_orig_d_addr)
-		i4hdr_o.orig_d_addr = retrieve_rand_ipv4_addr(i4hdr_o.orig_d_addr);
+            if(g_i4hdr_o.rand_orig_d_addr)
+		g_i4hdr_o.orig_d_addr = retrieve_rand_ipv4_addr(g_i4hdr_o.orig_d_addr);
 
-            if(i4hdr_o.rand_orig_id)
-                i4hdr_o.orig_id = (u_int16_t)retrieve_rand_int(P_UINT16);
+            if(g_i4hdr_o.rand_orig_id)
+                g_i4hdr_o.orig_id = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-            if(i4hdr_o.rand_orig_s_port)
-                i4hdr_o.orig_s_port = (u_int16_t)retrieve_rand_int(P_UINT16);
+            if(g_i4hdr_o.rand_orig_s_port)
+                g_i4hdr_o.orig_s_port = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-            if(i4hdr_o.rand_orig_d_port)
-                i4hdr_o.orig_d_port = (u_int16_t)retrieve_rand_int(P_UINT16);
+            if(g_i4hdr_o.rand_orig_d_port)
+                g_i4hdr_o.orig_d_port = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-            if(i4hdr_o.orig_s_addr == NULL)
+            if(g_i4hdr_o.orig_s_addr == NULL)
 	        fatal_error("No original source IP address defined");
 
-	    if((ihn_saddr = libnet_name2addr4(pkt_d, (char*)i4hdr_o.orig_s_addr, 1)) == -1)
-	        fatal_error("Invalid original source IP address: %s", i4hdr_o.orig_s_addr);
+	    if((ihn_saddr = libnet_name2addr4(g_pkt_d, (char*)g_i4hdr_o.orig_s_addr, 1)) == -1)
+	        fatal_error("Invalid original source IP address: %s", g_i4hdr_o.orig_s_addr);
 
-	    if(i4hdr_o.orig_d_addr == NULL)
+	    if(g_i4hdr_o.orig_d_addr == NULL)
 	        fatal_error("No original destination IP address defined");
 
-	    if((ihn_daddr = libnet_name2addr4(pkt_d, (char*)i4hdr_o.orig_d_addr, 1)) == -1)
-	        fatal_error("Invalid original destination IP address: %s", i4hdr_o.orig_d_addr);
+	    if((ihn_daddr = libnet_name2addr4(g_pkt_d, (char*)g_i4hdr_o.orig_d_addr, 1)) == -1)
+	        fatal_error("Invalid original destination IP address: %s", g_i4hdr_o.orig_d_addr);
 
-            ih_payload[0] = (i4hdr_o.orig_s_port >> 8) & 0xff;
-	    ih_payload[1] = i4hdr_o.orig_s_port & 0xff;
-	    ih_payload[2] = (i4hdr_o.orig_d_port >> 8) & 0xff;
-	    ih_payload[3] = i4hdr_o.orig_d_port & 0xff;
+            ih_payload[0] = (g_i4hdr_o.orig_s_port >> 8) & 0xff;
+	    ih_payload[1] = g_i4hdr_o.orig_s_port & 0xff;
+	    ih_payload[2] = (g_i4hdr_o.orig_d_port >> 8) & 0xff;
+	    ih_payload[3] = g_i4hdr_o.orig_d_port & 0xff;
 	    ih_payload[4] = 0;
 	    ih_payload[5] = 32;
 	    ih_payload[6] = 0;
@@ -126,151 +126,151 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
 
             ih_payload_len = 8;
 
-	    if(i4hdr_o.type == ICMP_UNREACH)
+	    if(g_i4hdr_o.type == ICMP_UNREACH)
 	    {
 #ifdef DEBUG
                 fprintf(stdout, "DEBUG: Building ICMP unreachable header\n");
 #endif
 
-                hdr_len = ICMPV4_UNREACH_H;
+                g_hdr_len = ICMPV4_UNREACH_H;
 
-                if(pkt_len)
+                if(g_pkt_len)
                 {
-                    payload = generate_padding(hdr_len + IPV4_H, pkt_len);
-                    payload_len = strlen((char*)payload);
-                    pkt_len = 0;
+                    g_payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
+                    g_payload_len = strlen((char*)g_payload);
+                    g_pkt_len = 0;
                 }
 
                 if(libnet_build_ipv4(
                     orig_hlen,
-                    i4hdr_o.orig_tos,
-                    i4hdr_o.orig_id,
+                    g_i4hdr_o.orig_tos,
+                    g_i4hdr_o.orig_id,
                     0,
-                    i4hdr_o.orig_ttl,
-                    i4hdr_o.orig_p,
-                    i4hdr_o.orig_sum,
+                    g_i4hdr_o.orig_ttl,
+                    g_i4hdr_o.orig_p,
+                    g_i4hdr_o.orig_sum,
                     ihn_saddr,
                     ihn_daddr,
                     ih_payload,
                     ih_payload_len,
-                    pkt_d,
+                    g_pkt_d,
                     0) == -1)
                 {
-                    fatal_error("Unable to build original IP header: %s", libnet_geterror(pkt_d));
+                    fatal_error("Unable to build original IP header: %s", libnet_geterror(g_pkt_d));
                 }
 
                 if(libnet_build_icmpv4_unreach(
-                    i4hdr_o.type,
-                    i4hdr_o.code,
+                    g_i4hdr_o.type,
+                    g_i4hdr_o.code,
                     0,
                     NULL,
                     0,
-                    pkt_d,
+                    g_pkt_d,
                     0) == -1)
                 {
-                    fatal_error("Unable to build ICMPv4 unreach header: %s", libnet_geterror(pkt_d));
+                    fatal_error("Unable to build ICMPv4 unreach header: %s", libnet_geterror(g_pkt_d));
 	        }
             }
 	    else
-            if(i4hdr_o.type == ICMP_REDIRECT)
+            if(g_i4hdr_o.type == ICMP_REDIRECT)
 	    {
 #ifdef DEBUG
                 fprintf(stdout, "DEBUG: Building ICMP redirect header\n");
 #endif
 
-                if(i4hdr_o.rand_gw)
-	            i4hdr_o.gw = retrieve_rand_ipv4_addr(i4hdr_o.gw);
+                if(g_i4hdr_o.rand_gw)
+	            g_i4hdr_o.gw = retrieve_rand_ipv4_addr(g_i4hdr_o.gw);
 
-                if(i4hdr_o.gw == NULL)
+                if(g_i4hdr_o.gw == NULL)
 	            fatal_error("No gateway IP address defined");
 
-                if((ihn_gw = libnet_name2addr4(pkt_d, (char*)i4hdr_o.gw, 1)) == -1)
-	            fatal_error("Invalid gateway IP address: %s", i4hdr_o.gw);
+                if((ihn_gw = libnet_name2addr4(g_pkt_d, (char*)g_i4hdr_o.gw, 1)) == -1)
+	            fatal_error("Invalid gateway IP address: %s", g_i4hdr_o.gw);
 
-                hdr_len = ICMPV4_REDIRECT_H;
+                g_hdr_len = ICMPV4_REDIRECT_H;
 
-                if(pkt_len)
+                if(g_pkt_len)
                 {
-                    payload = generate_padding(hdr_len + IPV4_H, pkt_len);
-                    payload_len = strlen((char*)payload);
-                    pkt_len = 0;
+                    g_payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
+                    g_payload_len = strlen((char*)g_payload);
+                    g_pkt_len = 0;
                 }
 
                 if(libnet_build_ipv4(
                     orig_hlen,
-                    i4hdr_o.orig_tos,
-                    i4hdr_o.orig_id,
+                    g_i4hdr_o.orig_tos,
+                    g_i4hdr_o.orig_id,
                     0,
-                    i4hdr_o.orig_ttl,
-                    i4hdr_o.orig_p,
-                    i4hdr_o.orig_sum,
+                    g_i4hdr_o.orig_ttl,
+                    g_i4hdr_o.orig_p,
+                    g_i4hdr_o.orig_sum,
                     ihn_saddr,
                     ihn_daddr,
                     ih_payload,
                     ih_payload_len,
-                    pkt_d,
+                    g_pkt_d,
                     0) == -1)
                 {
-                    fatal_error("Unable to build original IP header: %s", libnet_geterror(pkt_d));
+                    fatal_error("Unable to build original IP header: %s", libnet_geterror(g_pkt_d));
                 }
 
  	        if(libnet_build_icmpv4_redirect(
-	            i4hdr_o.type,
-	            i4hdr_o.code,
+	            g_i4hdr_o.type,
+	            g_i4hdr_o.code,
 	            0,
                     ihn_gw,
                     NULL,
                     0,
-	            pkt_d,
+	            g_pkt_d,
 	            0) == -1)
  	        {
-	            fatal_error("Unable to build ICMPv4 redirect header: %s", libnet_geterror(pkt_d));
+	            fatal_error("Unable to build ICMPv4 redirect header: %s", libnet_geterror(g_pkt_d));
 	        }
 	    }
             else
-            if(i4hdr_o.type == ICMP_TIMXCEED)
+            if(g_i4hdr_o.type == ICMP_TIMXCEED)
 	    {
 #ifdef DEBUG
                 fprintf(stdout, "DEBUG: Building ICMP timelimit exceeded header\n");
 #endif
 
-                hdr_len = ICMPV4_TIMXCEED_H;
+                g_hdr_len = ICMPV4_TIMXCEED_H;
 
-                if(pkt_len)
+                if(g_pkt_len)
                 {
-                    payload = generate_padding(hdr_len + IPV4_H, pkt_len);
-                    payload_len = strlen((char*)payload);
-                    pkt_len = 0;
+                    g_payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
+                    g_payload_len = strlen((char*)g_payload);
+                    g_pkt_len = 0;
                 }
 
                 if(libnet_build_ipv4(
                     orig_hlen,
-                    i4hdr_o.orig_tos,
-                    i4hdr_o.orig_id,
+                    g_i4hdr_o.orig_tos,
+                    g_i4hdr_o.orig_id,
                     0,
-                    i4hdr_o.orig_ttl,
-                    i4hdr_o.orig_p,
-                    i4hdr_o.orig_sum,
+                    g_i4hdr_o.orig_ttl,
+                    g_i4hdr_o.orig_p,
+                    g_i4hdr_o.orig_sum,
                     ihn_saddr,
                     ihn_daddr,
                     ih_payload,
                     ih_payload_len,
-                    pkt_d,
+                    g_pkt_d,
                     0) == -1)
                 {
-                    fatal_error("Unable to build original IP header: %s", libnet_geterror(pkt_d));
+                    fatal_error("Unable to build original IP header: %s", libnet_geterror(g_pkt_d));
                 }
 
                 if(libnet_build_icmpv4_timeexceed(
-                    i4hdr_o.type,
-	            i4hdr_o.code,
+                    g_i4hdr_o.type,
+	            g_i4hdr_o.code,
                     0,
                     NULL,
                     0,
- 	            pkt_d,
+ 	            g_pkt_d,
 	            0) == -1)
 	        {
-	            fatal_error("Unable to build ICMPv4 timeexceed header: %s", libnet_geterror(pkt_d));
+	            fatal_error("Unable to build ICMPv4 timeexceed header: %s", libnet_geterror(g_pkt_d));
 	        }
 	    }
 
@@ -281,36 +281,36 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
             fprintf(stdout, "DEBUG: Building ICMP timestamp header\n");
 #endif
 
-            if(i4hdr_o.rand_seqn)
-                i4hdr_o.seqn = (u_int16_t)retrieve_rand_int(P_UINT16);
+            if(g_i4hdr_o.rand_seqn)
+                g_i4hdr_o.seqn = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-            if(i4hdr_o.rand_id)
-                i4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
+            if(g_i4hdr_o.rand_id)
+                g_i4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-            hdr_len = ICMPV4_TSTAMP_H;
+            g_hdr_len = ICMPV4_TSTAMP_H;
 
-            if(pkt_len)
+            if(g_pkt_len)
             {
-                payload = generate_padding(hdr_len + IPV4_H, pkt_len);
-                payload_len = strlen((char*)payload);
-                pkt_len = 0;
+                g_payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
+                g_payload_len = strlen((char*)g_payload);
+                g_pkt_len = 0;
             }
 
             if(libnet_build_icmpv4_timestamp(
-                i4hdr_o.type,
-                i4hdr_o.code,
+                g_i4hdr_o.type,
+                g_i4hdr_o.code,
                 0,
-		i4hdr_o.id,
-		i4hdr_o.seqn,
-		i4hdr_o.otime,
-		i4hdr_o.rtime,
-		i4hdr_o.ttime,
-		payload,
-		payload_len,
-		pkt_d,
+		g_i4hdr_o.id,
+		g_i4hdr_o.seqn,
+		g_i4hdr_o.otime,
+		g_i4hdr_o.rtime,
+		g_i4hdr_o.ttime,
+		g_payload,
+		g_payload_len,
+		g_pkt_d,
 		0) == -1)
 	    {
-		fatal_error("Unable to build ICMPv4 timestamp header: %s", libnet_geterror(pkt_d));
+		fatal_error("Unable to build ICMPv4 timestamp header: %s", libnet_geterror(g_pkt_d));
 	    }
 				
             break;
@@ -320,43 +320,43 @@ shape_icmpv4_hdr(libnet_t *pkt_d)
             fprintf(stdout, "DEBUG: Building ICMP mask header\n");
 #endif
 
-            if(i4hdr_o.rand_seqn)
-                i4hdr_o.seqn = (u_int16_t)retrieve_rand_int(P_UINT16);
+            if(g_i4hdr_o.rand_seqn)
+                g_i4hdr_o.seqn = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-            if(i4hdr_o.rand_id)
-                i4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
+            if(g_i4hdr_o.rand_id)
+                g_i4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-            if(i4hdr_o.mask != NULL)
-                if((ihn_mask = libnet_name2addr4(pkt_d, (char*)i4hdr_o.mask, 1)) == -1)
-	            fatal_error("Invalid mask address: %s", i4hdr_o.mask);
+            if(g_i4hdr_o.mask != NULL)
+                if((ihn_mask = libnet_name2addr4(g_pkt_d, (char*)g_i4hdr_o.mask, 1)) == -1)
+	            fatal_error("Invalid mask address: %s", g_i4hdr_o.mask);
 
-            hdr_len = ICMPV4_MASK_H;
+            g_hdr_len = ICMPV4_MASK_H;
 
-            if(pkt_len)
+            if(g_pkt_len)
             {
-                payload = generate_padding(hdr_len + IPV4_H, pkt_len);
-                payload_len = strlen((char*)payload);
-                pkt_len = 0;
+                g_payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
+                g_payload_len = strlen((char*)g_payload);
+                g_pkt_len = 0;
             }
 
 	    if(libnet_build_icmpv4_mask(
-	        i4hdr_o.type,
-	        i4hdr_o.code,
-	        (i4hdr_o.mask != NULL) ? ihn_mask : 0,
-	        i4hdr_o.id,
-	        i4hdr_o.seqn,
+	        g_i4hdr_o.type,
+	        g_i4hdr_o.code,
+	        (g_i4hdr_o.mask != NULL) ? ihn_mask : 0,
+	        g_i4hdr_o.id,
+	        g_i4hdr_o.seqn,
 		ihn_mask,
-	        payload,
-	        payload_len,
-	        pkt_d,
+	        g_payload,
+	        g_payload_len,
+	        g_pkt_d,
 	        0) == -1)
 	    {
-	        fatal_error("Unable to build ICMPv4 mask header: %s", libnet_geterror(pkt_d));
+	        fatal_error("Unable to build ICMPv4 mask header: %s", libnet_geterror(g_pkt_d));
 	    }
 
             break;
     }
 
-    return pkt_d;
+    return g_pkt_d;
 }
 

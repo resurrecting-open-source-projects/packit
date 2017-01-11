@@ -29,32 +29,32 @@
 void
 define_injection_defaults()
 {
-    cnt = (p_mode == M_INJECT) ? 1 : 30;
-    inj_cnt = 1;
-    cap_cnt = 0;
-    rawip = 0;
-    s_port = 0;
-    rand_s_port = 1;
+    g_cnt = (g_p_mode == M_INJECT) ? 1 : 30;
+    g_inj_cnt = 1;
+    g_cap_cnt = 0;
+    g_rawip = 0;
+    g_s_port = 0;
+    g_rand_s_port = 1;
 
-    // s_d_port = "0";
-    s_d_port = malloc(4);
-    strcpy((char*)s_d_port, "0");
+    // g_s_d_port = "0";
+    g_s_d_port = malloc(4);
+    strcpy((char*)g_s_d_port, "0");
 
-    d_port = 0;
-    rand_d_port = (p_mode == M_TRACE) ? 1 : 0;
-    r_timeout = 1;
-    burst_rate = 1;
-    init_type = 1;
-    interval_sec = 1;
-    interval_usec = 0;
-    payload = NULL;
-    payload_len = 0;
-    hdr_len = 0;
-    display = 1;
-    verbose = 0;
-    resolve = 1;
-    link_layer = 0;
-    resolve = 0;
+    g_d_port = 0;
+    g_rand_d_port = (g_p_mode == M_TRACE) ? 1 : 0;
+    g_r_timeout = 1;
+    g_burst_rate = 1;
+    g_init_type = 1;
+    g_interval_sec = 1;
+    g_interval_usec = 0;
+    g_payload = NULL;
+    g_payload_len = 0;
+    g_hdr_len = 0;
+    g_display = 1;
+    g_verbose = 0;
+    g_resolve = 1;
+    g_link_layer = 0;
+    g_resolve = 0;
 
     return;
 }

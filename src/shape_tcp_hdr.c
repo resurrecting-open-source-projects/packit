@@ -26,7 +26,7 @@
 #include "shape_tcp_hdr.h"
 
 libnet_t *
-shape_tcp_hdr(libnet_t *pkt_d)
+shape_tcp_hdr(libnet_t *g_pkt_d)
 {
     int flags;
 
@@ -34,49 +34,49 @@ shape_tcp_hdr(libnet_t *pkt_d)
     fprintf(stdout, "DEBUG: shape_tcp_hdr()\n");
 #endif
 
-    ip4hdr_o.p = IPPROTO_TCP;
-    hdr_len = TCP_H;
+    g_ip4hdr_o.p = IPPROTO_TCP;
+    g_hdr_len = TCP_H;
 
-    if(rand_s_port)
-        s_port = (u_int16_t)retrieve_rand_int(P_UINT16);
+    if(g_rand_s_port)
+        g_s_port = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-    if(rand_d_port)
-        d_port = (u_int16_t)retrieve_rand_int(P_UINT16);
+    if(g_rand_d_port)
+        g_d_port = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-    if((thdr_o.rand_seqn && thdr_o.syn) == 1)
-        thdr_o.seqn =  (u_int32_t)retrieve_rand_int(P_INT32);
+    if((g_thdr_o.rand_seqn && g_thdr_o.syn) == 1)
+        g_thdr_o.seqn =  (u_int32_t)retrieve_rand_int(P_INT32);
 
     flags = retrieve_tcp_flags();
 
     // If packet length is provided, create a packet with a sequence
-    // as payload
-    if(pkt_len)
+    // as g_payload
+    if(g_pkt_len)
     {
-        payload = generate_padding(hdr_len + IPV4_H, pkt_len);
-        payload_len = strlen((char*)payload);
-        pkt_len = 0;
+        g_payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
+        g_payload_len = strlen((char*)g_payload);
+        g_pkt_len = 0;
     }
 
     if(libnet_build_tcp(
-        s_port,
-        d_port,
-        thdr_o.seqn,
-        thdr_o.ackn,
+        g_s_port,
+        g_d_port,
+        g_thdr_o.seqn,
+        g_thdr_o.ackn,
         flags,
-        thdr_o.win,
+        g_thdr_o.win,
         0,
-        thdr_o.urp,
-        hdr_len + payload_len,
-        payload,
-        payload_len,
-        pkt_d,
+        g_thdr_o.urp,
+        g_hdr_len + g_payload_len,
+        g_payload,
+        g_payload_len,
+        g_pkt_d,
         0) == -1)
     {
-        fatal_error("Unable to build TCP header: %s", libnet_geterror(pkt_d));
+        fatal_error("Unable to build TCP header: %s", libnet_geterror(g_pkt_d));
     }
 
-    if(port_range)
-        d_port++;
+    if(g_port_range)
+        g_d_port++;
 
-    return pkt_d;
+    return g_pkt_d;
 }

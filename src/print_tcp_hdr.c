@@ -44,7 +44,7 @@ print_tcp_hdr(u_int8_t *packet)
     memset(port_dst, 0, sizeof(struct servent));
     memset(flags, 0, sizeof(flags));
 
-    tcphdr = (struct libnet_tcp_hdr *)(packet + IPV4_H + hdr_len);
+    tcphdr = (struct libnet_tcp_hdr *)(packet + IPV4_H + g_hdr_len);
 
     if(tcphdr->th_flags & TH_URG)
         strcat(flags, "U");

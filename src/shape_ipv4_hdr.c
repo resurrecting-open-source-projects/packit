@@ -26,71 +26,71 @@
 #include "shape_ipv4_hdr.h"
 
 libnet_t *
-shape_ipv4_hdr(libnet_t *pkt_d)
+shape_ipv4_hdr(libnet_t *g_pkt_d)
 {
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: shape_ipv4_hdr()\n");
 #endif
 
-    if(ip4hdr_o.rand_s_addr)
-        ip4hdr_o.s_addr = retrieve_rand_ipv4_addr(ip4hdr_o.s_addr);
+    if(g_ip4hdr_o.rand_s_addr)
+        g_ip4hdr_o.s_addr = retrieve_rand_ipv4_addr(g_ip4hdr_o.s_addr);
 
-    if(ip4hdr_o.rand_d_addr)
-	ip4hdr_o.d_addr = retrieve_rand_ipv4_addr(ip4hdr_o.d_addr);
+    if(g_ip4hdr_o.rand_d_addr)
+	g_ip4hdr_o.d_addr = retrieve_rand_ipv4_addr(g_ip4hdr_o.d_addr);
 
-    if(ip4hdr_o.s_addr == NULL)
+    if(g_ip4hdr_o.s_addr == NULL)
     {
-        if((ip4hdr_o.n_saddr = libnet_get_ipaddr4(pkt_d)) == -1)
-            fatal_error("Unable to retrieve local IP address: %s", libnet_geterror(pkt_d));
+        if((g_ip4hdr_o.n_saddr = libnet_get_ipaddr4(g_pkt_d)) == -1)
+            fatal_error("Unable to retrieve local IP address: %s", libnet_geterror(g_pkt_d));
 
-        ip4hdr_o.s_addr = (u_int8_t*)libnet_addr2name4(ip4hdr_o.n_saddr, 1);
+        g_ip4hdr_o.s_addr = (u_int8_t*)libnet_addr2name4(g_ip4hdr_o.n_saddr, 1);
     }
     else
-        if((ip4hdr_o.n_saddr = libnet_name2addr4(pkt_d, (char*)ip4hdr_o.s_addr, 1)) == -1)
-            fatal_error("Invalid source IP address: %s", ip4hdr_o.s_addr);
+        if((g_ip4hdr_o.n_saddr = libnet_name2addr4(g_pkt_d, (char*)g_ip4hdr_o.s_addr, 1)) == -1)
+            fatal_error("Invalid source IP address: %s", g_ip4hdr_o.s_addr);
 
-    if(ip4hdr_o.d_addr == NULL)
+    if(g_ip4hdr_o.d_addr == NULL)
         fatal_error("No destination IP address defined");
 
-    if((ip4hdr_o.n_daddr = libnet_name2addr4(pkt_d, (char*)ip4hdr_o.d_addr, 1)) == -1)
-        fatal_error("Invalid destination IP address: %s", ip4hdr_o.d_addr);
+    if((g_ip4hdr_o.n_daddr = libnet_name2addr4(g_pkt_d, (char*)g_ip4hdr_o.d_addr, 1)) == -1)
+        fatal_error("Invalid destination IP address: %s", g_ip4hdr_o.d_addr);
 
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: source IP: %s  destination IP: %s\n", ip4hdr_o.d_addr, ip4hdr_o.s_addr);
+    fprintf(stdout, "DEBUG: source IP: %s  destination IP: %s\n", g_ip4hdr_o.d_addr, g_ip4hdr_o.s_addr);
 #endif
 
-    if(ip4hdr_o.rand_p)
-        ip4hdr_o.p = (u_int8_t)retrieve_rand_int(P_UINT8);
+    if(g_ip4hdr_o.rand_p)
+        g_ip4hdr_o.p = (u_int8_t)retrieve_rand_int(P_UINT8);
 
-    if(ip4hdr_o.rand_id)
-        ip4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
+    if(g_ip4hdr_o.rand_id)
+        g_ip4hdr_o.id = (u_int16_t)retrieve_rand_int(P_UINT16);
 
-    if(rawip && pkt_len)
+    if(g_rawip && g_pkt_len)
     {
-        payload = generate_padding(hdr_len + IPV4_H, pkt_len);
-        payload_len = strlen((char*)payload);
-        pkt_len = 0;
+        g_payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
+        g_payload_len = strlen((char*)g_payload);
+        g_pkt_len = 0;
     }
 
-    hdr_len = hdr_len + IPV4_H + payload_len;
+    g_hdr_len = g_hdr_len + IPV4_H + g_payload_len;
 
     if(libnet_build_ipv4(
-        hdr_len,
-        ip4hdr_o.tos,
-        ip4hdr_o.id,
-        ip4hdr_o.frag,
-        ip4hdr_o.ttl,
-        ip4hdr_o.p,
-        ip4hdr_o.sum,
-        ip4hdr_o.n_saddr,
-        ip4hdr_o.n_daddr,
-        (rawip) ? payload : NULL,
-        (rawip) ? payload_len : 0,
-        pkt_d,
+        g_hdr_len,
+        g_ip4hdr_o.tos,
+        g_ip4hdr_o.id,
+        g_ip4hdr_o.frag,
+        g_ip4hdr_o.ttl,
+        g_ip4hdr_o.p,
+        g_ip4hdr_o.sum,
+        g_ip4hdr_o.n_saddr,
+        g_ip4hdr_o.n_daddr,
+        (g_rawip) ? g_payload : NULL,
+        (g_rawip) ? g_payload_len : 0,
+        g_pkt_d,
         0) == -1)
     {
-        fatal_error("Unable to build IP header: %s", libnet_geterror(pkt_d));
+        fatal_error("Unable to build IP header: %s", libnet_geterror(g_pkt_d));
     }
 
-    return pkt_d;
+    return g_pkt_d;
 }

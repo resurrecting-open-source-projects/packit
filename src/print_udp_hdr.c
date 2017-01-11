@@ -34,7 +34,7 @@ print_udp_hdr(u_int8_t *packet)
     fprintf(stdout, "DEBUG: print_udp_hdr()\n");
 #endif
 
-    udphdr = (struct libnet_udp_hdr *)(packet + IPV4_H + hdr_len);
+    udphdr = (struct libnet_udp_hdr *)(packet + IPV4_H + g_hdr_len);
 
     fprintf(stdout, "UDP header:  Src Port: %d  Dst Port: %d  Len: %d  ",
         htons(udphdr->uh_sport),
