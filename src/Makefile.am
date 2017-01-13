@@ -41,7 +41,8 @@ common_SOURCES =        init.c \
                         shape_packet.c \
                         utils.c \
                         stats.c \
-                        contrib/pcap_setnonblock.c
+                        contrib/pcap_setnonblock.c \
+                        shape_ipv6_hdr.c
 
 packit_SOURCES =        ${common_SOURCES} \
                         usage.c \

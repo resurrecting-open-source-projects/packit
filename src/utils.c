@@ -681,3 +681,13 @@ u_int32_t format_hex_payload(u_int8_t *string)
 
     return len;
 }
+
+void
+rand_ip6addr(struct libnet_in6_addr *addr)
+{
+    addr->__u6_addr.__u6_addr32[0] = retrieve_rand_int(0xffffffff);
+    addr->__u6_addr.__u6_addr32[1] = retrieve_rand_int(0xffffffff);
+    addr->__u6_addr.__u6_addr32[2] = retrieve_rand_int(0xffffffff);
+    addr->__u6_addr.__u6_addr32[3] = retrieve_rand_int(0xffffffff);
+}
+

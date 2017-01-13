@@ -26,7 +26,7 @@
 #include "shape_arp_hdr.h"
 
 libnet_t *
-shape_arp_hdr(libnet_t *g_pkt_d)
+shape_arp_hdr(libnet_t *pkt_d)
 {
     u_int32_t i, s_paddr, r_paddr;
     u_int8_t s_neaddr[6];
@@ -60,8 +60,8 @@ shape_arp_hdr(libnet_t *g_pkt_d)
 	switch(g_ahdr_o.op_type)
 	{
             case ARPOP_REQUEST: case ARPOP_REVREQUEST:
-                if((s_paddr = libnet_get_ipaddr4(g_pkt_d)) == -1)
-                    fatal_error("Unable to retrieve local IP address: %s", libnet_geterror(g_pkt_d));
+                if((s_paddr = libnet_get_ipaddr4(pkt_d)) == -1)
+                    fatal_error("Unable to retrieve local IP address: %s", libnet_geterror(pkt_d));
 
                 g_ahdr_o.s_paddr = (u_int8_t*)libnet_addr2name4(s_paddr, 0);
 		break;
@@ -72,7 +72,7 @@ shape_arp_hdr(libnet_t *g_pkt_d)
 	}
     }
 
-    if((s_paddr = libnet_name2addr4(g_pkt_d, (char*)g_ahdr_o.s_paddr, 0)) == -1)
+    if((s_paddr = libnet_name2addr4(pkt_d, (char*)g_ahdr_o.s_paddr, 0)) == -1)
         fatal_error("Invalid sender protocol address: %s", g_ahdr_o.s_paddr);
 
     if(g_ahdr_o.s_eaddr == NULL)
@@ -80,8 +80,8 @@ shape_arp_hdr(libnet_t *g_pkt_d)
 	switch(g_ahdr_o.op_type)
 	{
 	    case ARPOP_REQUEST: case ARPOP_REVREQUEST:
-                if((hw_addr = libnet_get_hwaddr(g_pkt_d)) == NULL)
-                    fatal_error("Unable to determine ethernet address: %s", libnet_geterror(g_pkt_d));
+                if((hw_addr = libnet_get_hwaddr(pkt_d)) == NULL)
+                    fatal_error("Unable to determine ethernet address: %s", libnet_geterror(pkt_d));
 
                 for(i = 0; i < 6; i++)
                     s_neaddr[i] = hw_addr->ether_addr_octet[i];
@@ -105,8 +105,8 @@ shape_arp_hdr(libnet_t *g_pkt_d)
 	switch(g_ahdr_o.op_type)
 	{
 	    case ARPOP_REPLY: case ARPOP_REQUEST:
-                if((r_paddr = libnet_get_ipaddr4(g_pkt_d)) == -1)
-	            fatal_error("Unable to retrieve local IP address: %s", libnet_geterror(g_pkt_d));
+                if((r_paddr = libnet_get_ipaddr4(pkt_d)) == -1)
+	            fatal_error("Unable to retrieve local IP address: %s", libnet_geterror(pkt_d));
 
                 g_ahdr_o.r_paddr = (u_int8_t*)libnet_addr2name4(r_paddr, 0);
 		break;
@@ -117,7 +117,7 @@ shape_arp_hdr(libnet_t *g_pkt_d)
 	}
     }
 
-    if((r_paddr = libnet_name2addr4(g_pkt_d, (char*)g_ahdr_o.r_paddr, 0)) == -1)
+    if((r_paddr = libnet_name2addr4(pkt_d, (char*)g_ahdr_o.r_paddr, 0)) == -1)
         fatal_error("Invalid receiver protocol address: %s", g_ahdr_o.r_paddr);
 
     if(g_ahdr_o.r_eaddr == NULL)
@@ -125,8 +125,8 @@ shape_arp_hdr(libnet_t *g_pkt_d)
         switch(g_ahdr_o.op_type)
         {
             case ARPOP_REPLY: case ARPOP_REVREPLY:
-                if((hw_addr = libnet_get_hwaddr(g_pkt_d)) == NULL)
-	            fatal_error("Unable to determine ethernet address: %s", libnet_geterror(g_pkt_d));
+                if((hw_addr = libnet_get_hwaddr(pkt_d)) == NULL)
+	            fatal_error("Unable to determine ethernet address: %s", libnet_geterror(pkt_d));
 
                 for(i = 0; i < 6; i++)
                     r_neaddr[i] = hw_addr->ether_addr_octet[i];
@@ -157,11 +157,11 @@ shape_arp_hdr(libnet_t *g_pkt_d)
         (u_int8_t *)&r_paddr,
         g_payload,
         g_payload_len,
-        g_pkt_d,
+        pkt_d,
         0) == -1)
     {
-        fatal_error("Unable to build ARP header: %s", libnet_geterror(g_pkt_d));
+        fatal_error("Unable to build ARP header: %s", libnet_geterror(pkt_d));
     }
 
-    return g_pkt_d;
+    return pkt_d;
 }

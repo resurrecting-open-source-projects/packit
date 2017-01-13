@@ -39,7 +39,10 @@ print_injection_details()
     if(g_injection_type == ETHERTYPE_IP)
     {
 #ifdef DEBUG
-        fprintf(stdout, "DEBUG: ETHERTYPE_IP\n");
+        if(g_ipv6)
+            fprintf(stdout, "DEBUG: ETHERTYPE_IP6\n");
+        else
+            fprintf(stdout, "DEBUG: ETHERTYPE_IP\n");
 #endif
         g_thdr_o.flags[0] = '\0';
 

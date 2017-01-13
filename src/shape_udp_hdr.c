@@ -26,14 +26,17 @@
 #include "shape_udp_hdr.h"
 
 libnet_t *
-shape_udp_hdr(libnet_t *g_pkt_d)
+shape_udp_hdr(libnet_t *pkt_d)
 {
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: shape_udp_hdr()\n");
 #endif
 
     g_hdr_len = UDP_H;
-    g_ip4hdr_o.p = IPPROTO_UDP;
+    if(g_ipv6)
+        g_ip6hdr_o.next_header = IPPROTO_UDP;
+    else
+        g_ip4hdr_o.p = IPPROTO_UDP;
 
     if(g_rand_d_port)
         g_d_port = (u_int16_t)retrieve_rand_int(P_UINT16);
@@ -57,11 +60,11 @@ shape_udp_hdr(libnet_t *g_pkt_d)
         0,
         g_payload,
         g_payload_len,
-        g_pkt_d,
+        pkt_d,
         0) == -1)
     {
-        fatal_error("Unable to build UDP header: %s", libnet_geterror(g_pkt_d));
+        fatal_error("Unable to build UDP header: %s", libnet_geterror(pkt_d));
     }
 
-    return g_pkt_d;
+    return pkt_d;
 }

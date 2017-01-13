@@ -33,4 +33,6 @@
 #include "shape_tcp_hdr.h"
 #include "shape_udp_hdr.h"
 
+#include "shape_ipv6_hdr.h"
+
 #endif /* __SHAPE_DEFS_H */

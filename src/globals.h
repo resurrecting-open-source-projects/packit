@@ -119,6 +119,7 @@
 #define ETHERTYPE_IP        		0x0800  /* internet protocol */
 #define ETHERTYPE_ARP       		0x0806  /* addr. resolution protocol */
 #define ETHERTYPE_REVARP    		0x8035  /* reverse addr. resolution protocol */
+#define ETHERTYPE_IP6        		0x86DD  /* internet IPv6 protocol */
 
 #define OPT_MAXLEN          		32
 

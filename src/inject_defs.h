@@ -57,6 +57,23 @@ struct ip4hdr_opts
     u_int16_t rand_d_addr;
 } g_ip4hdr_o;
 
+struct ip6hdr_opts
+{
+    u_int8_t    traffic_class;  // -o <num> : equivalent of type of service
+    u_int32_t   flow_label;     // -n <num> :
+    u_int16_t   length;
+    u_int8_t    next_header;    // assumed to be TCP today
+    u_int8_t    hop_limit;      // -T       : equivalent of TTL
+
+    u_int8_t    rand_src_addr;  // -sR      : if set to 1, src is NULL
+    char *      src_str;        // -s <str> : string representation of source address
+    struct libnet_in6_addr  src;
+
+    u_int8_t    rand_dst_addr;  // -dR      : if set to 1, dst is NULL
+    char *      dst_str;        // -d <str> : string represntation of destination address
+    struct libnet_in6_addr  dst;
+} g_ip6hdr_o;
+
 struct tcphdr_opts
 {
     u_int16_t s_port;              /* tcp source port */
@@ -180,6 +197,7 @@ u_int8_t g_hex_payload;
 u_int8_t *g_s_d_port;
 u_int8_t g_hwaddr_p[18];
 u_int8_t g_rawip;
+u_int8_t g_ipv6;                        // Injecting IPv6 packets
 
 struct timeval g_bf_pcap;
 struct timeval g_af_pcap;

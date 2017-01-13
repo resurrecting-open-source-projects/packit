@@ -46,6 +46,7 @@ u_int16_t retrieve_datalink_hdr_len(u_int32_t);
 u_int32_t retrieve_rand_int(u_int32_t);
 u_int8_t format_ethernet_addr(u_int8_t *, u_int8_t[]);
 int retrieve_tcp_flags();
+void rand_ip6addr(struct libnet_in6_addr *);
 
 #endif /* __UTILS_H */
 

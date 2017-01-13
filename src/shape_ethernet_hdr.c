@@ -27,7 +27,7 @@
 #include "shape_ethernet_hdr.h"
 
 libnet_t *
-shape_ethernet_hdr(libnet_t *g_pkt_d)
+shape_ethernet_hdr(libnet_t *pkt_d)
 {
     int i;
     u_int8_t us_addr[6];
@@ -50,8 +50,8 @@ shape_ethernet_hdr(libnet_t *g_pkt_d)
 
     if(g_ehdr_o.s_addr == NULL)
     {
-        if((hw_addr = libnet_get_hwaddr(g_pkt_d)) == NULL)
-            fatal_error("Unable to determine ethernet address: %s", libnet_geterror(g_pkt_d));
+        if((hw_addr = libnet_get_hwaddr(pkt_d)) == NULL)
+            fatal_error("Unable to determine ethernet address: %s", libnet_geterror(pkt_d));
 
         for(i = 0; i < 6; i++)
             us_addr[i] = hw_addr->ether_addr_octet[i];
@@ -86,17 +86,17 @@ shape_ethernet_hdr(libnet_t *g_pkt_d)
         g_injection_type,
         NULL,
         0,
-        g_pkt_d,
+        pkt_d,
         0) == -1)
     {
         fatal_error("Unable to build ethernet header");
     }
 
-    return g_pkt_d;
+    return pkt_d;
 }
 
 libnet_t *
-shape_ethernet_hdr_auto(libnet_t *g_pkt_d, u_int16_t type)
+shape_ethernet_hdr_auto(libnet_t *pkt_d, u_int16_t type)
 {
     u_int8_t d_addr[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 
@@ -107,10 +107,10 @@ shape_ethernet_hdr_auto(libnet_t *g_pkt_d, u_int16_t type)
     if(libnet_autobuild_ethernet(
         d_addr,
         type,
-        g_pkt_d) == -1)
+        pkt_d) == -1)
     {
         fatal_error("Unable to auto-build ethernet header");
     }
 
-    return g_pkt_d;
+    return pkt_d;
 }

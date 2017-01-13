@@ -26,7 +26,7 @@
 #include "shape_tcp_hdr.h"
 
 libnet_t *
-shape_tcp_hdr(libnet_t *g_pkt_d)
+shape_tcp_hdr(libnet_t *pkt_d)
 {
     int flags;
 
@@ -34,7 +34,11 @@ shape_tcp_hdr(libnet_t *g_pkt_d)
     fprintf(stdout, "DEBUG: shape_tcp_hdr()\n");
 #endif
 
-    g_ip4hdr_o.p = IPPROTO_TCP;
+    if(g_ipv6)
+        g_ip6hdr_o.next_header = IPPROTO_TCP;
+    else
+        g_ip4hdr_o.p = IPPROTO_TCP;
+
     g_hdr_len = TCP_H;
 
     if(g_rand_s_port)
@@ -57,7 +61,7 @@ shape_tcp_hdr(libnet_t *g_pkt_d)
         g_pkt_len = 0;
     }
 
-    if(libnet_build_tcp(
+    if((libnet_build_tcp(
         g_s_port,
         g_d_port,
         g_thdr_o.seqn,
@@ -69,14 +73,14 @@ shape_tcp_hdr(libnet_t *g_pkt_d)
         g_hdr_len + g_payload_len,
         g_payload,
         g_payload_len,
-        g_pkt_d,
-        0) == -1)
+        pkt_d,
+        0)) == -1)
     {
-        fatal_error("Unable to build TCP header: %s", libnet_geterror(g_pkt_d));
+        fatal_error("Unable to build TCP header: %s", libnet_geterror(pkt_d));
     }
 
     if(g_port_range)
         g_d_port++;
 
-    return g_pkt_d;
+    return pkt_d;
 }

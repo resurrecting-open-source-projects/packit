@@ -117,6 +117,7 @@ print_usage()
     fprintf(stdout, "\n");
 
     fprintf(stdout, "IP header options\n");
+    fprintf(stdout, "  -6          IPv6\n");
     fprintf(stdout, "  -d address  Destination address\n");
     fprintf(stdout, "  -f          Don't fragment\n");
     fprintf(stdout, "  -n id       ID number\n");

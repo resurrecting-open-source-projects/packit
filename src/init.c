@@ -93,5 +93,8 @@ injection_struct_init()
     g_i4hdr_o.rtime = 0;
     g_i4hdr_o.ttime = 0;
 
+    // Reset IPv6 related structure
+    memset(&g_ip6hdr_o, 0, sizeof(g_ip6hdr_o));
+
     return;
 }

@@ -29,6 +29,7 @@
 void
 define_injection_defaults()
 {
+    g_ipv6 = 0;
     g_cnt = (g_p_mode == M_INJECT) ? 1 : 30;
     g_inj_cnt = 1;
     g_cap_cnt = 0;
@@ -44,7 +45,7 @@ define_injection_defaults()
     g_rand_d_port = (g_p_mode == M_TRACE) ? 1 : 0;
     g_r_timeout = 1;
     g_burst_rate = 1;
-    g_init_type = 1;
+    g_init_type = LIBNET_RAW4;
     g_interval_sec = 1;
     g_interval_usec = 0;
     g_payload = NULL;

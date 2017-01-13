@@ -33,13 +33,16 @@ shape_packet()
     fprintf(stdout, "DEBUG: shape_packet()\n");
 #endif
 
+    u_int8_t transport_type = (g_ipv6) ? g_ip6hdr_o.next_header : g_ip4hdr_o.p;
+
     switch(g_injection_type)
     {
         case ETHERTYPE_IP:
+        case ETHERTYPE_IP6:
 #ifdef DEBUG
             fprintf(stdout, "DEBUG: Injecting IP traffic\n");
 #endif
-            switch(g_ip4hdr_o.p)
+            switch(transport_type)
             {
                 case IPPROTO_TCP:
                     if((g_pkt_d = shape_tcp_hdr(g_pkt_d)) == NULL)
@@ -60,8 +63,16 @@ shape_packet()
                     break;
             }
 
-            if((g_pkt_d = shape_ipv4_hdr(g_pkt_d)) == NULL)
-                return g_pkt_d;
+            if(g_ipv6)
+            {
+                if((g_pkt_d = shape_ipv6_hdr(g_pkt_d)) == NULL)
+                    return g_pkt_d;
+            }
+            else
+            {
+                if((g_pkt_d = shape_ipv4_hdr(g_pkt_d)) == NULL)
+                    return g_pkt_d;
+            }
 
             break;
 

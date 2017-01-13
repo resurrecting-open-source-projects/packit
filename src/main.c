@@ -112,42 +112,72 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
     define_injection_defaults();
     injection_struct_init();
 
-    while((opt = getopt(argc, argv, "t:")) != -1)
+    if((opt=getopt(argc, argv, "6:")) != -1)
+    {
+        switch(opt) {
+            case '6':
+                g_init_type = LIBNET_RAW6;
+                g_ipv6 = 1;
+                optind = 1;
+                break;
+            default:
+                break;
+        }
+    }
+
+    while((opt = getopt(argc, argv, "t:6:")) != -1)
     {
         switch(opt)
         {
             case 't':
-		if(!strncasecmp(optarg, "TCP", 3))
+                if(!strncasecmp(optarg, "TCP", 3))
                 {
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: TCP injection\n");
 #endif
-                    g_ip4hdr_o.p = IPPROTO_TCP;
-                    g_injection_type = ETHERTYPE_IP;
-                    opts = "a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
+
+                    if(g_ipv6)
+                    {
+                        g_ip6hdr_o.next_header = IPPROTO_TCP;  // next_header defines the
+                                                               // protocol of the
+                                                               // payload
+                        g_injection_type = ETHERTYPE_IP6;
+                    }
+                    else
+                    {
+                        g_ip4hdr_o.p = IPPROTO_TCP;
+                        g_injection_type = ETHERTYPE_IP;
+                    }
+                    opts = "6:a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
                 }
-                else
-                if(!strncasecmp(optarg, "UDP", 3))
+                else if(!strncasecmp(optarg, "UDP", 3))
                 {
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: UDP injection\n");
 #endif
-                    g_ip4hdr_o.p = IPPROTO_UDP;
-                    g_injection_type = ETHERTYPE_IP;
-                    opts = "b:c:d:D:e:E:fhH:i:n:o:p:Rs:S:T:vw:Z:";
+                    if(g_ipv6)
+                    {
+                        g_ip6hdr_o.next_header = IPPROTO_UDP;
+                        g_injection_type = ETHERTYPE_IP6;
+                    }
+                    else
+                    {
+                        g_ip4hdr_o.p = IPPROTO_UDP;
+                        g_injection_type = ETHERTYPE_IP;
+                    }
+                    opts = "6:b:c:d:D:e:E:fhH:i:n:o:p:Rs:S:T:vw:Z:";
                 }
-                else
-                if(!strncasecmp(optarg, "ICMP", 4))
+                else if(!strncasecmp(optarg, "ICMP", 4))
                 {
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: ICMP injection\n");
 #endif
+                    g_ipv6 = 0;
                     g_ip4hdr_o.p = IPPROTO_ICMP;
                     g_injection_type = ETHERTYPE_IP;
                     opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
                 }
-		else
-                if(!strncasecmp(optarg, "ARP", 3))
+                else if(!strncasecmp(optarg, "ARP", 3))
                 {
                     if(g_p_mode == M_TRACE)
                         fatal_error("ARP is not supported with trace mode.");
@@ -158,12 +188,12 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     fprintf(stderr, "\nError: ARP injection is not yet supported on this OS platform.\n");
                     exit(FAILURE);
 #endif
+                    g_ipv6 = 0;
                     g_injection_type = ETHERTYPE_ARP;
                     g_init_type = 0;
                     opts = "A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:";
                 }
-                else
-                if(!strncasecmp(optarg, "RARP", 4))
+                else if(!strncasecmp(optarg, "RARP", 4))
                 {
                     if(g_p_mode == M_TRACE)
                         fatal_error("RARP is not supported with trace mode.");
@@ -174,19 +204,20 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     fprintf(stderr, "\nError: RARP injection is not yet supported on this OS platform.\n");
                     exit(FAILURE);
 #endif
+                    g_ipv6 = 0;
                     g_injection_type = ETHERTYPE_REVARP;
                     g_ahdr_o.op_type = ARPOP_REVREQUEST; /* Update init */
                     g_init_type = 0;
                     opts = "A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:";
                 }
-                else
-                if(!strncasecmp(optarg, "RAWIP", 3))
+                else if(!strncasecmp(optarg, "RAWIP", 3))
                 {
                     if(g_p_mode == M_TRACE)
                         fatal_error("RAW is not supported with trace mode.");
 #ifdef DEBUG
                     fprintf(stdout, "DEBUG: raw IP injection\n");
 #endif
+                    g_ipv6 = 0;
                     g_rawip = g_ip4hdr_o.p = IPPROTO_RAW;
                     g_injection_type = ETHERTYPE_IP;
                     opts = "b:c:d:e:E:f:i:n:o:p:Rs:T:U:vV:w:Z:";
@@ -204,13 +235,23 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 
                 if(g_p_mode == M_TRACE)
                 {
+                    g_ipv6 = 0;
                     g_ip4hdr_o.p = IPPROTO_ICMP;
                     opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
                 }
                 else
                 {
-                    g_ip4hdr_o.p = IPPROTO_TCP;
-                    opts = "a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
+                    if(g_ipv6)
+                    {
+                        g_ip6hdr_o.next_header = IPPROTO_TCP;
+                        g_injection_type = ETHERTYPE_IP6;
+                    }
+                    else
+                    {
+                        g_ip4hdr_o.p = IPPROTO_TCP;
+                        g_injection_type = ETHERTYPE_IP;
+                    }
+                    opts = "6:a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
                 }
 
                 goto parse_inject;
@@ -219,7 +260,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
         }
     }
 
-print_usage();
+    print_usage();
 
 parse_inject:
 #ifdef DEBUG
@@ -250,15 +291,26 @@ parse_inject:
                 break;
 
             case 'C':
+                // ICMP code
                 g_i4hdr_o.code = (u_int16_t)atoi(optarg);
                 break;
 
             case 'd':
-	        if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    g_ip4hdr_o.rand_d_addr = 1;
+                if(g_ipv6)
+                {
+                    if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
+                        g_ip6hdr_o.rand_dst_addr = 1;
+                    else if(!(g_ip6hdr_o.dst_str = strdup(optarg)))
+                        fatal_error("Memory unavailable for: %s", optarg);
+                }
+                else
+                {
+                    if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
+                        g_ip4hdr_o.rand_d_addr = 1;
 
-		if(!(g_ip4hdr_o.d_addr = (u_int8_t*)strdup(optarg)))
-		    fatal_error("Memory unavailable for: %s", optarg);
+                    if(!(g_ip4hdr_o.d_addr = (u_int8_t*)strdup(optarg)))
+                        fatal_error("Memory unavailable for: %s", optarg);
+                }
 
                 break;
 
@@ -273,14 +325,14 @@ parse_inject:
 
             case 'e':
 #ifdef MACOS
-            fprintf(stderr, "\nWarning: You cannot specify an ethernet address on this operating system.\n");
-	    break;
+                fprintf(stderr, "\nWarning: You cannot specify an ethernet address on this operating system.\n");
+                break;
 #endif
-		if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
+                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
                     g_ehdr_o.rand_s_addr = 1;
 
-      		if(!(g_ehdr_o.s_addr = (u_int8_t*)strdup(optarg)))
-		    fatal_error("Memory unavailable for: %s", optarg);
+                if(!(g_ehdr_o.s_addr = (u_int8_t*)strdup(optarg)))
+                    fatal_error("Memory unavailable for: %s", optarg);
 
                 g_init_type = 0;
                 g_link_layer = 1;
@@ -295,15 +347,15 @@ parse_inject:
                     g_ehdr_o.rand_d_addr = 1;
 
                 if(!(g_ehdr_o.d_addr = (u_int8_t*)strdup(optarg)))
-		    fatal_error("Memory unavailable for: %s", optarg);
+                    fatal_error("Memory unavailable for: %s", optarg);
 
                 g_init_type = 0;
                 g_link_layer = 1;
                 break;
 
-	    case 'f':
-		g_ip4hdr_o.frag = 0x4000;
-		break;
+            case 'f':
+                g_ip4hdr_o.frag = 0x4000;
+                break;
 
             case 'F':
                 if(strrchr(optarg, 'U'))
@@ -341,11 +393,11 @@ parse_inject:
 
                 break;
 
-	    case 'h':
+            case 'h':
                 if(g_p_mode == M_INJECT)
-	            g_p_mode = M_INJECT_RESPONSE;	
+                g_p_mode = M_INJECT_RESPONSE;	
 
-		break;
+                break;
 
             case 'H':
                 g_r_timeout = (u_int8_t)atoi(optarg);
@@ -353,7 +405,7 @@ parse_inject:
 
             case 'i':
                 if(!(g_device = strdup(optarg)))
-		    fatal_error("Memory unavailable for: %s", optarg);
+                    fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
 
@@ -411,8 +463,15 @@ parse_inject:
                 break;
 
             case 'n':
-                g_ip4hdr_o.id = (u_int16_t)atoi(optarg);
-                g_ip4hdr_o.rand_id = 0;
+                if(g_ipv6)
+                {
+                    g_ip6hdr_o.flow_label = atoi(optarg);
+                }
+                else
+                {
+                    g_ip4hdr_o.id = (u_int16_t)atoi(optarg);
+                    g_ip4hdr_o.rand_id = 0;
+                }
                 break;
 
             case 'N':
@@ -423,7 +482,11 @@ parse_inject:
                 break;
 
             case 'o':
-                g_ip4hdr_o.tos = (u_int8_t)atoi(optarg);
+                if(g_ipv6)
+                    g_ip6hdr_o.traffic_class = atoi(optarg);
+                else
+                    g_ip4hdr_o.tos = (u_int8_t)atoi(optarg);
+
                 break;
 
             case 'O':
@@ -435,18 +498,16 @@ parse_inject:
                     g_hex_payload = 1;
 
                 if(!(g_payload = (u_int8_t*)strdup(optarg)))
-		    fatal_error("Memory unavailable for: %s", optarg);
+                    fatal_error("Memory unavailable for: %s", optarg);
 
                 break;
 
             case 'P':
                 if(!strcasecmp(optarg, "UDP"))
                     g_i4hdr_o.orig_p = 17;
-                else
-                if(!strncasecmp(optarg, "TCP", 3))
+                else if(!strncasecmp(optarg, "TCP", 3))
                     g_i4hdr_o.orig_p = 6;
-                else
-                if(!strncasecmp(optarg, "ICMP", 4))
+                else if(!strncasecmp(optarg, "ICMP", 4))
                     g_i4hdr_o.orig_p = 1;
                 else
                     fatal_error("Unknown ICMP original protocol: %s", optarg);
@@ -470,11 +531,21 @@ parse_inject:
                 break;
 
             case 's':
-                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    g_ip4hdr_o.rand_s_addr = 1;
+                if(g_ipv6)
+                {
+                    if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
+                        g_ip6hdr_o.rand_src_addr = 1;
+                    else if(!(g_ip6hdr_o.src_str = strdup(optarg)))
+                        fatal_error("Memory unavailable for: %s", optarg);
+                }
+                else
+                {
+                    if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
+                        g_ip4hdr_o.rand_s_addr = 1;
 
-                if(!(g_ip4hdr_o.s_addr = (u_int8_t*)strdup(optarg)))
-		    fatal_error("Memory unavailable for: %s", optarg);
+                    if(!(g_ip4hdr_o.s_addr = (u_int8_t*)strdup(optarg)))
+                        fatal_error("Memory unavailable for: %s", optarg);
+                }
                 break;
 
             case 'S':
@@ -487,10 +558,15 @@ parse_inject:
                 break;
 
             case 'T':
-                if(atoi(optarg) > 0xFF)
-                    fatal_error("Invalid TTL value: %s", optarg);
+                if(g_ipv6)
+                    g_ip6hdr_o.hop_limit = atoi(optarg);
+                else
+                {
+                    if(atoi(optarg) > 0xFF)
+                        fatal_error("Invalid TTL value: %s", optarg);
 
-                g_ip4hdr_o.ttl = (u_int16_t)atoi(optarg);
+                    g_ip4hdr_o.ttl = (u_int16_t)atoi(optarg);
+                }
 
                 break;
 
