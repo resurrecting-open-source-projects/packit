@@ -112,20 +112,26 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
     define_injection_defaults();
     injection_struct_init();
 
-    if((opt=getopt(argc, argv, "6:")) != -1)
+    // getopt parses arguments in the order they are seen. We want to detect -6 first
+    // because that modifies how some of the arguments are interpreted. Do a first pass
+    // now while only looking for -6 and ignoring all other options.
+    while((opt=getopt(argc, argv, PROTO_OPTS_ "6")) != -1)
     {
         switch(opt) {
             case '6':
-                g_init_type = LIBNET_RAW6;
                 g_ipv6 = 1;
-                optind = 1;
                 break;
             default:
+                // ignore everything else
                 break;
         }
     }
 
-    while((opt = getopt(argc, argv, "t:6:")) != -1)
+    // Reset argument parser to the beginning
+    optind = 1;
+
+    // Ignore -m, -6, and -t arguments
+    while((opt = getopt(argc, argv, PROTO_OPTS_ "6m:t:")) != -1)
     {
         switch(opt)
         {
@@ -148,7 +154,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                         g_ip4hdr_o.p = IPPROTO_TCP;
                         g_injection_type = ETHERTYPE_IP;
                     }
-                    opts = "6:a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
+                    opts = "6m:t:" TCP_OPTS_;
                 }
                 else if(!strncasecmp(optarg, "UDP", 3))
                 {
@@ -165,7 +171,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                         g_ip4hdr_o.p = IPPROTO_UDP;
                         g_injection_type = ETHERTYPE_IP;
                     }
-                    opts = "6:b:c:d:D:e:E:fhH:i:n:o:p:Rs:S:T:vw:Z:";
+                    opts = "6m:t:" UDP_OPTS_;
                 }
                 else if(!strncasecmp(optarg, "ICMP", 4))
                 {
@@ -175,7 +181,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     g_ipv6 = 0;
                     g_ip4hdr_o.p = IPPROTO_ICMP;
                     g_injection_type = ETHERTYPE_IP;
-                    opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
+                    opts = ICMP_OPTS_;
                 }
                 else if(!strncasecmp(optarg, "ARP", 3))
                 {
@@ -191,7 +197,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     g_ipv6 = 0;
                     g_injection_type = ETHERTYPE_ARP;
                     g_init_type = 0;
-                    opts = "A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:";
+                    opts = ARP_OPTS_;
                 }
                 else if(!strncasecmp(optarg, "RARP", 4))
                 {
@@ -208,7 +214,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     g_injection_type = ETHERTYPE_REVARP;
                     g_ahdr_o.op_type = ARPOP_REVREQUEST; /* Update init */
                     g_init_type = 0;
-                    opts = "A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:";
+                    opts = RARP_OPTS_;
                 }
                 else if(!strncasecmp(optarg, "RAWIP", 3))
                 {
@@ -220,7 +226,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     g_ipv6 = 0;
                     g_rawip = g_ip4hdr_o.p = IPPROTO_RAW;
                     g_injection_type = ETHERTYPE_IP;
-                    opts = "b:c:d:e:E:f:i:n:o:p:Rs:T:U:vV:w:Z:";
+                    opts = RAWIP_OPTS_;
                 }
                 else
                     print_usage();
@@ -230,42 +236,41 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                 break;
 
             default:
-                if(optind > 1) optind--;
-                g_injection_type = ETHERTYPE_IP;
-
-                if(g_p_mode == M_TRACE)
-                {
-                    g_ipv6 = 0;
-                    g_ip4hdr_o.p = IPPROTO_ICMP;
-                    opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
-                }
-                else
-                {
-                    if(g_ipv6)
-                    {
-                        g_ip6hdr_o.next_header = IPPROTO_TCP;
-                        g_injection_type = ETHERTYPE_IP6;
-                    }
-                    else
-                    {
-                        g_ip4hdr_o.p = IPPROTO_TCP;
-                        g_injection_type = ETHERTYPE_IP;
-                    }
-                    opts = "6:a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
-                }
-
-                goto parse_inject;
-
                 break;
         }
     }
 
-    print_usage();
+    if(g_p_mode == M_TRACE)
+    {
+        g_ipv6 = 0;
+        g_ip4hdr_o.p = IPPROTO_ICMP;
+        opts = ICMP_OPTS_;
+    }
+    else
+    {
+        if(g_ipv6)
+        {
+            g_ip6hdr_o.next_header = IPPROTO_TCP;
+            g_injection_type = ETHERTYPE_IP6;
+        }
+        else
+        {
+            g_ip4hdr_o.p = IPPROTO_TCP;
+            g_injection_type = ETHERTYPE_IP;
+        }
+        opts = TCP_OPTS_;
+    }
 
 parse_inject:
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: parse_inject\n");
 #endif
+
+    if(g_ipv6)
+        g_init_type = LIBNET_RAW6;
+
+    // Start parsing from the beginning again
+    optind = 1;
 
     while((opt = getopt(argc, argv, opts)) != -1)
     {

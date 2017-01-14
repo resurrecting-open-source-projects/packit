@@ -138,6 +138,18 @@
 #define P_INT64                         0x7FFFFFFFFFFFFFFF
 #define P_UINT64                        0xFFFFFFFFFFFFFFFF
 
+#define TCP_OPTS_        "a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:"
+#define UDP_OPTS_        "b:c:d:D:e:E:fhH:i:n:o:p:Rs:S:T:vw:Z:"
+#define ICMP_OPTS_       "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:T:U:vw:z:Z:"
+#define ARP_OPTS_        "A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:"
+#define RARP_OPTS_       "A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:"
+#define RAWIP_OPTS_      "b:c:d:e:E:f:i:n:o:p:Rs:T:U:vV:w:Z:"
+
+#define PROTO_OPTS_      TCP_OPTS_ UDP_OPTS_ ICMP_OPTS_ ARP_OPTS_ RARP_OPTS_ RAWIP_OPTS_
+
+#define OPTS_PLUS(opts, more_opts)      opts more_opts
+
+
 char g_w_file[OPT_MAXLEN];
 char g_r_file[OPT_MAXLEN];
 
