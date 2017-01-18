@@ -4,7 +4,7 @@
 When updating, change these files (if needed):
 
 - AUTHORS
-- ChangLog
+- ChangeLog
 - CREDITS
 - configure.ac (VERSION)
 - manpage (VERSION)
