@@ -7,6 +7,8 @@
  * Copyright 2005      Dennis Vshivkov <walrus@amur.ru>
  * Copyright 2006      Deniz Adrian <adrian@netzquadrat.de>
  * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
+ * Copyright 2017      Robert Krause <ruport@f00l.de>
+ * Copyright 2017      Sharad B
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

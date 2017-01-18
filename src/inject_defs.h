@@ -5,7 +5,8 @@
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
  * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
- * Copyright 2016      Robert Krause <ruport@f00l.de>
+ * Copyright 2016-2017 Robert Krause <ruport@f00l.de>
+ * Copyright 2017      Sharad B
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

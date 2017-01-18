@@ -4,6 +4,8 @@
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002 Darren Bounds <dbounds@intrusense.com>
+ * Copyright 2017 Robert Krause <ruport@f00l.de>
+ * Copyright 2017 Sharad B
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
