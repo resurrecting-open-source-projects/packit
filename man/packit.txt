@@ -14,13 +14,13 @@ DESCRIPTION
   Packit is a network auditing tool. It's value is derived from its ability to
   customize, inject, monitor, and manipulate IP traffic. By allowing you to
   define (spoof) all TCP, UDP, ICMP, IP, ARP, RARP and Ethernet header options,
-  Packit can be useful in testing firewalls, intrusion detection systems, port
+  Packit can be useful to test firewalls, intrusion detection systems, port
   scanning, simulating network traffic and general TCP/IP auditing. Packit is
   also an excellent tool for learning TCP/IP.
 
 PACKIT BASE OPTIONS
   -m mode  Select a runtime mode. Currently supported modes
-           are capture, inject and trace. The default is inject.
+           are capture, inject and trace. The default mode is inject.
 
 PACKET CAPTURE OPTIONS
   Packet capture options are as follows:
@@ -50,7 +50,7 @@ PACKET CAPTURE OPTIONS
   -X  Display hexadecimal & ascii dump of each packet up to snap length bytes.
   expression  Selects which packets should be displayed. If no expression is
               given, all packets are displayed. This option is based in pcap
-              library. See the tcpdump(1) manpage for more detailed information.
+              library. See the pcap-filter(7) manpage for more detailed information.
 
 PACKET INJECTION AND TRACE
   Packet injection is used to define and inject IP based network traffic onto
@@ -388,6 +388,6 @@ BUGS
 AUTHOR
   The original autor of packit is Darren Bounds. The current project maintainer
   is Joao Eriberto Mota Filho. There are other new authors. Please, see AUTHORS
-  file.
+  file in source code. On Debian systems, the file will be available at /usr/share/doc/packit/.
 
   The latest version can be found at https://github.com/eribertomota/packit
