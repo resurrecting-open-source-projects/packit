@@ -6,7 +6,7 @@
 
 P_DATA="18 Jan 2017"
 P_NAME=packit
-P_VERSION=1.2
+P_VERSION=1.5
 P_MANLEVEL=8
 P_DESCRIPT="Packet analysis and injection tool"
 
