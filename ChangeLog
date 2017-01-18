@@ -1,9 +1,26 @@
-Version 1.2, 2017-XX-XX
+Version 1.2, 2017-01-17
 
-* fixed payload length when given without 0x
-* fixed compiling warnings
+  [ Joao Eriberto Mota Filho ], <eriberto@eriberto.pro.br>
 
-Version 1.1, 2016-05-20
+* Updated Makefile.am.
+
+  [ Robert Krause ], <ruport@f00l.de>
+
+* Fixed all compiling warnings.
+* Fixed invalid usage of IPv4/Ethernet addresses in ARP header.
+* Fixed some string pointer conversion problems.
+
+  [ Sharad B ], <sbirmi@...>
+
+* Fixed payload length when given without 0x.
+* Calculate payload length by strlen.
+* Simplify the generate_padding() method to avoid calling sprintf() repeatedly.
+* Redefining ETH_BROADCAST and ETH_DEFAULT for correct behavior.
+* Fixing formatting string to remove compile time warnings when debug logging
+  is enabled at compile time.
+* Prefixing all global variables with "g_" to improve code readability.
+
+Version 1.1, 2016-05-20 (UNRELEASED)
 
   [ Joao Eriberto Mota Filho ], <eriberto@eriberto.pro.br>, 2016
 
