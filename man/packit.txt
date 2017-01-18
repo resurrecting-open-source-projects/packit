@@ -387,6 +387,7 @@ BUGS
 
 AUTHOR
   The original autor of packit is Darren Bounds. The current project maintainer
-  is Joao Eriberto Mota Filho.
+  is Joao Eriberto Mota Filho. There are other new authors. Please, see AUTHORS
+  file.
 
   The latest version can be found at https://github.com/eribertomota/packit

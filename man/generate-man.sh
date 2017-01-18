@@ -4,9 +4,9 @@
 # Copyright 2016 Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
 # This file is under BSD-3-Clause
 
-P_DATA="22 May 2016"
+P_DATA="18 Jan 2017"
 P_NAME=packit
-P_VERSION=1.1
+P_VERSION=1.2
 P_MANLEVEL=8
 P_DESCRIPT="Packet analysis and injection tool"
 
