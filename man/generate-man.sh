@@ -4,7 +4,7 @@
 # Copyright 2016 Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
 # This file is under BSD-3-Clause
 
-P_DATA="18 Jan 2017"
+P_DATA="19 Jan 2017"
 P_NAME=packit
 P_VERSION=1.5
 P_MANLEVEL=8
