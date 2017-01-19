@@ -69,7 +69,7 @@ PACKET INJECTION AND TRACE GENERAL
   This section documents the operational command-line options.
 
   -c count  The value of count is the total number of packets we would like to
-            inject (a count value of 0 means forver).
+            inject (a count value of 0 means forever).
   -b burst rate  
             Specifies the number of packets to inject every interval (defined
             by -w). A burst rate of 0 will send packets as quickly as possible.
@@ -380,7 +380,7 @@ BUGS
     to https://github.com/eribertomota/packit/issues
 
 AUTHOR
-  The original autor of packit is Darren Bounds. The current project maintainer
+  The original author of packit is Darren Bounds. The current project maintainer
   is Joao Eriberto Mota Filho. There are other new authors. Please, see AUTHORS
   file in source code. To help in development, see CONTRIBUTING.md. On Debian
   systems, these files will be available at /usr/share/doc/packit/.
