@@ -30,6 +30,7 @@
 
 void injection_clean_exit(int sig) {
     char a[2];
+    char *res __attribute__((unused));
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: injection_clean_exit(%d)\n", sig);
@@ -40,7 +41,7 @@ void injection_clean_exit(int sig) {
         while(1)
         {
             fprintf(stderr, "\n\nWould you like to quit? (y/n): ");
-            fgets(a, 2, stdin);
+            res = fgets(a, 2, stdin);
 
             if(!strncasecmp(a, "Y", 1))
                 break;
