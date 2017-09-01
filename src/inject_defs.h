@@ -127,7 +127,7 @@ struct icmp4hdr_opts
     u_int8_t *mask;                     /* icmp4 mask */
 
     u_int32_t otime;                    /* original timestamp */
-    u_int32_t rtime;                    /* recieved timestamp */
+    u_int32_t rtime;                    /* received timestamp */
     u_int32_t ttime;                    /* transmit timestamp */
 } g_i4hdr_o;
 
