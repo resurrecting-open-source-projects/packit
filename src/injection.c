@@ -58,7 +58,7 @@ injection_init()
 
     if(g_hex_payload)
     {
-        if((g_payload_len = format_hex_payload(g_payload)) == 0)
+        if((g_payload_len = format_hex_payload((char *)g_payload)) == 0)
             fprintf(stdout, "Warning: Hex payload formatted incorrectly.\n");
     }
     else if(g_payload)
