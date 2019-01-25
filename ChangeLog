@@ -4,6 +4,7 @@ Version 1.6, 2019-01-25
   [ Joao Eriberto Mota Filho ], eriberto@eriberto.pro.br
 
 * Added rights for Edward Betts and Sander Kleijwegt.
+* Updated URLs for libnet and libpcap in configure.ac.
 
   [ Sander Kleijwegt ], <sander.kleijwegt@netscout.com>
 
