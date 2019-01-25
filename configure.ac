@@ -144,7 +144,7 @@ fi
 AC_CHECK_HEADERS(libnet.h,, LIBNET="no")
 if test "$LIBNET" = "no"; then
     echo ""
-    echo "Error: Can't find libnet 1.1.0 or greater. Visit http://www.packetfactory.net/libnet for the latest version."
+    echo "Error: Can't find libnet 1.1.0 or greater. Visit https://github.com/sam-github/libnet for the latest version."
     exit;
 fi
 
@@ -159,7 +159,7 @@ fi
 AC_CHECK_HEADERS(pcap.h,, LIBPCAP="no")
 if test "$LIBNET" = "no"; then
     echo ""
-    echo "Error: Can't find Libpcap. Visit http://www.tcpdump.org for the latest version."
+    echo "Error: Can't find Libpcap. Visit https://github.com/the-tcpdump-group/libpcap for the latest version."
     exit;
 fi
 
@@ -179,7 +179,7 @@ fi
 AC_CHECK_LIB(net, libnet_build_ipv4,, LIBNET="no")
 if test "$LIBNET" = "no"; then
     echo ""
-    echo "Error: Can't find libnet 1.1.0 or greater. Visit http://www.packetfactory.net/libnet for the latest version."
+    echo "Error: Can't find libnet 1.1.0 or greater. Visit https://github.com/sam-github/libnet for the latest version."
     exit;
 fi
 
@@ -194,7 +194,7 @@ fi
 AC_CHECK_LIB(pcap, pcap_open_live,, LIBPCAP="no")
 if test "$LIBPCAP" = "no"; then
     echo ""
-    echo "Error: Can't find Libpcap. Visit http://www.tcpdump.org for the latest version."
+    echo "Error: Can't find Libpcap. Visit https://github.com/the-tcpdump-group/libpcap for the latest version."
     exit;
 else
     AC_CHECK_LIB(pcap, pcap_setnonblock,, SETNONBLOCK="no")
