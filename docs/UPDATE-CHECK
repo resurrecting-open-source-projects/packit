@@ -5,7 +5,6 @@ When updating, change these files (if needed):
 
 - AUTHORS
 - ChangeLog
-- CREDITS
 - configure.ac (VERSION)
 - manpage (VERSION)
 - src/version.h.in (P_VERSION)
