@@ -1,5 +1,5 @@
 NAME
-  Packit - packet analysis and injection tool
+  Packit - network packet generator and capture tool
 
 SYNOPSIS
   Packet capture:
