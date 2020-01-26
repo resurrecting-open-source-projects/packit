@@ -30,12 +30,12 @@
 #define READ_TIMEOUT                    500
 #define SNAPLEN_DEFAULT                 68
 
-u_int16_t g_display;
-u_int16_t g_link_layer;
-u_int16_t g_dump_pkt;
-u_int16_t g_time_gmt;
-u_int16_t g_t_rst;
-u_int16_t g_snap_len;
-u_int32_t g_pkt_rst;
+extern u_int16_t g_display;
+extern u_int16_t g_link_layer;
+extern u_int16_t g_dump_pkt;
+extern u_int16_t g_time_gmt;
+extern u_int16_t g_t_rst;
+extern u_int16_t g_snap_len;
+extern u_int32_t g_pkt_rst;
 
 #endif /* __CAPTURE_DEFS_H */
