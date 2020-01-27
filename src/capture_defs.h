@@ -5,6 +5,7 @@
  *
  * Copyright 2002 Darren Bounds <dbounds@intrusense.com>
  * Copyright 2017 Sharad B
+ * Copyright 2020 Jeroen Roovers <jer@gentoo.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

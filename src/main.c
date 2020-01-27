@@ -9,6 +9,7 @@
  * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
  * Copyright 2017      Robert Krause <ruport@f00l.de>
  * Copyright 2017      Sharad B
+ * Copyright 2020      Jeroen Roovers <jer@gentoo.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
