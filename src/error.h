@@ -33,7 +33,7 @@
 #define SUCCESS           		1
 #define FAILURE           		-1
 
-char error_buf[ERRBUF_MAXLEN];
+extern char error_buf[ERRBUF_MAXLEN];
 
 void fatal_error(char *,...);
 

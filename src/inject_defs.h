@@ -30,7 +30,7 @@
 #ifndef __INJECTION_STRUCTS_H
 #define __INJECTION_STRUCTS_H
 
-struct ip4hdr_opts
+extern struct ip4hdr_opts
 {
     u_int16_t p;                   /* protocol type */
     u_int16_t rand_p;
@@ -59,7 +59,7 @@ struct ip4hdr_opts
     u_int16_t rand_d_addr;
 } g_ip4hdr_o;
 
-struct tcphdr_opts
+extern struct tcphdr_opts
 {
     u_int16_t s_port;              /* tcp source port */
     u_int16_t d_port;              /* tcp destination port */
@@ -82,7 +82,7 @@ struct tcphdr_opts
 
 } g_thdr_o;
 
-struct udphdr_opts
+extern struct udphdr_opts
 {
     u_int16_t s_port;              /* udp source port */
     u_int16_t d_port;              /* udp destination port */
@@ -90,7 +90,7 @@ struct udphdr_opts
     u_int16_t sum;                      /* udp checksum */
 } g_uhdr_o;
 
-struct icmp4hdr_opts
+extern struct icmp4hdr_opts
 {
     u_int16_t type;                /* icmp4 type */
     u_int16_t code;                /* icmp4 code */
@@ -132,7 +132,7 @@ struct icmp4hdr_opts
     u_int32_t ttime;                    /* transmit timestamp */
 } g_i4hdr_o;
 
-struct enethdr_opts
+extern struct enethdr_opts
 {
     u_int16_t rand_s_addr;
     u_int16_t rand_d_addr;
@@ -143,7 +143,7 @@ struct enethdr_opts
     u_int8_t dhw_addr[18];
 } g_ehdr_o;
 
-struct arphdr_opts
+extern struct arphdr_opts
 {
     u_int16_t op_type;                  /* arp operation */
 
@@ -163,28 +163,28 @@ struct arphdr_opts
     u_int8_t rhw_addr[18];
 } g_ahdr_o;
 
-libnet_t *g_pkt_d;
+extern libnet_t *g_pkt_d;
 
-u_int16_t g_init_type;
-u_int16_t g_rand_d_port;
-u_int16_t g_rand_s_port;
-u_int16_t g_s_port;
-u_int16_t g_d_port;
-u_int16_t g_port_range;
-u_int16_t g_interval_sec;
-u_int16_t g_interval_usec;
-u_int16_t g_injection_type;
-u_int16_t g_r_timeout;
-u_int16_t g_burst_rate;
-u_int16_t g_payload_len;
-u_int8_t *g_payload;
-u_int8_t g_hex_payload;
-u_int8_t *g_s_d_port;
-u_int8_t g_hwaddr_p[18];
-u_int8_t g_rawip;
+extern u_int16_t g_init_type;
+extern u_int16_t g_rand_d_port;
+extern u_int16_t g_rand_s_port;
+extern u_int16_t g_s_port;
+extern u_int16_t g_d_port;
+extern u_int16_t g_port_range;
+extern u_int16_t g_interval_sec;
+extern u_int16_t g_interval_usec;
+extern u_int16_t g_injection_type;
+extern u_int16_t g_r_timeout;
+extern u_int16_t g_burst_rate;
+extern u_int16_t g_payload_len;
+extern u_int8_t *g_payload;
+extern u_int8_t g_hex_payload;
+extern u_int8_t *g_s_d_port;
+extern u_int8_t g_hwaddr_p[18];
+extern u_int8_t g_rawip;
 
-struct timeval g_bf_pcap;
-struct timeval g_af_pcap;
+extern struct timeval g_bf_pcap;
+extern struct timeval g_af_pcap;
 
 
 #endif /* __INJECTION_STRUCTS_H */

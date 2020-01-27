@@ -30,6 +30,62 @@
 
 #include "main.h"
 
+char g_w_file[OPT_MAXLEN];
+char g_r_file[OPT_MAXLEN];
+
+pcap_t *g_pkt;
+u_int8_t g_tr_fin;
+char *g_filter;
+char *g_device;
+u_int16_t g_hdr_len;
+u_int16_t g_pkt_len;
+u_int16_t g_verbose;
+u_int16_t g_resolve;
+u_int16_t g_p_mode;
+u_int64_t g_cnt;
+u_int64_t g_inj_cnt;
+u_int64_t g_cap_cnt;
+
+/* capture_defs.h */
+u_int16_t g_display;
+u_int16_t g_link_layer;
+u_int16_t g_dump_pkt;
+u_int16_t g_time_gmt;
+u_int16_t g_t_rst;
+u_int16_t g_snap_len;
+u_int32_t g_pkt_rst;
+
+/* inject_defs.h */
+u_int16_t g_init_type;
+u_int16_t g_rand_d_port;
+u_int16_t g_rand_s_port;
+u_int16_t g_s_port;
+u_int16_t g_d_port;
+u_int16_t g_port_range;
+u_int16_t g_interval_sec;
+u_int16_t g_interval_usec;
+u_int16_t g_injection_type;
+u_int16_t g_r_timeout;
+u_int16_t g_burst_rate;
+u_int16_t g_payload_len;
+u_int8_t *g_payload;
+u_int8_t g_hex_payload;
+u_int8_t *g_s_d_port;
+u_int8_t g_hwaddr_p[18];
+u_int8_t g_rawip;
+
+struct timeval g_bf_pcap;
+struct timeval g_af_pcap;
+
+struct arphdr_opts g_ahdr_o;
+struct enethdr_opts g_ehdr_o;
+struct icmp4hdr_opts g_i4hdr_o;
+struct ip4hdr_opts g_ip4hdr_o;
+struct tcphdr_opts g_thdr_o;
+struct udphdr_opts g_uhdr_o;
+
+libnet_t *g_pkt_d;
+
 void
 parse_capture_options(int argc, char *argv[])
 {

@@ -26,6 +26,8 @@
 
 #include "error.h"
 
+char error_buf[ERRBUF_MAXLEN];
+
 void
 fatal_error(char *err,...)
 {
