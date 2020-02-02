@@ -4,11 +4,12 @@
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
- * Copyright 2005      Dennis Vshivkov <walrus@amur.ru>
+ * Copyright 2004-2005 Dennis Vshivkov <walrus@amur.ru>
  * Copyright 2006      Deniz Adrian <adrian@netzquadrat.de>
  * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
  * Copyright 2017      Robert Krause <ruport@f00l.de>
  * Copyright 2017      Sharad B
+ * Copyright 2020      David Polverari <david.polverari@gmail.com>
  * Copyright 2020      Jeroen Roovers <jer@gentoo.org>
  *
  * This program is free software; you can redistribute it and/or
