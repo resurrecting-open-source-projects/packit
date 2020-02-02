@@ -87,6 +87,22 @@ struct udphdr_opts g_uhdr_o;
 
 libnet_t *g_pkt_d;
 
+static void
+randomisable_str(u_int8_t **to, u_int16_t *rand, size_t size, const char *desc)
+{
+    if (strcmp(optarg, "R") != 0)
+    {
+	if ((*to = strdup(optarg)) == NULL)
+	    fatal_error("Memory unavailable for: %s", optarg);
+    }
+    else
+    {
+	*rand = 1;
+	if ((*to = malloc(size)) == NULL)
+	    fatal_error("Memory unavailable for: %s", desc);
+    }
+}
+
 void
 parse_capture_options(int argc, char *argv[])
 {
@@ -313,12 +329,7 @@ parse_inject:
                 break;
 
             case 'd':
-	        if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    g_ip4hdr_o.rand_d_addr = 1;
-
-		if(!(g_ip4hdr_o.d_addr = (u_int8_t*)strdup(optarg)))
-		    fatal_error("Memory unavailable for: %s", optarg);
-
+                randomisable_str(&g_ip4hdr_o.d_addr, &g_ip4hdr_o.rand_d_addr, 16, "destination IP");
                 break;
 
             case 'D':
@@ -332,15 +343,10 @@ parse_inject:
 
             case 'e':
 #ifdef MACOS
-            fprintf(stderr, "\nWarning: You cannot specify an ethernet address on this operating system.\n");
-	    break;
+                fprintf(stderr, "\nWarning: You cannot specify an ethernet address on this operating system.\n");
+                break;
 #endif
-		if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    g_ehdr_o.rand_s_addr = 1;
-
-      		if(!(g_ehdr_o.s_addr = (u_int8_t*)strdup(optarg)))
-		    fatal_error("Memory unavailable for: %s", optarg);
-
+                randomisable_str(&g_ehdr_o.s_addr, &g_ehdr_o.rand_s_addr, 18, "source MAC");
                 g_init_type = 0;
                 g_link_layer = 1;
                 break;
@@ -348,14 +354,9 @@ parse_inject:
             case 'E':
 #ifdef MACOS
                 fprintf(stderr, "\nWarning: You cannot specify an ethernet address on this operating system.\n");
-		break;
+                break;
 #endif
-                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    g_ehdr_o.rand_d_addr = 1;
-
-                if(!(g_ehdr_o.d_addr = (u_int8_t*)strdup(optarg)))
-		    fatal_error("Memory unavailable for: %s", optarg);
-
+                randomisable_str(&g_ehdr_o.d_addr, &g_ehdr_o.rand_d_addr, 18, "destination MAC");
                 g_init_type = 0;
                 g_link_layer = 1;
                 break;
@@ -386,12 +387,7 @@ parse_inject:
                 break;
 
             case 'g':
-                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    g_i4hdr_o.rand_gw = 1;
-
-                if(!(g_i4hdr_o.gw = (u_int8_t*)strdup(optarg)))
-                    fatal_error("Memory unavailable for: %s", optarg);
-
+                randomisable_str(&g_i4hdr_o.gw, &g_i4hdr_o.rand_gw, 16, "gateway IP");
                 break;
 
             case 'G':
@@ -417,12 +413,7 @@ parse_inject:
                 break;
 
             case 'j':
-                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    g_i4hdr_o.rand_orig_s_addr = 1;
-
-                if(!(g_i4hdr_o.orig_s_addr = (u_int8_t*)strdup(optarg)))
-                    fatal_error("Memory unavailable for: %s", optarg);
-
+                randomisable_str(&g_i4hdr_o.orig_s_addr, &g_i4hdr_o.rand_orig_s_addr, 16, "original source IP");
                 break;
 
             case 'J':
@@ -442,12 +433,7 @@ parse_inject:
                 break;
 
             case 'l':
-                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    g_i4hdr_o.rand_orig_d_addr = 1;
-
-                if(!(g_i4hdr_o.orig_d_addr = (u_int8_t*)strdup(optarg)))
-                    fatal_error("Memory unavailable for: %s", optarg);
-
+                randomisable_str(&g_i4hdr_o.orig_d_addr, &g_i4hdr_o.rand_orig_d_addr, 16, "original destination IP");
                 break;
 
             case 'L':
@@ -529,11 +515,7 @@ parse_inject:
                 break;
 
             case 's':
-                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    g_ip4hdr_o.rand_s_addr = 1;
-
-                if(!(g_ip4hdr_o.s_addr = (u_int8_t*)strdup(optarg)))
-		    fatal_error("Memory unavailable for: %s", optarg);
+                randomisable_str(&g_ip4hdr_o.s_addr, &g_ip4hdr_o.rand_s_addr, 16, "source IP");
                 break;
 
             case 'S':
@@ -581,39 +563,19 @@ parse_inject:
                 break;
 
             case 'x':
-                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    g_ahdr_o.rand_s_paddr = 1;
-
-                if(!(g_ahdr_o.s_paddr = (u_int8_t*)strdup(optarg)))
-                    fatal_error("Memory unavailable for: %s", optarg);
-
+                randomisable_str(&g_ahdr_o.s_paddr, &g_ahdr_o.rand_s_paddr, 16, "ARP sender IP");
                 break;
 
             case 'X':
-                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    g_ahdr_o.rand_s_eaddr = 1;
-
-                if(!(g_ahdr_o.s_eaddr = (u_int8_t*)strdup(optarg)))
-                    fatal_error("Memory unavailable for: %s", optarg);
-
+                randomisable_str(&g_ahdr_o.s_eaddr, &g_ahdr_o.rand_s_eaddr, 18, "ARP sender MAC");
                 break;
 
             case 'y':
-                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    g_ahdr_o.rand_r_paddr = 1;
-
-                if(!(g_ahdr_o.r_paddr = (u_int8_t*)strdup(optarg)))
-                    fatal_error("Memory unavailable for: %s", optarg);
-
+                randomisable_str(&g_ahdr_o.r_paddr, &g_ahdr_o.rand_r_paddr, 16, "ARP receiver IP");
                 break;
 
             case 'Y':
-                if(strlen(optarg) == 1 && !strncmp(optarg, "R", 1))
-                    g_ahdr_o.rand_r_eaddr = 1;
-
-                if(!(g_ahdr_o.r_eaddr = (u_int8_t*)strdup(optarg)))
-                    fatal_error("Memory unavailable for: %s", optarg);
-
+                randomisable_str(&g_ahdr_o.r_eaddr, &g_ahdr_o.rand_r_eaddr, 18, "ARP receiver MAC");
                 break;
 
             case 'z':
