@@ -25,7 +25,7 @@
 # packit official page at https://github.com/eribertomota/packit
 
 AC_PREREQ([2.69])
-AC_INIT([packit], [1.6], [https://github.com/eribertomota/packit/issues])
+AC_INIT([packit], [1.7], [https://github.com/eribertomota/packit/issues])
 AC_CONFIG_SRCDIR([src/main.c])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS(config.h)

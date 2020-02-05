@@ -24,6 +24,6 @@
  * packit official page at https://github.com/eribertomota/packit
  */
 
-#define P_VERSION "1.6"
+#define P_VERSION "1.7"
 #define P_AUTHOR "Darren Bounds, Eriberto Mota and others"
 #define P_SITE "https://github.com/eribertomota/packit"
