@@ -1,3 +1,19 @@
+Version 1.7, 2020-02-05
+-------------------------
+
+  [ Joao Eriberto Mota Filho ], eriberto@eriberto.pro.br
+
+* Updated AUTHORS file and manpage.
+
+  [ Dennis Vshivkov], <walrus@amur.ru>
+  [ David Polverari ], <david.polverari@gmail.com>
+
+* Fixed buffer overruns with `R' arguments to options.
+
+  [ Jeroen Roovers ], <jer@gentoo.org>
+
+* Fixed compiling with -fno-common.
+
 Version 1.6.1, 2019-01-25
 -------------------------
 
