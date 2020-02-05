@@ -4,9 +4,9 @@
 # Copyright 2016 Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
 # This file is under BSD-3-Clause
 
-P_DATA="25 Jan 2019"
+P_DATA="05 Feb 2020"
 P_NAME=packit
-P_VERSION=1.6
+P_VERSION=1.7
 P_MANLEVEL=8
 P_DESCRIPT="Network packet generator and capture tool "
 
