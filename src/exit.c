@@ -40,9 +40,7 @@ void injection_clean_exit(int sig) {
         while(1)
         {
             fprintf(stderr, "\n\nWould you like to quit? (y/n): ");
-            fgets(a, 2, stdin);
-
-            if(!strncasecmp(a, "Y", 1))
+            if ((fgets(a, 2, stdin) == NULL) || !strncasecmp(a, "Y", 1))
                 break;
             else
             if(!strncasecmp(a, "N", 1))
