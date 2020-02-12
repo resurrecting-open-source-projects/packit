@@ -62,9 +62,16 @@ capture_init(const char *filter, u_int64_t cnt)
     else
     {
         if(g_device == NULL)
-            if((g_device = pcap_lookupdev(error_buf)) == NULL)
+        {
+            pcap_if_t *alldevsp = NULL;
+            if (pcap_findalldevs(&alldevsp, error_buf) == -1 || alldevsp == NULL)
+            {
                 fatal_error("%s: Check device permissions", error_buf);
-
+            } else {
+                g_device = strdup(alldevsp->name);
+                pcap_freealldevs(alldevsp);
+            }
+        }
 
         if((g_pkt = pcap_open_live(g_device, g_snap_len, 1, READ_TIMEOUT, error_buf)) == NULL)
             fatal_error("Unable to open device: %s", error_buf);

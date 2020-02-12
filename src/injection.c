@@ -85,8 +85,17 @@ injection_init()
         g_d_port = (u_int16_t)atoi((char*)g_s_d_port);
     }
 
-    if(!g_device && (g_device = pcap_lookupdev(error_buf)) == NULL)
-        fatal_error("Device lookup failure: Are you root?");
+    if(!g_device)
+    {
+        pcap_if_t *alldevsp = NULL;
+        if (pcap_findalldevs(&alldevsp, error_buf) == -1 || alldevsp == NULL)
+        {
+           fatal_error("Device lookup failure: Are you root?");
+        } else {
+           g_device = strdup(alldevsp->name);
+           pcap_freealldevs(alldevsp);
+        }
+    }
 
     if(strstr(g_device, "any")) strcpy(g_device, "lo");
 
