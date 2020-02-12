@@ -32,8 +32,8 @@
 
 #include "main.h"
 
-char g_w_file[OPT_MAXLEN];
-char g_r_file[OPT_MAXLEN];
+char g_w_file[OPT_MAXLEN+1];
+char g_r_file[OPT_MAXLEN+1];
 
 pcap_t *g_pkt;
 u_int8_t g_tr_fin;

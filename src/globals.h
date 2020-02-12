@@ -139,8 +139,8 @@
 #define P_INT64                         0x7FFFFFFFFFFFFFFF
 #define P_UINT64                        0xFFFFFFFFFFFFFFFF
 
-extern char g_w_file[OPT_MAXLEN];
-extern char g_r_file[OPT_MAXLEN];
+extern char g_w_file[OPT_MAXLEN+1];
+extern char g_r_file[OPT_MAXLEN+1];
 
 extern pcap_t *g_pkt;
 extern u_int8_t g_tr_fin;
