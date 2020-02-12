@@ -93,7 +93,7 @@ randomisable_str(u_int8_t **to, u_int16_t *rand, size_t size, const char *desc)
 {
     if (strcmp(optarg, "R") != 0)
     {
-	if ((*to = strdup(optarg)) == NULL)
+	if ((*to = (unsigned char *)strdup(optarg)) == NULL)
 	    fatal_error("Memory unavailable for: %s", optarg);
     }
     else
