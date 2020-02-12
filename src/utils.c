@@ -97,10 +97,13 @@ u_int8_t *retrieve_rand_ipv4_addr(u_int8_t *ip)
                 break;
         }
 
-        if(oct_cnt != 1)
-            sprintf((char*)ip, "%s.%d", ip, oct);
-        else
+        if(oct_cnt != 1) {
+            char *ip2 = strdup((char*)ip);
+            sprintf((char*)ip, "%s.%d", ip2, oct);
+            free(ip2);
+	} else {
             sprintf((char*)ip, "%d", oct);
+	}
     }
 
     return ip;
@@ -118,10 +121,13 @@ u_int8_t *retrieve_rand_ethernet_addr(u_int8_t *eaddr)
    {
         oct = (u_int8_t)retrieve_rand_int(0xFF);
 
-       if(oct_cnt != 1)
-           sprintf((char*)eaddr, "%s:%0x", eaddr, oct);
-       else
+       if(oct_cnt != 1) {
+           char *eaddr2 = strdup((const char *)eaddr);
+           sprintf((char*)eaddr, "%s:%0x", eaddr2, oct);
+           free(eaddr2);
+       } else {
            sprintf((char*)eaddr, "%0x", oct);
+       }
    }
 
     return eaddr;
