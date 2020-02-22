@@ -9,8 +9,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-    - name: autoreconf
-      run: autoreconf -fi
+    - name: autogen
+      run: ./autogen.sh
     - name: configure
       run: ./configure
     - name: make
