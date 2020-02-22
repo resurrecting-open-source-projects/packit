@@ -1,0 +1,32 @@
+name: full-check
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: install_dependencies
+      run: sudo apt install libnet1-dev libpcap0.8-dev
+    - name: first_build
+      run: |
+           ./autogen.sh
+           ./configure
+           make
+           sudo make install
+           sudo make uninstall
+           make distclean 
+    - name: second_build
+      run: |
+           ./autogen.sh
+           ./configure
+           make
+           sudo make install
+    - name: run_program
+      run: |
+           packit -s 10.0.0.1 -d 203.0.113.1 -FSAF -D 8080 -T 255 | grep "Errors: 0" -C15
+           packit -s 10.0.0.1 -d 203.0.113.1 -FPA -D 8080 -T 64 -p "Test of payload" | grep "Errors: 0" -C15
+           
