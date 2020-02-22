@@ -7,6 +7,7 @@
  * Copyright 2017 Robert Krause <ruport@f00l.de>
  * Copyright 2017 Sharad B
  * Copyright 2019 Sander Kleijwegt <sander.kleijwegt@netscout.com>
+ * Copyright 2020 David Polverari <david.polverari@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

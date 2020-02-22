@@ -7,6 +7,7 @@
  * Copyright 2007      Kumar Appaiah <akumar@ee.iitm.ac.in>
  * Copyright 2016-2017 Robert Krause <ruport@f00l.de>
  * Copyright 2017      Sharad B
+ * Copyright 2020      David Polverari <david.polverari@gmail.com>
  * Copyright 2020      Jeroen Roovers <jer@gentoo.org>
  *
  * This program is free software; you can redistribute it and/or
