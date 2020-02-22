@@ -32,8 +32,8 @@
 
 #include "main.h"
 
-char g_w_file[OPT_MAXLEN];
-char g_r_file[OPT_MAXLEN];
+char g_w_file[OPT_MAXLEN+1];
+char g_r_file[OPT_MAXLEN+1];
 
 pcap_t *g_pkt;
 u_int8_t g_tr_fin;
@@ -93,7 +93,7 @@ randomisable_str(u_int8_t **to, u_int16_t *rand, size_t size, const char *desc)
 {
     if (strcmp(optarg, "R") != 0)
     {
-	if ((*to = strdup(optarg)) == NULL)
+	if ((*to = (unsigned char *)strdup(optarg)) == NULL)
 	    fatal_error("Memory unavailable for: %s", optarg);
     }
     else

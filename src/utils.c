@@ -97,10 +97,13 @@ u_int8_t *retrieve_rand_ipv4_addr(u_int8_t *ip)
                 break;
         }
 
-        if(oct_cnt != 1)
-            sprintf((char*)ip, "%s.%d", ip, oct);
-        else
+        if(oct_cnt != 1) {
+            char *ip2 = strdup((char*)ip);
+            sprintf((char*)ip, "%s.%d", ip2, oct);
+            free(ip2);
+	} else {
             sprintf((char*)ip, "%d", oct);
+	}
     }
 
     return ip;
@@ -118,10 +121,13 @@ u_int8_t *retrieve_rand_ethernet_addr(u_int8_t *eaddr)
    {
         oct = (u_int8_t)retrieve_rand_int(0xFF);
 
-       if(oct_cnt != 1)
-           sprintf((char*)eaddr, "%s:%0x", eaddr, oct);
-       else
+       if(oct_cnt != 1) {
+           char *eaddr2 = strdup((const char *)eaddr);
+           sprintf((char*)eaddr, "%s:%0x", eaddr2, oct);
+           free(eaddr2);
+       } else {
            sprintf((char*)eaddr, "%0x", oct);
+       }
    }
 
     return eaddr;
@@ -544,7 +550,7 @@ u_int8_t format_ethernet_addr(u_int8_t *ethstr, u_int8_t u_eaddr[6]) {
     int i = 0;
     long base16;
     char *eptr, *delim = ":";
-    u_int8_t o_ethstr[18] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+    u_int8_t o_ethstr[19] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: format_ethernet_addr()\n");
@@ -578,9 +584,9 @@ u_int8_t format_ethernet_addr(u_int8_t *ethstr, u_int8_t u_eaddr[6]) {
 }
 
 u_int16_t parse_port_range(char *rangestr) {
-    char o_rangestr[11], *ptr, *delim = "-";
+    char o_rangestr[12], *ptr, *delim = "-";
     u_int16_t i, range = 0;
-    int spread[10];
+    int spread[10] = {0};
 
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: parse_port_range(): %s\n", rangestr);
