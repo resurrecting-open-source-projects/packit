@@ -9,6 +9,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
+    - name: install_dep
+      run: sudo apt install libnet1-dev libpcap0.8-dev
     - name: autogen
       run: ./autogen.sh
     - name: configure
@@ -16,6 +18,6 @@ jobs:
     - name: make
       run: make
     - name: make install
-      run: make install
+      run: sudo make install
     - name: make distclean
       run: make distclean
