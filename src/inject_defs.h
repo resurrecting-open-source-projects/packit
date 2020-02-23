@@ -4,6 +4,7 @@
  * Original author: Darren Bounds <dbounds@intrusense.com>
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
+ * Copyright 2004      Dennis Vshivkov <walrus@amur.ru>
  * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
  * Copyright 2016-2017 Robert Krause <ruport@f00l.de>
  * Copyright 2017      Edward Betts <edward@4angle.com>
