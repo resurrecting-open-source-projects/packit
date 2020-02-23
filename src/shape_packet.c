@@ -74,7 +74,7 @@ shape_packet()
             break;
     }
 
-    if(g_ehdr_o.s_addr || g_ehdr_o.d_addr)
+    if(g_ehdr_o.s_addr || g_ehdr_o.d_addr || g_ehdr_o.dot1q_vlan_id_cpi_prio)
     {
         if((g_pkt_d = shape_ethernet_hdr(g_pkt_d)) == NULL)
             return g_pkt_d;

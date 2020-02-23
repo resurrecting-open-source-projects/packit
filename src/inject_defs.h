@@ -142,6 +142,8 @@ extern struct enethdr_opts
     u_int8_t shw_addr[18];
     u_int8_t *d_addr;                   /* destination ethernet address string */
     u_int8_t dhw_addr[18];
+
+    u_int16_t dot1q_vlan_id_cpi_prio;
 } g_ehdr_o;
 
 extern struct arphdr_opts

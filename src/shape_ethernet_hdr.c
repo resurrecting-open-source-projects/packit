@@ -82,14 +82,27 @@ shape_ethernet_hdr(libnet_t *g_pkt_d)
     snprintf((char*)g_ehdr_o.dhw_addr, 18, "%0X:%0X:%0X:%0X:%0X:%0X",
         ud_addr[0], ud_addr[1], ud_addr[2], ud_addr[3], ud_addr[4], ud_addr[5]);
 
-    if(libnet_build_ethernet(
-        ud_addr,
-        us_addr,
-        g_injection_type,
-        NULL,
-        0,
-        g_pkt_d,
-        0) == -1)
+    if((g_ehdr_o.dot1q_vlan_id_cpi_prio == 0 ?
+           libnet_build_ethernet(
+               ud_addr,
+               us_addr,
+               g_injection_type,
+               NULL,
+               0,
+               g_pkt_d,
+               0) :
+           libnet_build_802_1q(
+               ud_addr,
+               us_addr,
+               ETHERTYPE_VLAN,
+               g_ehdr_o.dot1q_vlan_id_cpi_prio >> 13,            /* priority */
+               (g_ehdr_o.dot1q_vlan_id_cpi_prio >> 12) & 1,      /* cpi */
+               g_ehdr_o.dot1q_vlan_id_cpi_prio & 0xFFF,          /* id */
+               g_injection_type,
+               NULL,
+               0,
+               g_pkt_d,
+               0)) == -1)
     {
         fatal_error("Unable to build ethernet header");
     }

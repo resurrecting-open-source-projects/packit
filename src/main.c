@@ -200,7 +200,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 #endif
                     g_ip4hdr_o.p = IPPROTO_TCP;
                     g_injection_type = ETHERTYPE_IP;
-                    opts = "a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
+                    opts = "a:b:c:d:D:e:E:fF:hH:i:I:n:p:q:Rs:S:T:o:u:vw:W:Z:";
                 }
                 else
                 if(!strncasecmp(optarg, "UDP", 3))
@@ -210,7 +210,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 #endif
                     g_ip4hdr_o.p = IPPROTO_UDP;
                     g_injection_type = ETHERTYPE_IP;
-                    opts = "b:c:d:D:e:E:fhH:i:n:o:p:Rs:S:T:vw:Z:";
+                    opts = "b:c:d:D:e:E:fhH:i:I:n:o:p:Rs:S:T:vw:Z:";
                 }
                 else
                 if(!strncasecmp(optarg, "ICMP", 4))
@@ -220,7 +220,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 #endif
                     g_ip4hdr_o.p = IPPROTO_ICMP;
                     g_injection_type = ETHERTYPE_IP;
-                    opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
+                    opts = "b:c:C:d:e:E:fg:G:hH:i:I:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
                 }
 		else
                 if(!strncasecmp(optarg, "ARP", 3))
@@ -236,7 +236,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 #endif
                     g_injection_type = ETHERTYPE_ARP;
                     g_init_type = 0;
-                    opts = "A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:";
+                    opts = "A:b:c:e:E:i:I:p:Rs:S:vx:X:y:Y:";
                 }
                 else
                 if(!strncasecmp(optarg, "RARP", 4))
@@ -411,6 +411,11 @@ parse_inject:
                 if(!(g_device = strdup(optarg)))
 		    fatal_error("Memory unavailable for: %s", optarg);
 
+                break;
+
+            case 'I':
+                g_ehdr_o.dot1q_vlan_id_cpi_prio = (u_int16_t) atoi(optarg);
+                g_init_type = LIBNET_LINK;
                 break;
 
             case 'j':
