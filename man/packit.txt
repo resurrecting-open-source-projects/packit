@@ -377,7 +377,7 @@ BUGS
   - ARP capture data is incomplete.
 
   - Please send bug reports, questions, requests, fixes and pull requests
-    to https://github.com/eribertomota/packit/issues
+    to https://github.com/resurrecting-open-source-projects/packit/issues
 
 AUTHOR
   The original author of packit is Darren Bounds. The current project maintainer
@@ -385,4 +385,4 @@ AUTHOR
   file in source code. To help in development, see CONTRIBUTING.md. On Debian
   systems, these files will be available at /usr/share/doc/packit/.
 
-  The latest version of Packit can be found at https://github.com/eribertomota/packit
+  The latest version of Packit can be found at https://github.com/resurrecting-open-source-projects/packit

@@ -5,7 +5,7 @@
 # Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
 # Copyright 2007      LaMont Jones <lamont@debian.org>
 # Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
-# Copyright 2016      Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
+# Copyright 2016-2020 Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,10 +22,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA  02110-1301, USA.
 #
-# packit official page at https://github.com/eribertomota/packit
+# packit official page at https://github.com/resurrecting-open-source-projects/packit
 
 AC_PREREQ([2.69])
-AC_INIT([packit], [1.7], [https://github.com/eribertomota/packit/issues])
+AC_INIT([packit], [1.7], [https://github.com/resurrecting-open-source-projects/packit/issues])
 AC_CONFIG_SRCDIR([src/main.c])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS(config.h)

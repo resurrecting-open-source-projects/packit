@@ -23,7 +23,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA  02110-1301, USA.
  *
- * packit official page at https://github.com/eribertomota/packit
+ * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
 #include "print_arp_hdr.h"

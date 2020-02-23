@@ -1,6 +1,6 @@
 ## HOW TO CONTRIBUTE TO PACKIT DEVELOPMENT
 
-Packit is available at https://github.com/eribertomota/packit
+Packit is available at https://github.com/resurrecting-open-source-projects/packit
 
 If you are interested in contribute to Packit development, please, follow
 these steps:
@@ -19,7 +19,7 @@ these steps:
 
 To find issues and bugs to fix, you can check these addresses:
 
-   - https://github.com/eribertomota/packit/issues
+   - https://github.com/resurrecting-open-source-projects/packit/issues
    - https://bugs.debian.org/cgi-bin/pkgreport.cgi?dist=unstable;package=packit
    - https://bugs.launchpad.net/ubuntu/+source/packit/+bugs
 
