@@ -161,7 +161,4 @@ print_usage()
 //    fprintf(stdout, "Author:  %s\n", P_AUTHOR);
     fprintf(stdout, "Website: %s\n", P_SITE);
     fprintf(stdout, "\nSee the man page for more options, detailed descriptions and examples.\n\n");
-
-    exit(SUCCESS);
 }
-
