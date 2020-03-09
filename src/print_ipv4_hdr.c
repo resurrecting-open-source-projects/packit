@@ -59,6 +59,4 @@ print_ipv4_hdr(struct libnet_ipv4_hdr *iphdr)
         fprintf(stdout, "(DF)  ");
 
     fprintf(stdout, "\n");
-
-    return;
 }

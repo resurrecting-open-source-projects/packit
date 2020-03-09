@@ -168,6 +168,4 @@ print_icmpv4_hdr(u_int8_t *packet)
 
     if(icmphdr->icmp_type != 11 || icmphdr->icmp_code != 0)
         g_tr_fin = 1;
-
-    return;
 }

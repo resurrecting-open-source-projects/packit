@@ -58,6 +58,4 @@ print_arp_hdr(u_int8_t *packet)
     fprintf(stdout, "     Protocol Format: %d  Length: %d\n",
         ahdr->ar_pro,
         ahdr->ar_pln);
-
-    return;
 }

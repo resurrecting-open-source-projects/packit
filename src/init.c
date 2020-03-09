@@ -93,6 +93,4 @@ injection_struct_init()
     g_i4hdr_o.otime = 0;
     g_i4hdr_o.rtime = 0;
     g_i4hdr_o.ttime = 0;
-
-    return;
 }

@@ -57,6 +57,4 @@ define_injection_defaults()
     g_resolve = 1;
     g_link_layer = 0;
     g_resolve = 0;
-
-    return;
 }

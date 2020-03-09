@@ -205,7 +205,5 @@ print_injection_details()
     }
 
     fprintf(stdout, "\n");
-
-    return;
 }
 

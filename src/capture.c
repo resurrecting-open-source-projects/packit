@@ -32,7 +32,6 @@ void
 process_packets(u_int8_t *user, struct pcap_pkthdr *pkthdr, u_int8_t *packet)
 {
     print_capture(pkthdr, packet);
-    return;
 }
 
 void
@@ -128,6 +127,4 @@ capture_init(const char *filter, u_int64_t cnt)
     }
 
     capture_clean_exit(SUCCESS);
-
-    return;
 }

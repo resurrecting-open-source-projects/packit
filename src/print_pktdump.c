@@ -110,6 +110,4 @@ print_packet_hexdump(u_int8_t *cp, int len)
     }
 
     fprintf(stdout, "\n");
-
-    return;
 }

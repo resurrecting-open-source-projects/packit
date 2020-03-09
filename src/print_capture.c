@@ -126,6 +126,4 @@ print_capture(struct pcap_pkthdr *pkthdr, u_int8_t *packet)
     }
 
     g_cap_cnt++;
-
-    return;
 }

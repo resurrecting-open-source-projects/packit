@@ -86,6 +86,4 @@ print_tcp_hdr(u_int8_t *packet)
         fprintf(stdout, "Urg: %d  ", ntohs(tcphdr->th_urp));
 
     fprintf(stdout, "\n");
-
-    return;
 }

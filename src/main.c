@@ -168,8 +168,6 @@ parse_capture_options(int argc, char *argv[])
     }
 
     capture_init(argv[optind], g_cnt);
-
-    return;
 }
 
 void
@@ -595,8 +593,6 @@ parse_inject:
     }
 
     injection_init();
-
-    return;
 }
 
 int

@@ -76,8 +76,6 @@ injection_stats()
         (u_int64_t)ln_stats.packet_errors);
 
     fprintf(stdout, "\n");
-
-    return;
 }
 
 void
@@ -99,7 +97,4 @@ capture_stats()
         p_stats.ps_recv, p_stats.ps_drop, g_inj_cnt);
 
     fprintf(stdout, "\n");
-
-    return;
 }
-

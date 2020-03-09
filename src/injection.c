@@ -118,8 +118,6 @@ injection_init()
     fprintf(stdout, "DEBUG: Preparing to clean house and exit\n");
 #endif
     injection_clean_exit(SUCCESS);
-
-    return;
 }
 
 u_int16_t

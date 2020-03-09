@@ -48,6 +48,4 @@ print_ethernet_hdr(struct libnet_ethernet_hdr *ehdr)
         ehdr->ether_dhost[5]);
 
     fprintf(stdout, "\n");
-
-    return;
 }

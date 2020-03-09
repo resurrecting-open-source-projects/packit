@@ -43,7 +43,5 @@ print_udp_hdr(u_int8_t *packet)
         ntohs(udphdr->uh_ulen));
 
     fprintf(stdout, "\n");
-
-    return;
 }
 

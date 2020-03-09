@@ -163,8 +163,6 @@ print_separator(int bnl, int anl, char *msgp, ...)
 
     for(i = 0; i < anl; i++)
         fprintf(stdout, "\n");
-
-    return;
 }
 
 char *retrieve_icmp_code(u_int16_t type, u_int16_t code) {

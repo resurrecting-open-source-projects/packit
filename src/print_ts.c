@@ -67,6 +67,4 @@ print_ts(struct timeval ts)
     }
 
     fprintf(stdout, "Timestamp:   %s\n", timestamp);
-
-    return;
 }
