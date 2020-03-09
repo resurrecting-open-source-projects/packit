@@ -266,7 +266,10 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     opts = "b:c:d:e:E:f:i:n:o:p:Rs:T:U:vV:w:Z:";
                 }
                 else
+                {
                     print_usage();
+                    exit(EXIT_FAILURE);
+                }
 
                 goto parse_inject;
 
@@ -294,6 +297,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
     }
 
 print_usage();
+exit(EXIT_FAILURE);
 
 parse_inject:
 #ifdef DEBUG
@@ -598,7 +602,10 @@ parse_inject:
 int
 main(int argc, char *argv[])
 {
-    if(argc < 2) print_usage();
+    if(argc < 2) {
+        print_usage();
+        exit(EXIT_SUCCESS);
+    }
 
     opterr = 0;
 
@@ -625,6 +632,7 @@ main(int argc, char *argv[])
 		
                 fprintf(stderr, "\nError: Invalid runtime mode\n");
                 print_usage();
+                exit(EXIT_FAILURE);
 
                 break;
             default:
@@ -644,7 +652,5 @@ main(int argc, char *argv[])
     }
 
     print_usage();
-
-    /* Never gets here */
-    exit(SUCCESS);
+    return EXIT_SUCCESS;
 }
