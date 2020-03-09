@@ -58,9 +58,7 @@ void injection_clean_exit(int sig) {
     fprintf(stdout, "DEBUG: Good-Bye\n");
 #endif
 
-    exit(SUCCESS);
-
-    return;
+    exit(EXIT_SUCCESS);
 }
 
 void
@@ -77,7 +75,5 @@ capture_clean_exit(int sig)
 
     fprintf(stdout, "\n");
 
-    exit(SUCCESS);
-
-    return;
+    exit(EXIT_SUCCESS);
 }
