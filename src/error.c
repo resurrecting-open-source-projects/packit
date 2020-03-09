@@ -40,6 +40,7 @@ fatal_error(char *err,...)
 
     va_start(va, err);
     vsnprintf(error_buf, ERRBUF_MAXLEN, err, va);
+    va_end(va);
     fprintf(stderr, "\nError: %s\n", error_buf);
     exit(EXIT_FAILURE);
 }

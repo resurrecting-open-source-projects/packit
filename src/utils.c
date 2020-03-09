@@ -150,6 +150,7 @@ print_separator(int bnl, int anl, char *msgp, ...)
 
     va_start(va, msgp);
     vsnprintf(msg, 255, msgp, va);
+    va_end(va);
 
     msg_len = strlen(msg);
 
