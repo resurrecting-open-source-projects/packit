@@ -170,6 +170,9 @@ parse_capture_options(int argc, char *argv[])
     capture_init(argv[optind], g_cnt);
 }
 
+/* forward declaration needed by parse_inject_options */
+static void parse_inject(int argc, char *argv[], char *opts);
+
 void
 parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 {
@@ -271,7 +274,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     exit(EXIT_FAILURE);
                 }
 
-                goto parse_inject;
+                parse_inject(argc, argv, opts);
 
                 break;
 
@@ -290,16 +293,18 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     opts = "a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
                 }
 
-                goto parse_inject;
+                parse_inject(argc, argv, opts);
 
                 break;
         }
     }
+}
+//print_usage();
+//exit(EXIT_FAILURE);
 
-print_usage();
-exit(EXIT_FAILURE);
-
-parse_inject:
+static void
+parse_inject(int argc, char *argv[], char *opts)
+{
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: parse_inject\n");
 #endif
