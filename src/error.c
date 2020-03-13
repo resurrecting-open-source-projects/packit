@@ -29,18 +29,16 @@
 
 char error_buf[ERRBUF_MAXLEN];
 
-void
-fatal_error(char *err,...)
+void fatal_error(char *err, ...)
 {
-    va_list va;
+	va_list va;
 
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: fatal_error()\n");
+	fprintf(stdout, "DEBUG: fatal_error()\n");
 #endif
-
-    va_start(va, err);
-    vsnprintf(error_buf, ERRBUF_MAXLEN, err, va);
-    va_end(va);
-    fprintf(stderr, "\nError: %s\n", error_buf);
-    exit(EXIT_FAILURE);
+	va_start(va, err);
+	vsnprintf(error_buf, ERRBUF_MAXLEN, err, va);
+	va_end(va);
+	fprintf(stderr, "\nError: %s\n", error_buf);
+	exit(EXIT_FAILURE);
 }

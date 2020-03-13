@@ -31,4 +31,4 @@
 
 libnet_t *shape_ipv4_hdr(libnet_t *);
 
-#endif /* __SHAPE_IPV4_HDR_H */
+#endif				/* __SHAPE_IPV4_HDR_H */

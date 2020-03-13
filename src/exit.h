@@ -36,4 +36,4 @@
 void capture_clean_exit(int);
 void injection_clean_exit(int);
 
-#endif /* __EXIT_H */
+#endif				/* __EXIT_H */

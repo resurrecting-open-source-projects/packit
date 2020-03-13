@@ -31,4 +31,4 @@
 
 void injection_struct_init();
 
-#endif /* __INIT_H */
+#endif				/* __INIT_H */

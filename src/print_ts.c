@@ -26,45 +26,35 @@
 
 #include "print_ts.h"
 
-void
-print_ts(struct timeval ts)
+void print_ts(struct timeval ts)
 {
-    char timestamp[TIMESTAMP_MAXLEN];
+	char timestamp[TIMESTAMP_MAXLEN];
 
-    struct tm *ltm;
-    struct timeval tv, *tvp;
+	struct tm *ltm;
+	struct timeval tv, *tvp;
 
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: print_ts()\n");
+	fprintf(stdout, "DEBUG: print_ts()\n");
 #endif
-
-    ltm = malloc(sizeof(struct tm));
-    memset(ltm, 0, sizeof(struct tm));
-
-    memset(&tv, 0, sizeof(struct timeval));
-
-    tvp = malloc(sizeof(struct timeval));
-    memset(tvp, 0, sizeof(struct timeval));
-
-    if(g_time_gmt)
-        snprintf(timestamp, TIMESTAMP_MAXLEN, "%02lu:%02lu:%02lu.%06lu",
-            (u_long)(ts.tv_sec % 86400) / 3600,
-            (u_long)((ts.tv_sec % 86400) % 3600) / 60,
-            (u_long)(ts.tv_sec % 86400) % 40,
-            (u_long)ts.tv_usec);
-    else
-    {
-        tvp = &tv;
-
-        gettimeofday(tvp, NULL);
-        ltm = localtime((time_t *) & tvp->tv_sec);
-
-        snprintf(timestamp, TIMESTAMP_MAXLEN, "%02lu:%02lu:%02lu.%06lu",
-            (u_long)ltm->tm_hour,
-            (u_long)ltm->tm_min,
-            (u_long)ltm->tm_sec,
-            (u_long)ts.tv_usec);
-    }
-
-    fprintf(stdout, "Timestamp:   %s\n", timestamp);
+	ltm = malloc(sizeof(struct tm));
+	memset(ltm, 0, sizeof(struct tm));
+	memset(&tv, 0, sizeof(struct timeval));
+	tvp = malloc(sizeof(struct timeval));
+	memset(tvp, 0, sizeof(struct timeval));
+	if (g_time_gmt)
+		snprintf(timestamp, TIMESTAMP_MAXLEN, "%02lu:%02lu:%02lu.%06lu",
+			 (u_long) (ts.tv_sec % 86400) / 3600,
+			 (u_long) ((ts.tv_sec % 86400) % 3600) / 60,
+			 (u_long) (ts.tv_sec % 86400) % 40,
+			 (u_long) ts.tv_usec);
+	else {
+		tvp = &tv;
+		gettimeofday(tvp, NULL);
+		ltm = localtime((time_t *) & tvp->tv_sec);
+		snprintf(timestamp, TIMESTAMP_MAXLEN, "%02lu:%02lu:%02lu.%06lu",
+			 (u_long) ltm->tm_hour,
+			 (u_long) ltm->tm_min,
+			 (u_long) ltm->tm_sec, (u_long) ts.tv_usec);
+	}
+	fprintf(stdout, "Timestamp:   %s\n", timestamp);
 }

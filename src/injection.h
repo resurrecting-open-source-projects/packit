@@ -40,4 +40,4 @@ u_int16_t with_response();
 u_int16_t without_response();
 int setnonblock(pcap_t *, int, char *);
 
-#endif /* __INJECTION_H */
+#endif				/* __INJECTION_H */

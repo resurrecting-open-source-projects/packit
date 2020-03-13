@@ -54,4 +54,4 @@ char *optarg;
 void parse_capture_options(int, char *[]);
 void parse_inject_options(int, char *[], u_int16_t);
 
-#endif /* __MAIN_H */
+#endif				/* __MAIN_H */

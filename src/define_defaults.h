@@ -30,4 +30,4 @@
 
 void define_injection_defaults();
 
-#endif /* __DEFINE_DEFAULTS_H */
+#endif				/* __DEFINE_DEFAULTS_H */

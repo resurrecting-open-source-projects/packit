@@ -48,5 +48,4 @@ u_int32_t retrieve_rand_int(u_int32_t);
 u_int8_t format_ethernet_addr(u_int8_t *, u_int8_t[]);
 int retrieve_tcp_flags();
 
-#endif /* __UTILS_H */
-
+#endif				/* __UTILS_H */

@@ -32,4 +32,4 @@
 
 void print_usage();
 
-#endif /* __USAGE_H */
+#endif				/* __USAGE_H */

@@ -32,4 +32,4 @@
 
 void print_capture(struct pcap_pkthdr *, u_int8_t *);
 
-#endif /* __PRINT_CAPTURE_H */
+#endif				/* __PRINT_CAPTURE_H */

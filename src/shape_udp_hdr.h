@@ -31,4 +31,4 @@
 
 libnet_t *shape_udp_hdr(libnet_t *);
 
-#endif /* __SHAPE_UDP_HDR_H */
+#endif				/* __SHAPE_UDP_HDR_H */

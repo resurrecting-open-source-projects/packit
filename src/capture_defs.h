@@ -39,4 +39,4 @@ extern u_int16_t g_t_rst;
 extern u_int16_t g_snap_len;
 extern u_int32_t g_pkt_rst;
 
-#endif /* __CAPTURE_DEFS_H */
+#endif				/* __CAPTURE_DEFS_H */

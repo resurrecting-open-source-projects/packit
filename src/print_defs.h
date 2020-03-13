@@ -35,4 +35,4 @@
 #include "print_pktdump.h"
 #include "print_ts.h"
 
-#endif /* __PRINT_DEFS_H */
+#endif				/* __PRINT_DEFS_H */

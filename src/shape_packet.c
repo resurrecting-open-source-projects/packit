@@ -29,66 +29,52 @@
 
 #include "shape_packet.h"
 
-libnet_t *
-shape_packet()
+libnet_t *shape_packet()
 {
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: shape_packet()\n");
+	fprintf(stdout, "DEBUG: shape_packet()\n");
 #endif
-
-    switch(g_injection_type)
-    {
-        case ETHERTYPE_IP:
+	switch (g_injection_type) {
+	case ETHERTYPE_IP:
 #ifdef DEBUG
-            fprintf(stdout, "DEBUG: Injecting IP traffic\n");
+		fprintf(stdout, "DEBUG: Injecting IP traffic\n");
 #endif
-            switch(g_ip4hdr_o.p)
-            {
-                case IPPROTO_TCP:
-                    if((g_pkt_d = shape_tcp_hdr(g_pkt_d)) == NULL)
-                        return g_pkt_d;
-
-                    break;
-
-                case IPPROTO_UDP:
-                    if((g_pkt_d = shape_udp_hdr(g_pkt_d)) == NULL)
-                        return g_pkt_d;
-
-                    break;
-
-                case IPPROTO_ICMP:
-                    if((g_pkt_d = shape_icmpv4_hdr(g_pkt_d)) == NULL)
-                        return g_pkt_d;
-
-                    break;
-            }
-
-            if((g_pkt_d = shape_ipv4_hdr(g_pkt_d)) == NULL)
-                return g_pkt_d;
-
-            break;
-
-        case ETHERTYPE_ARP:
-        case ETHERTYPE_REVARP:
-            if((g_pkt_d = shape_arp_hdr(g_pkt_d)) == NULL)
-                return g_pkt_d;
-
-            break;
-    }
-
-    if(g_ehdr_o.s_addr || g_ehdr_o.d_addr || g_ehdr_o.dot1q_vlan_id_cpi_prio)
-    {
-        if((g_pkt_d = shape_ethernet_hdr(g_pkt_d)) == NULL)
-            return g_pkt_d;
-    }
-    else
-    if(g_injection_type == ETHERTYPE_ARP || g_injection_type == ETHERTYPE_REVARP)
-        if((g_pkt_d = shape_ethernet_hdr_auto(g_pkt_d, g_injection_type)) == NULL)
-            return g_pkt_d;
-
+		switch (g_ip4hdr_o.p) {
+		case IPPROTO_TCP:
+			if ((g_pkt_d = shape_tcp_hdr(g_pkt_d)) == NULL)
+				return g_pkt_d;
+			break;
+		case IPPROTO_UDP:
+			if ((g_pkt_d = shape_udp_hdr(g_pkt_d)) == NULL)
+				return g_pkt_d;
+			break;
+		case IPPROTO_ICMP:
+			if ((g_pkt_d = shape_icmpv4_hdr(g_pkt_d)) == NULL)
+				return g_pkt_d;
+			break;
+		}
+		if ((g_pkt_d = shape_ipv4_hdr(g_pkt_d)) == NULL)
+			return g_pkt_d;
+		break;
+	case ETHERTYPE_ARP:
+	case ETHERTYPE_REVARP:
+		if ((g_pkt_d = shape_arp_hdr(g_pkt_d)) == NULL)
+			return g_pkt_d;
+		break;
+	}
+	if (g_ehdr_o.s_addr || g_ehdr_o.d_addr
+	    || g_ehdr_o.dot1q_vlan_id_cpi_prio) {
+		if ((g_pkt_d = shape_ethernet_hdr(g_pkt_d)) == NULL)
+			return g_pkt_d;
+	} else
+	    if (g_injection_type == ETHERTYPE_ARP
+		|| g_injection_type == ETHERTYPE_REVARP)
+		if ((g_pkt_d =
+		     shape_ethernet_hdr_auto(g_pkt_d,
+					     g_injection_type)) == NULL)
+			return g_pkt_d;
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: End shape_packet()\n");
+	fprintf(stdout, "DEBUG: End shape_packet()\n");
 #endif
-
-    return g_pkt_d;
+	return g_pkt_d;
 }

@@ -27,43 +27,31 @@
 
 #include "shape_udp_hdr.h"
 
-libnet_t *
-shape_udp_hdr(libnet_t *g_pkt_d)
+libnet_t *shape_udp_hdr(libnet_t * g_pkt_d)
 {
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: shape_udp_hdr()\n");
+	fprintf(stdout, "DEBUG: shape_udp_hdr()\n");
 #endif
+	g_hdr_len = UDP_H;
+	g_ip4hdr_o.p = IPPROTO_UDP;
+	if (g_rand_d_port)
+		g_d_port = (u_int16_t) retrieve_rand_int(P_UINT16);
+	if (g_rand_s_port)
+		g_s_port = (u_int16_t) retrieve_rand_int(P_UINT16);
 
-    g_hdr_len = UDP_H;
-    g_ip4hdr_o.p = IPPROTO_UDP;
-
-    if(g_rand_d_port)
-        g_d_port = (u_int16_t)retrieve_rand_int(P_UINT16);
-
-    if(g_rand_s_port)
-        g_s_port = (u_int16_t)retrieve_rand_int(P_UINT16);
-
-    // If packet length is provided, create a packet with a sequence
-    // as g_payload
-    if(g_pkt_len)
-    {
-        g_payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
-        g_payload_len = strlen((char*)g_payload);
-        g_pkt_len = 0;
-    }
-
-    if(libnet_build_udp(
-        g_s_port,
-        g_d_port,
-        g_hdr_len + g_payload_len,
-        0,
-        g_payload,
-        g_payload_len,
-        g_pkt_d,
-        0) == -1)
-    {
-        fatal_error("Unable to build UDP header: %s", libnet_geterror(g_pkt_d));
-    }
-
-    return g_pkt_d;
+	// If packet length is provided, create a packet with a sequence
+	// as g_payload
+	if (g_pkt_len) {
+		g_payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
+		g_payload_len = strlen((char *)g_payload);
+		g_pkt_len = 0;
+	}
+	if (libnet_build_udp(g_s_port,
+			     g_d_port,
+			     g_hdr_len + g_payload_len,
+			     0, g_payload, g_payload_len, g_pkt_d, 0) == -1) {
+		fatal_error("Unable to build UDP header: %s",
+			    libnet_geterror(g_pkt_d));
+	}
+	return g_pkt_d;
 }

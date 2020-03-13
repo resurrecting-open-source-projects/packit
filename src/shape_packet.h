@@ -32,4 +32,4 @@
 
 libnet_t *shape_packet();
 
-#endif /* __SHAPE_PACKET_H */
+#endif				/* __SHAPE_PACKET_H */

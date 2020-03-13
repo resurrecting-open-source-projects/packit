@@ -30,4 +30,4 @@
 
 void print_icmpv4_hdr(u_int8_t *);
 
-#endif /* __PRINT_ICMPV4_HDR */
+#endif				/* __PRINT_ICMPV4_HDR */

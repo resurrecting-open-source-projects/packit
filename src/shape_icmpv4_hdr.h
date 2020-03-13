@@ -29,6 +29,6 @@
 #include "globals.h"
 #include "inject_defs.h"
 
-libnet_t *shape_icmpv4_hdr(libnet_t *pkt_d);
+libnet_t *shape_icmpv4_hdr(libnet_t * pkt_d);
 
-#endif /* __SHAPE_ICMPV4_HDR_H */
+#endif				/* __SHAPE_ICMPV4_HDR_H */

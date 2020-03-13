@@ -34,4 +34,4 @@
 void process_packets(u_int8_t *, struct pcap_pkthdr *, u_int8_t *);
 void capture_init(const char *, u_int64_t);
 
-#endif /* __CAPTURE_H */
+#endif				/* __CAPTURE_H */

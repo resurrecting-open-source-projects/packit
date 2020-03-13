@@ -31,4 +31,4 @@
 
 void print_ipv4_hdr(struct libnet_ipv4_hdr *);
 
-#endif /* __PRINT_IPV4_HDR_H */
+#endif				/* __PRINT_IPV4_HDR_H */

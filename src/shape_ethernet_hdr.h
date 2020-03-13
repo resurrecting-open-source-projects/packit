@@ -31,7 +31,7 @@
 #include "inject_defs.h"
 #include "utils.h"
 
-libnet_t *shape_ethernet_hdr(libnet_t *pkt_d);
-libnet_t *shape_ethernet_hdr_auto(libnet_t *pkt_d, u_int16_t);
+libnet_t *shape_ethernet_hdr(libnet_t * pkt_d);
+libnet_t *shape_ethernet_hdr_auto(libnet_t * pkt_d, u_int16_t);
 
-#endif /* __SHAPE_ETHERNET_H */
+#endif				/* __SHAPE_ETHERNET_H */

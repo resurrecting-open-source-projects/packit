@@ -32,4 +32,4 @@
 
 libnet_t *shape_tcp_hdr(libnet_t *);
 
-#endif /* __SHAPE_TCP_HDR_H */
+#endif				/* __SHAPE_TCP_HDR_H */

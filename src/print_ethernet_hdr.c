@@ -25,27 +25,18 @@
 
 #include "print_ethernet_hdr.h"
 
-void
-print_ethernet_hdr(struct libnet_ethernet_hdr *ehdr)
+void print_ethernet_hdr(struct libnet_ethernet_hdr *ehdr)
 {
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: print_ethernet_hdr()\n");
+	fprintf(stdout, "DEBUG: print_ethernet_hdr()\n");
 #endif
-
-    fprintf(stdout, "Eth header:  Src Address: %0X:%0X:%0X:%0X:%0X:%0X  Dst Address: %0X:%0X:%0X:%0X:%0X:%0X",
-        ehdr->ether_shost[0],
-        ehdr->ether_shost[1],
-        ehdr->ether_shost[2],
-        ehdr->ether_shost[3],
-        ehdr->ether_shost[4],
-        ehdr->ether_shost[5],
-
-        ehdr->ether_dhost[0],
-        ehdr->ether_dhost[1],
-        ehdr->ether_dhost[2],
-        ehdr->ether_dhost[3],
-        ehdr->ether_dhost[4],
-        ehdr->ether_dhost[5]);
-
-    fprintf(stdout, "\n");
+	fprintf(stdout,
+		"Eth header:  Src Address: %0X:%0X:%0X:%0X:%0X:%0X  Dst Address: %0X:%0X:%0X:%0X:%0X:%0X",
+		ehdr->ether_shost[0], ehdr->ether_shost[1],
+		ehdr->ether_shost[2], ehdr->ether_shost[3],
+		ehdr->ether_shost[4], ehdr->ether_shost[5],
+		ehdr->ether_dhost[0], ehdr->ether_dhost[1],
+		ehdr->ether_dhost[2], ehdr->ether_dhost[3],
+		ehdr->ether_dhost[4], ehdr->ether_dhost[5]);
+	fprintf(stdout, "\n");
 }

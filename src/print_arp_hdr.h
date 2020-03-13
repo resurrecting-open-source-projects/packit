@@ -30,4 +30,4 @@
 
 void print_arp_hdr(u_int8_t *);
 
-#endif /* __PRINT_ARP_HDR_H */
+#endif				/* __PRINT_ARP_HDR_H */

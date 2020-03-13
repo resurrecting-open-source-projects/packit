@@ -32,4 +32,4 @@
 void capture_stats();
 void injection_stats();
 
-#endif /* __STATS_H */
+#endif				/* __STATS_H */

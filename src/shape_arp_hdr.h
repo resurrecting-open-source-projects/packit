@@ -32,4 +32,4 @@
 
 libnet_t *shape_arp_hdr(libnet_t *);
 
-#endif /* __SHAPE_ARP_HDR_H */
+#endif				/* __SHAPE_ARP_HDR_H */

@@ -27,36 +27,30 @@
 
 #include "print_ipv4_hdr.h"
 
-void
-print_ipv4_hdr(struct libnet_ipv4_hdr *iphdr)
+void print_ipv4_hdr(struct libnet_ipv4_hdr *iphdr)
 {
-    char *s_addr, *d_addr;
-
-    struct in_addr ip_src, ip_dst;
+	char *s_addr, *d_addr;
+	struct in_addr ip_src, ip_dst;
 
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: print_ipv4_hdr()\n");
+	fprintf(stdout, "DEBUG: print_ipv4_hdr()\n");
 #endif
-
-    s_addr = malloc(sizeof(s_addr));
-    d_addr = malloc(sizeof(d_addr));
-
-    memset(&ip_src, 0, sizeof(struct in_addr));
-    memset(&ip_dst, 0, sizeof(struct in_addr));
-
-    s_addr = libnet_addr2name4(iphdr->ip_src.s_addr, ((g_resolve == 1 || g_resolve == 3) ? 1 : 0));
-    d_addr = libnet_addr2name4(iphdr->ip_dst.s_addr, ((g_resolve == 1 || g_resolve == 3) ? 1 : 0));
-
-    fprintf(stdout, "IP header:   Src Address: %s  Dst Address: %s\n", s_addr, d_addr);
-
-    fprintf(stdout, "\t     TTL: %d  ID: %d  TOS: 0x%X  Len: %d  ",
-        iphdr->ip_ttl,
-	ntohs(iphdr->ip_id),
-	iphdr->ip_tos,
-	ntohs(iphdr->ip_len));
-
-    if(ntohs(iphdr->ip_off) & IP_DF)
-        fprintf(stdout, "(DF)  ");
-
-    fprintf(stdout, "\n");
+	s_addr = malloc(sizeof(s_addr));
+	d_addr = malloc(sizeof(d_addr));
+	memset(&ip_src, 0, sizeof(struct in_addr));
+	memset(&ip_dst, 0, sizeof(struct in_addr));
+	s_addr =
+	    libnet_addr2name4(iphdr->ip_src.s_addr,
+			      ((g_resolve == 1 || g_resolve == 3) ? 1 : 0));
+	d_addr =
+	    libnet_addr2name4(iphdr->ip_dst.s_addr,
+			      ((g_resolve == 1 || g_resolve == 3) ? 1 : 0));
+	fprintf(stdout, "IP header:   Src Address: %s  Dst Address: %s\n",
+		s_addr, d_addr);
+	fprintf(stdout, "\t     TTL: %d  ID: %d  TOS: 0x%X  Len: %d  ",
+		iphdr->ip_ttl,
+		ntohs(iphdr->ip_id), iphdr->ip_tos, ntohs(iphdr->ip_len));
+	if (ntohs(iphdr->ip_off) & IP_DF)
+		fprintf(stdout, "(DF)  ");
+	fprintf(stdout, "\n");
 }

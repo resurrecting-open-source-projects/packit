@@ -29,51 +29,40 @@
 
 #include "exit.h"
 
-void injection_clean_exit(int sig) {
-    char a[2];
+void injection_clean_exit(int sig)
+{
+	char a[2];
 
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: injection_clean_exit(%d)\n", sig);
+	fprintf(stdout, "DEBUG: injection_clean_exit(%d)\n", sig);
 #endif
-
-    if(sig == SIGINT)
-    {
-        while(1)
-        {
-            fprintf(stderr, "\n\nWould you like to quit? (y/n): ");
-            if ((fgets(a, 2, stdin) == NULL) || !strncasecmp(a, "Y", 1))
-                break;
-            else
-            if(!strncasecmp(a, "N", 1))
-                return;
-        }
-    }
-
-    injection_stats();
-    libnet_destroy(g_pkt_d);
-
-    fprintf(stdout, "\n");
-
+	if (sig == SIGINT) {
+		while (1) {
+			fprintf(stderr, "\n\nWould you like to quit? (y/n): ");
+			if ((fgets(a, 2, stdin) == NULL)
+			    || !strncasecmp(a, "Y", 1))
+				break;
+			else if (!strncasecmp(a, "N", 1))
+				return;
+		}
+	}
+	injection_stats();
+	libnet_destroy(g_pkt_d);
+	fprintf(stdout, "\n");
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: Good-Bye\n");
+	fprintf(stdout, "DEBUG: Good-Bye\n");
 #endif
-
-    exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }
 
-void
-capture_clean_exit(int sig)
+void capture_clean_exit(int sig)
 {
 #ifdef DEBUG
-    fprintf(stdout, "\nDEBUG: capture_clean_exit() SIG: %d\n", sig);
+	fprintf(stdout, "\nDEBUG: capture_clean_exit() SIG: %d\n", sig);
 #endif
-
-    fprintf(stdout, "\n");
-
-    capture_stats();
-    pcap_close(g_pkt);
-
-    fprintf(stdout, "\n");
-
-    exit(EXIT_SUCCESS);
+	fprintf(stdout, "\n");
+	capture_stats();
+	pcap_close(g_pkt);
+	fprintf(stdout, "\n");
+	exit(EXIT_SUCCESS);
 }

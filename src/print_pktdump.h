@@ -29,6 +29,6 @@
 #include <ctype.h>
 #include "globals.h"
 
-void print_packet_hexdump(u_int8_t *cp, int len);
+void print_packet_hexdump(u_int8_t * cp, int len);
 
-#endif /* __PRINT_PKTDUMP_HDR_H */
+#endif				/* __PRINT_PKTDUMP_HDR_H */

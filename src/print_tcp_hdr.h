@@ -31,4 +31,4 @@
 
 void print_tcp_hdr(u_int8_t *);
 
-#endif /* __PRINT_TCP_HDR_H */
+#endif				/* __PRINT_TCP_HDR_H */

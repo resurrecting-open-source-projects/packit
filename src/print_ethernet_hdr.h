@@ -30,4 +30,4 @@
 
 void print_ethernet_hdr(struct libnet_ethernet_hdr *);
 
-#endif /* __PRINT_ETHERNET_HDR_H */
+#endif				/* __PRINT_ETHERNET_HDR_H */

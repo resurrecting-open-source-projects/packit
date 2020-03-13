@@ -33,4 +33,4 @@
 
 void print_ts(struct timeval);
 
-#endif /* __PRINT_TIMESTAMP_H */
+#endif				/* __PRINT_TIMESTAMP_H */

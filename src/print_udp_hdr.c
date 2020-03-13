@@ -26,22 +26,16 @@
 
 #include "print_udp_hdr.h"
 
-void
-print_udp_hdr(u_int8_t *packet)
+void print_udp_hdr(u_int8_t * packet)
 {
-    struct libnet_udp_hdr *udphdr;
+	struct libnet_udp_hdr *udphdr;
 
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: print_udp_hdr()\n");
+	fprintf(stdout, "DEBUG: print_udp_hdr()\n");
 #endif
-
-    udphdr = (struct libnet_udp_hdr *)(packet + IPV4_H + g_hdr_len);
-
-    fprintf(stdout, "UDP header:  Src Port: %d  Dst Port: %d  Len: %d  ",
-        htons(udphdr->uh_sport),
-        htons(udphdr->uh_dport),
-        ntohs(udphdr->uh_ulen));
-
-    fprintf(stdout, "\n");
+	udphdr = (struct libnet_udp_hdr *)(packet + IPV4_H + g_hdr_len);
+	fprintf(stdout, "UDP header:  Src Port: %d  Dst Port: %d  Len: %d  ",
+		htons(udphdr->uh_sport),
+		htons(udphdr->uh_dport), ntohs(udphdr->uh_ulen));
+	fprintf(stdout, "\n");
 }
-

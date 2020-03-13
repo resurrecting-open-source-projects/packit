@@ -27,58 +27,44 @@
 
 #include "shape_tcp_hdr.h"
 
-libnet_t *
-shape_tcp_hdr(libnet_t *g_pkt_d)
+libnet_t *shape_tcp_hdr(libnet_t * g_pkt_d)
 {
-    int flags;
+	int flags;
 
 #ifdef DEBUG
-    fprintf(stdout, "DEBUG: shape_tcp_hdr()\n");
+	fprintf(stdout, "DEBUG: shape_tcp_hdr()\n");
 #endif
+	g_ip4hdr_o.p = IPPROTO_TCP;
+	g_hdr_len = TCP_H;
+	if (g_rand_s_port)
+		g_s_port = (u_int16_t) retrieve_rand_int(P_UINT16);
+	if (g_rand_d_port)
+		g_d_port = (u_int16_t) retrieve_rand_int(P_UINT16);
+	if ((g_thdr_o.rand_seqn && g_thdr_o.syn) == 1)
+		g_thdr_o.seqn = (u_int32_t) retrieve_rand_int(P_INT32);
+	flags = retrieve_tcp_flags();
 
-    g_ip4hdr_o.p = IPPROTO_TCP;
-    g_hdr_len = TCP_H;
-
-    if(g_rand_s_port)
-        g_s_port = (u_int16_t)retrieve_rand_int(P_UINT16);
-
-    if(g_rand_d_port)
-        g_d_port = (u_int16_t)retrieve_rand_int(P_UINT16);
-
-    if((g_thdr_o.rand_seqn && g_thdr_o.syn) == 1)
-        g_thdr_o.seqn =  (u_int32_t)retrieve_rand_int(P_INT32);
-
-    flags = retrieve_tcp_flags();
-
-    // If packet length is provided, create a packet with a sequence
-    // as g_payload
-    if(g_pkt_len)
-    {
-        g_payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
-        g_payload_len = strlen((char*)g_payload);
-        g_pkt_len = 0;
-    }
-
-    if(libnet_build_tcp(
-        g_s_port,
-        g_d_port,
-        g_thdr_o.seqn,
-        g_thdr_o.ackn,
-        flags,
-        g_thdr_o.win,
-        0,
-        g_thdr_o.urp,
-        g_hdr_len + g_payload_len,
-        g_payload,
-        g_payload_len,
-        g_pkt_d,
-        0) == -1)
-    {
-        fatal_error("Unable to build TCP header: %s", libnet_geterror(g_pkt_d));
-    }
-
-    if(g_port_range)
-        g_d_port++;
-
-    return g_pkt_d;
+	// If packet length is provided, create a packet with a sequence
+	// as g_payload
+	if (g_pkt_len) {
+		g_payload = generate_padding(g_hdr_len + IPV4_H, g_pkt_len);
+		g_payload_len = strlen((char *)g_payload);
+		g_pkt_len = 0;
+	}
+	if (libnet_build_tcp(g_s_port,
+			     g_d_port,
+			     g_thdr_o.seqn,
+			     g_thdr_o.ackn,
+			     flags,
+			     g_thdr_o.win,
+			     0,
+			     g_thdr_o.urp,
+			     g_hdr_len + g_payload_len,
+			     g_payload, g_payload_len, g_pkt_d, 0) == -1) {
+		fatal_error("Unable to build TCP header: %s",
+			    libnet_geterror(g_pkt_d));
+	}
+	if (g_port_range)
+		g_d_port++;
+	return g_pkt_d;
 }

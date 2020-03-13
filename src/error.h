@@ -36,6 +36,6 @@
 
 extern char error_buf[ERRBUF_MAXLEN];
 
-void fatal_error(char *,...);
+void fatal_error(char *, ...);
 
-#endif /* __ERROR_H */
+#endif				/* __ERROR_H */
