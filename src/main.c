@@ -88,6 +88,25 @@ struct udphdr_opts g_uhdr_o;
 
 libnet_t *g_pkt_d;
 
+typedef struct proto_name_t {
+	u_int16_t id;
+	char *name;
+} proto_name;
+
+static proto_name ip_proto_names[] = {
+	{ IPPROTO_TCP,  "TCP"    },
+	{ IPPROTO_UDP,  "UDP"    },
+	{ IPPROTO_ICMP, "ICMP"   },
+	{ IPPROTO_RAW,  "raw IP" },
+	{ 0,            NULL     }
+};
+
+static proto_name ll_proto_names[] = {
+	{ ETHERTYPE_ARP,    "ARP"  },
+	{ ETHERTYPE_REVARP, "RARP" },
+	{ 0,                NULL }
+};
+
 static void
 randomisable_str(u_int8_t **to, u_int16_t *rand, size_t size, const char *desc)
 {
@@ -120,7 +139,7 @@ parse_capture_options(int argc, char *argv[])
     fprintf(stdout, "DEBUG: parse_capture_options()\n");
 #endif
 
-    while((opt = getopt(argc, argv, "c:eGi:nNr:Rs:vw:xX")) != -1)
+    while((opt = getopt(argc, argv, ":c:eGi:nNr:Rs:vw:xX")) != -1)
     {
         switch(opt)
         {
@@ -164,6 +183,15 @@ parse_capture_options(int argc, char *argv[])
 	    case 'x': case 'X':
 		g_dump_pkt = 1;
 		break;
+
+            case '?':
+		fprintf(stderr, "\nError: illegal capture option: -%c.\n", optopt);
+                exit(EXIT_FAILURE);
+                break;
+            case ':':
+		fprintf(stderr, "\nError: Missing argument for capture option -%c.\n", optopt);
+                exit(EXIT_FAILURE);
+                break;
         }
     }
 
@@ -189,7 +217,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
     define_injection_defaults();
     injection_struct_init();
 
-    while((opt = getopt(argc, argv, "t:")) != -1)
+    while((opt = getopt(argc, argv, ":t:")) != -1)
     {
         switch(opt)
         {
@@ -201,7 +229,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 #endif
                     g_ip4hdr_o.p = IPPROTO_TCP;
                     g_injection_type = ETHERTYPE_IP;
-                    opts = "a:b:c:d:D:e:E:fF:hH:i:I:n:p:q:Rs:S:T:o:u:vw:W:Z:";
+                    opts = ":a:b:c:d:D:e:E:fF:hH:i:I:n:p:q:Rs:S:T:o:u:vw:W:Z:";
                 }
                 else
                 if(!strncasecmp(optarg, "UDP", 3))
@@ -211,7 +239,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 #endif
                     g_ip4hdr_o.p = IPPROTO_UDP;
                     g_injection_type = ETHERTYPE_IP;
-                    opts = "b:c:d:D:e:E:fhH:i:I:n:o:p:Rs:S:T:vw:Z:";
+                    opts = ":b:c:d:D:e:E:fhH:i:I:n:o:p:Rs:S:T:vw:Z:";
                 }
                 else
                 if(!strncasecmp(optarg, "ICMP", 4))
@@ -221,7 +249,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 #endif
                     g_ip4hdr_o.p = IPPROTO_ICMP;
                     g_injection_type = ETHERTYPE_IP;
-                    opts = "b:c:C:d:e:E:fg:G:hH:i:I:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
+                    opts = ":b:c:C:d:e:E:fg:G:hH:i:I:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
                 }
 		else
                 if(!strncasecmp(optarg, "ARP", 3))
@@ -237,7 +265,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 #endif
                     g_injection_type = ETHERTYPE_ARP;
                     g_init_type = 0;
-                    opts = "A:b:c:e:E:i:I:p:Rs:S:vx:X:y:Y:";
+                    opts = ":A:b:c:e:E:i:I:p:Rs:S:vx:X:y:Y:";
                 }
                 else
                 if(!strncasecmp(optarg, "RARP", 4))
@@ -254,7 +282,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                     g_injection_type = ETHERTYPE_REVARP;
                     g_ahdr_o.op_type = ARPOP_REVREQUEST; /* Update init */
                     g_init_type = 0;
-                    opts = "A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:";
+                    opts = ":A:b:c:e:E:i:p:Rs:S:vx:X:y:Y:";
                 }
                 else
                 if(!strncasecmp(optarg, "RAWIP", 3))
@@ -266,7 +294,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 #endif
                     g_rawip = g_ip4hdr_o.p = IPPROTO_RAW;
                     g_injection_type = ETHERTYPE_IP;
-                    opts = "b:c:d:e:E:f:i:n:o:p:Rs:T:U:vV:w:Z:";
+                    opts = ":b:c:d:e:E:f:i:n:o:p:Rs:T:U:vV:w:Z:";
                 }
                 else
                 {
@@ -278,19 +306,24 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 
                 break;
 
-            default:
+            case ':':
+                fprintf(stderr, "\nError: Missing argument for option -%c.\n", optopt);
+                exit(EXIT_FAILURE);
+                break;
+
+            case '?':
                 if(optind > 1) optind--;
                 g_injection_type = ETHERTYPE_IP;
 
                 if(g_p_mode == M_TRACE)
                 {
                     g_ip4hdr_o.p = IPPROTO_ICMP;
-                    opts = "b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
+                    opts = ":b:c:C:d:e:E:fg:G:hH:i:j:J:k:K:l:L:m:M:n:N:o:O:p:P:Q:Rs:t:T:U:vw:z:Z:";
                 }
                 else
                 {
                     g_ip4hdr_o.p = IPPROTO_TCP;
-                    opts = "a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
+                    opts = ":a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
                 }
 
                 parse_inject(argc, argv, opts);
@@ -299,12 +332,12 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
         }
     }
 }
-//print_usage();
-//exit(EXIT_FAILURE);
 
 static void
 parse_inject(int argc, char *argv[], char *opts)
 {
+    proto_name *pname;
+    u_int16_t cur_proto;
 #ifdef DEBUG
     fprintf(stdout, "DEBUG: parse_inject\n");
 #endif
@@ -406,7 +439,7 @@ parse_inject(int argc, char *argv[], char *opts)
 
 	    case 'h':
                 if(g_p_mode == M_INJECT)
-	            g_p_mode = M_INJECT_RESPONSE;	
+	            g_p_mode = M_INJECT_RESPONSE;
 
 		break;
 
@@ -598,6 +631,28 @@ parse_inject(int argc, char *argv[], char *opts)
             case 'Z':
                 g_pkt_len = (u_int16_t)atoi(optarg);
                 break;
+
+            case '?':
+		if (g_injection_type == ETHERTYPE_IP) {
+			cur_proto = g_ip4hdr_o.p;
+			pname = ip_proto_names;
+		} else {
+			cur_proto = g_injection_type;
+			pname = ll_proto_names;
+		}
+		while (pname->id && (pname->id != cur_proto))
+			pname++;
+                fprintf(stderr,
+		       "\nError: illegal option -%c in %s %s.\n", optopt, pname->name,
+		       (g_p_mode == M_INJECT || g_p_mode == M_INJECT_RESPONSE) ?
+		           "injection" :
+			   "tracing");
+		break;
+
+            case ':':
+                fprintf(stderr, "\nError: missing argument for option -%c.\n", optopt);
+                exit(EXIT_FAILURE);
+                break;
         }
     }
 
@@ -618,7 +673,7 @@ main(int argc, char *argv[])
     fprintf(stdout, "DEBUG: main()\n");
 #endif
 
-    while((opt = getopt(argc, argv, "m:")) != -1)
+    while((opt = getopt(argc, argv, ":m:")) != -1)
     {
         switch(opt)
         {
@@ -634,13 +689,17 @@ main(int argc, char *argv[])
                 if(!strncasecmp(optarg, "TRACE", 10) || !strncasecmp(optarg, "T", 1))
                     parse_inject_options(argc, argv, M_TRACE);
 #endif
-		
+
                 fprintf(stderr, "\nError: Invalid runtime mode\n");
                 print_usage();
                 exit(EXIT_FAILURE);
 
                 break;
-            default:
+            case ':':
+                fprintf(stderr, "\nError: Missing argument for -%c\n", optopt);
+                exit(EXIT_FAILURE);
+                break;
+            case '?':
                 optind--;
 #ifdef WITH_INJECTION
 		parse_inject_options(argc, argv, M_INJECT);
