@@ -7,6 +7,8 @@
  * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
  * Copyright 2015      Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
  *
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2

@@ -7,6 +7,8 @@
  * Copyright 2017 Sharad B
  * Copyright 2020 Jeroen Roovers <jer@gentoo.org>
  *
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
