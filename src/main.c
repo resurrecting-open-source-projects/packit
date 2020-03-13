@@ -323,7 +323,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
                 else
                 {
                     g_ip4hdr_o.p = IPPROTO_TCP;
-                    opts = ":a:b:c:d:D:e:E:fF:hH:i:n:p:q:Rs:S:T:o:u:vw:W:Z:";
+                    opts = ":a:b:c:d:D:e:E:fF:hH:i:I:n:p:q:Rs:S:T:o:u:vw:W:Z:";
                 }
 
                 parse_inject(argc, argv, opts);
