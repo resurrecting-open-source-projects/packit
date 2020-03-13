@@ -261,7 +261,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 #endif
 #ifdef MACOS
                     fprintf(stderr, "\nError: ARP injection is not yet supported on this OS platform.\n");
-                    exit(FAILURE);
+                    exit(EXIT_FAILURE);
 #endif
                     g_injection_type = ETHERTYPE_ARP;
                     g_init_type = 0;
@@ -277,7 +277,7 @@ parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 #endif
 #ifdef MACOS
                     fprintf(stderr, "\nError: RARP injection is not yet supported on this OS platform.\n");
-                    exit(FAILURE);
+                    exit(EXIT_FAILURE);
 #endif
                     g_injection_type = ETHERTYPE_REVARP;
                     g_ahdr_o.op_type = ARPOP_REVREQUEST; /* Update init */
