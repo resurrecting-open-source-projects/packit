@@ -3,6 +3,8 @@
 # autogen.sh with clean option
 # Copyright 2016 Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
 #
+# SPDX-License-Identifier: BSD-3-Clause
+#
 # This file is under BSD-3-Clause license.
 #
 # Redistribution and use in source and binary forms, with or without

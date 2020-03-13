@@ -2,6 +2,8 @@
 #
 # Original author: Darren Bounds <dbounds@intrusense.com>
 #
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
 # Copyright 2002 Darren Bounds <dbounds@intrusense.com>
 # Copyright 2016 Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
 #
