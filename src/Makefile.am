@@ -47,6 +47,7 @@ packit_SOURCES =        ${common_SOURCES} \
                         usage.c \
                         exit.c \
                         main.c \
+                        options.c \
                         print_ts.c \
                         print_arp_hdr.c \
                         print_tcp_hdr.c \
