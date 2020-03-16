@@ -50,9 +50,6 @@
 
 #define OPT_MAXLEN 32
 
-u_int32_t opt;
-char *optarg;
-
 void parse_capture_options(int, char *[]);
 void parse_inject_options(int, char *[], u_int16_t);
 

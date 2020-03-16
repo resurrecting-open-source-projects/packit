@@ -41,6 +41,7 @@ static void randomisable_str(u_int8_t ** to, u_int16_t * rand, size_t size,
 
 u_int16_t parse_mode(int argc, char *argv[])
 {
+	int opt;
 	u_int16_t mode;
 
 	opterr = 0;
@@ -74,6 +75,7 @@ u_int16_t parse_mode(int argc, char *argv[])
 
 void parse_capture_options(int argc, char *argv[])
 {
+	int opt;
 	g_p_mode = M_CAPTURE;
 	g_cnt = 0;
 	g_cap_cnt = 0;
@@ -143,6 +145,7 @@ void parse_capture_options(int argc, char *argv[])
 
 void parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 {
+	int opt;
 	char *opts = NULL;
 
 #ifdef DEBUG
@@ -257,6 +260,7 @@ void parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 
 static void parse_inject(int argc, char *argv[], char *opts)
 {
+	int opt;
 	u_int16_t protocol;
 	struct name_proto {
 		char *name;
