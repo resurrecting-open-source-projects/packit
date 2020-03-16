@@ -109,18 +109,68 @@ static proto_name ll_proto_names[] = {
 	{0, NULL}
 };
 
-static void
-randomisable_str(u_int8_t ** to, u_int16_t * rand, size_t size,
-		 const char *desc)
+u_int16_t parse_mode(int argc, char *argv[]);
+void parse_capture_options(int argc, char *argv[]);
+void parse_inject_options(int argc, char *argv[], u_int16_t iopt);
+static void parse_inject(int argc, char *argv[], char *opts);
+static void randomisable_str(u_int8_t ** to, u_int16_t * rand, size_t size,
+			     const char *desc);
+
+int main(int argc, char *argv[])
 {
-	if (strcmp(optarg, "R") != 0) {
-		if ((*to = (unsigned char *)strdup(optarg)) == NULL)
-			fatal_error("Memory unavailable for: %s", optarg);
-	} else {
-		*rand = 1;
-		if ((*to = malloc(size)) == NULL)
-			fatal_error("Memory unavailable for: %s", desc);
+	u_int16_t mode;
+
+	if (argc < 2) {
+		print_usage();
+		exit(EXIT_SUCCESS);
 	}
+#ifdef DEBUG
+	fprintf(stdout, "DEBUG: main()\n");
+#endif
+	if ((mode = parse_mode(argc, argv)) == -1) {
+		fprintf(stderr, "\nError: Invalid runtime mode\n");
+		print_usage();
+		exit(EXIT_FAILURE);
+	}
+	if (mode == M_CAPTURE) {
+		parse_capture_options(argc, argv);
+	} else {
+		parse_inject_options(argc, argv, mode);
+	}
+	return EXIT_SUCCESS;
+}
+
+u_int16_t parse_mode(int argc, char *argv[])
+{
+	u_int16_t mode;
+
+	opterr = 0;
+	mode = M_INJECT;	/* default mode */
+#ifdef DEBUG
+	fprintf(stdout, "DEBUG: parse_mode()\n");
+#endif
+	if ((opt = getopt(argc, argv, ":m:")) != -1) {
+		switch (opt) {
+		case 'm':
+			if (!strncasecmp(optarg, "capture", 7))
+				mode = M_CAPTURE;
+			else if (!strncasecmp(optarg, "inject", 6))
+				mode = M_INJECT;
+			else if (!strncasecmp(optarg, "trace", 10))
+				mode = M_TRACE;
+			else
+				fatal_error("invalid mode.\n");
+			break;
+		case ':':
+			fprintf(stderr, "\nError: no mode specified\n");
+			exit(EXIT_FAILURE);
+			break;
+		case '?':
+			optind--;
+			break;
+		}
+	}
+	return mode;
 }
 
 void parse_capture_options(int argc, char *argv[])
@@ -136,6 +186,9 @@ void parse_capture_options(int argc, char *argv[])
 
 #ifdef DEBUG
 	fprintf(stdout, "DEBUG: parse_capture_options()\n");
+#endif
+#ifndef WITH_CAPTURE
+	fatal_error("Packit wasn't built with capture support!");
 #endif
 	while ((opt = getopt(argc, argv, ":c:eGi:nNr:Rs:vw:xX")) != -1) {
 		switch (opt) {
@@ -189,15 +242,15 @@ void parse_capture_options(int argc, char *argv[])
 	capture_init(argv[optind], g_cnt);
 }
 
-/* forward declaration needed by parse_inject_options */
-static void parse_inject(int argc, char *argv[], char *opts);
-
 void parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 {
 	char *opts = NULL;
 
 #ifdef DEBUG
 	fprintf(stdout, "DEBUG: parse_inject_options(%d)\n", g_p_mode);
+#endif
+#ifndef WITH_INJECTION
+	fatal_error("Packit was not built with injection support!");
 #endif
 	if (getuid() != 0)
 		fatal_error("Sorry, you're not root!");
@@ -307,10 +360,10 @@ static void parse_inject(int argc, char *argv[], char *opts)
 {
 	proto_name *pname;
 	u_int16_t cur_proto;
-#ifdef DEBUG
-	fprintf(stdout, "DEBUG: parse_inject\n");
-#endif
 
+#ifdef DEBUG
+	fprintf(stdout, "DEBUG: parse_inject()\n");
+#endif
 	while ((opt = getopt(argc, argv, opts)) != -1) {
 		switch (opt) {
 		case 'a':
@@ -590,56 +643,16 @@ static void parse_inject(int argc, char *argv[], char *opts)
 	injection_init();
 }
 
-int main(int argc, char *argv[])
+static void
+randomisable_str(u_int8_t ** to, u_int16_t * rand, size_t size,
+		 const char *desc)
 {
-	if (argc < 2) {
-		print_usage();
-		exit(EXIT_SUCCESS);
+	if (strcmp(optarg, "R") != 0) {
+		if ((*to = (unsigned char *)strdup(optarg)) == NULL)
+			fatal_error("Memory unavailable for: %s", optarg);
+	} else {
+		*rand = 1;
+		if ((*to = malloc(size)) == NULL)
+			fatal_error("Memory unavailable for: %s", desc);
 	}
-	opterr = 0;
-#ifdef DEBUG
-	fprintf(stdout, "DEBUG: main()\n");
-#endif
-	while ((opt = getopt(argc, argv, ":m:")) != -1) {
-		switch (opt) {
-		case 'm':
-#ifdef WITH_CAPTURE
-			if (!strncasecmp(optarg, "CAPTURE", 7)
-			    || !strncasecmp(optarg, "C", 1))
-				parse_capture_options(argc, argv);
-#endif
-#ifdef WITH_INJECTION
-			if (!strncasecmp(optarg, "INJECT", 6)
-			    || !strncasecmp(optarg, "I", 1))
-				parse_inject_options(argc, argv, M_INJECT);
-			if (!strncasecmp(optarg, "TRACE", 10)
-			    || !strncasecmp(optarg, "T", 1))
-				parse_inject_options(argc, argv, M_TRACE);
-#endif
-			fprintf(stderr, "\nError: Invalid runtime mode\n");
-			print_usage();
-			exit(EXIT_FAILURE);
-			break;
-		case ':':
-			fprintf(stderr, "\nError: Missing argument for -%c\n",
-				optopt);
-			exit(EXIT_FAILURE);
-			break;
-		case '?':
-			optind--;
-#ifdef WITH_INJECTION
-			parse_inject_options(argc, argv, M_INJECT);
-			break;
-#endif
-#ifdef WITH_CAPTURE
-			parse_capture_options(argc, argv);
-			break;
-#endif
-			fprintf(stderr,
-				"\nError: Packit was built with neither capture nor injection support!\n");
-			break;
-		}
-	}
-	print_usage();
-	return EXIT_SUCCESS;
 }
