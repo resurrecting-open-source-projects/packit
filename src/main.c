@@ -90,25 +90,6 @@ struct udphdr_opts g_uhdr_o;
 
 libnet_t *g_pkt_d;
 
-typedef struct proto_name_t {
-	u_int16_t id;
-	char *name;
-} proto_name;
-
-static proto_name ip_proto_names[] = {
-	{IPPROTO_TCP, "TCP"},
-	{IPPROTO_UDP, "UDP"},
-	{IPPROTO_ICMP, "ICMP"},
-	{IPPROTO_RAW, "raw IP"},
-	{0, NULL}
-};
-
-static proto_name ll_proto_names[] = {
-	{ETHERTYPE_ARP, "ARP"},
-	{ETHERTYPE_REVARP, "RARP"},
-	{0, NULL}
-};
-
 u_int16_t parse_mode(int argc, char *argv[]);
 void parse_capture_options(int argc, char *argv[]);
 void parse_inject_options(int argc, char *argv[], u_int16_t iopt);
@@ -358,8 +339,21 @@ void parse_inject_options(int argc, char *argv[], u_int16_t iopt)
 
 static void parse_inject(int argc, char *argv[], char *opts)
 {
-	proto_name *pname;
-	u_int16_t cur_proto;
+	u_int16_t protocol;
+	struct name_proto {
+		char *name;
+		u_int16_t id;
+	} ip_protocols[] = {
+		{"TCP", IPPROTO_TCP},
+		{"UDP", IPPROTO_UDP},
+		{"ICMP", IPPROTO_ICMP},
+		{"raw IP", IPPROTO_RAW},
+		{NULL, 0}
+	}, ll_protocols[] = {
+		{"ARP", ETHERTYPE_ARP},
+		{"RARP", ETHERTYPE_REVARP},
+		{NULL, 0}
+	}, *row;
 
 #ifdef DEBUG
 	fprintf(stdout, "DEBUG: parse_inject()\n");
@@ -617,19 +611,19 @@ static void parse_inject(int argc, char *argv[], char *opts)
 			break;
 		case '?':
 			if (g_injection_type == ETHERTYPE_IP) {
-				cur_proto = g_ip4hdr_o.p;
-				pname = ip_proto_names;
+				protocol = g_ip4hdr_o.p;
+				row = ip_protocols;
 			} else {
-				cur_proto = g_injection_type;
-				pname = ll_proto_names;
+				protocol = g_injection_type;
+				row = ll_protocols;
 			}
-			while (pname->id && (pname->id != cur_proto))
-				pname++;
+			while (row->name && (row->id != protocol))
+				row++;
 			fprintf(stderr,
 				"\nError: illegal option -%c in %s %s.\n",
-				optopt, pname->name, (g_p_mode == M_INJECT
-						      || g_p_mode ==
-						      M_INJECT_RESPONSE) ?
+				optopt, row->name, (g_p_mode == M_INJECT
+						    || g_p_mode ==
+						    M_INJECT_RESPONSE) ?
 				"injection" : "tracing");
 			break;
 		case ':':
