@@ -29,7 +29,6 @@
 AC_PREREQ([2.69])
 AC_INIT([packit], [1.7], [https://github.com/resurrecting-open-source-projects/packit/issues])
 AC_CONFIG_SRCDIR([src/main.c])
-AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS(config.h)
 AC_MSG_RESULT(beginning auto-configuration process for packit...)
 AC_PREFIX_DEFAULT(/usr/local)
