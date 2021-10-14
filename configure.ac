@@ -146,7 +146,7 @@ AC_CHECK_HEADERS(libnet.h,, LIBNET="no")
 if test "$LIBNET" = "no"; then
     echo ""
     echo "Error: Can't find libnet 1.1.0 or greater. Visit https://github.com/sam-github/libnet for the latest version."
-    exit;
+    exit 1;
 fi
 
 AC_ARG_WITH(libpcap_includes,
@@ -161,7 +161,7 @@ AC_CHECK_HEADERS(pcap.h,, LIBPCAP="no")
 if test "$LIBNET" = "no"; then
     echo ""
     echo "Error: Can't find Libpcap. Visit https://github.com/the-tcpdump-group/libpcap for the latest version."
-    exit;
+    exit 1;
 fi
 
 dnl Checks for library functions.
@@ -181,7 +181,7 @@ AC_CHECK_LIB(net, libnet_build_ipv4,, LIBNET="no")
 if test "$LIBNET" = "no"; then
     echo ""
     echo "Error: Can't find libnet 1.1.0 or greater. Visit https://github.com/sam-github/libnet for the latest version."
-    exit;
+    exit 1;
 fi
 
 AC_ARG_WITH(libpcap_libraries,
@@ -196,7 +196,7 @@ AC_CHECK_LIB(pcap, pcap_open_live,, LIBPCAP="no")
 if test "$LIBPCAP" = "no"; then
     echo ""
     echo "Error: Can't find Libpcap. Visit https://github.com/the-tcpdump-group/libpcap for the latest version."
-    exit;
+    exit 1;
 else
     AC_CHECK_LIB(pcap, pcap_setnonblock,, SETNONBLOCK="no")
     if test "$SETNONBLOCK" = "no"; then
