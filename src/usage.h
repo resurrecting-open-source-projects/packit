@@ -29,8 +29,6 @@
 #define __USAGE_H
 
 #include "globals.h"
-#include "usage.h"
-#include "error.h"
 
 void print_usage();
 

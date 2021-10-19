@@ -28,8 +28,6 @@
 #ifndef __DEFINE_DEFAULTS_H
 #define __DEFINE_DEFAULTS_H
 
-#include "globals.h"
-
 void define_injection_defaults();
 
 #endif				/* __DEFINE_DEFAULTS_H */

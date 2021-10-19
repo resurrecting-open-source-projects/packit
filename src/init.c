@@ -26,7 +26,11 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <string.h>
 #include "init.h"
+#include "utils.h"
+#include "inject_defs.h"
+#include "globals.h"
 
 void injection_struct_init()
 {

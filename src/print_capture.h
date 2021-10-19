@@ -28,9 +28,8 @@
 #ifndef __PRINT_CAPTURE_H
 #define __PRINT_CAPTURE_H
 
-#include "globals.h"
-#include "capture_defs.h"
-#include "print_defs.h"
+#include <pcap.h>
+#include <sys/types.h>
 
 void print_capture(struct pcap_pkthdr *, u_int8_t *);
 

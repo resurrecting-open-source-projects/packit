@@ -26,6 +26,12 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <sys/time.h>
+#include "capture_defs.h"
 #include "print_ts.h"
 
 void print_ts(struct timeval ts)

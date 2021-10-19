@@ -29,9 +29,8 @@
 #ifndef __SHAPE_ETHERNET_H
 #define __SHAPE_ETHERNET_H
 
-#include "globals.h"
-#include "inject_defs.h"
-#include "utils.h"
+#include <sys/types.h>
+#include <libnet.h>
 
 libnet_t *shape_ethernet_hdr(libnet_t * pkt_d);
 libnet_t *shape_ethernet_hdr_auto(libnet_t * pkt_d, u_int16_t);

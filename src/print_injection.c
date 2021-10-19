@@ -29,7 +29,12 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <stdio.h>
+#include <string.h>
+#include "inject_defs.h"
 #include "print_injection.h"
+#include "utils.h"
+#include "globals.h"
 
 void print_injection_details()
 {

@@ -28,9 +28,6 @@
 #ifndef __PRINT_TIMESTAMP_H
 #define __PRINT_TIMESTAMP_H
 
-#include "globals.h"
-#include "capture_defs.h"
-
 #define TIMESTAMP_MAXLEN         64
 
 void print_ts(struct timeval);

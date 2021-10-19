@@ -28,8 +28,7 @@
 #ifndef __PRINT_IPV4_HDR_H
 #define __PRINT_IPV4_HDR_H
 
-#include "globals.h"
-#include "capture_defs.h"
+#include <libnet.h>
 
 void print_ipv4_hdr(struct libnet_ipv4_hdr *);
 

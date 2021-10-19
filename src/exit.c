@@ -29,7 +29,15 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <libnet.h>
+#include <pcap.h>
 #include "exit.h"
+#include "stats.h"
+#include "inject_defs.h"
+#include "globals.h"
 
 void injection_clean_exit(int sig)
 {

@@ -28,13 +28,8 @@
 #ifndef __INJECTION_H
 #define __INJECTION_H
 
-#include "globals.h"
-#include "inject_defs.h"
-#include "capture.h"
-#include "capture_defs.h"
-#include "shape_packet.h"
-#include "print_injection.h"
-#include "print_ts.h"
+#include <pcap.h>
+#include <sys/types.h>
 
 void injection_init();
 u_int16_t inject_packet();

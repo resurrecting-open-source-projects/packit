@@ -25,6 +25,8 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <stdio.h>
+#include <ctype.h>
 #include "print_pktdump.h"
 
 #define HEXDUMP_BYTES_PER_LINE 16

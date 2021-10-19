@@ -28,9 +28,7 @@
 #ifndef __SHAPE_ARP_HDR_H
 #define __SHAPE_ARP_HDR_H
 
-#include "globals.h"
-#include "inject_defs.h"
-#include "utils.h"
+#include <libnet.h>
 
 libnet_t *shape_arp_hdr(libnet_t *);
 

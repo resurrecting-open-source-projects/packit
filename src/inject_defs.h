@@ -34,6 +34,8 @@
 #ifndef __INJECTION_STRUCTS_H
 #define __INJECTION_STRUCTS_H
 
+#include <libnet.h>
+
 extern struct ip4hdr_opts {
 	u_int16_t p;		/* protocol type */
 	u_int16_t rand_p;

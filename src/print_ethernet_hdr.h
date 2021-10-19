@@ -28,7 +28,7 @@
 #ifndef __PRINT_ETHERNET_HDR_H
 #define __PRINT_ETHERNET_HDR_H
 
-#include "globals.h"
+#include <libnet.h>
 
 void print_ethernet_hdr(struct libnet_ethernet_hdr *);
 

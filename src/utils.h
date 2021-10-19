@@ -30,10 +30,7 @@
 #ifndef __UTILS_H
 #define __UTILS_H
 
-#include "globals.h"
-#include "inject_defs.h"
-#include "capture_defs.h"
-#include "pcap.h"
+#include <sys/types.h>
 
 void print_separator(int, int, char *, ...);
 u_int8_t *retrieve_rand_ipv4_addr(u_int8_t *);

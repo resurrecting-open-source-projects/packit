@@ -27,6 +27,10 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <stdlib.h>
+#include <stdarg.h>
+#include <stdio.h>
+
 #include "error.h"
 
 char error_buf[ERRBUF_MAXLEN];

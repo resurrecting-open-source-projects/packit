@@ -28,9 +28,6 @@
 #ifndef __STATS_H
 #define __STATS_H
 
-#include "globals.h"
-#include "inject_defs.h"
-
 void capture_stats();
 void injection_stats();
 

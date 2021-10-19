@@ -33,6 +33,8 @@
 #define READ_TIMEOUT                    500
 #define SNAPLEN_DEFAULT                 68
 
+#include <sys/types.h>
+
 extern u_int16_t g_display;
 extern u_int16_t g_link_layer;
 extern u_int16_t g_dump_pkt;

@@ -28,9 +28,7 @@
 #ifndef __SHAPE_TCP_HDR_H
 #define __SHAPE_TCP_HDR_H
 
-#include "globals.h"
-#include "inject_defs.h"
-#include "utils.h"
+#include <libnet.h>
 
 libnet_t *shape_tcp_hdr(libnet_t *);
 

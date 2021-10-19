@@ -26,7 +26,9 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <libnet.h>
 #include "print_udp_hdr.h"
+#include "globals.h"
 
 void print_udp_hdr(u_int8_t * packet)
 {

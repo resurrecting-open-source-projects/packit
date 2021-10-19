@@ -28,7 +28,11 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <stdio.h>
+#include <libnet.h>
 #include "print_arp_hdr.h"
+#include "utils.h"
+#include "globals.h"
 
 void print_arp_hdr(u_int8_t * packet)
 {

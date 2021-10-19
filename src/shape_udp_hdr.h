@@ -28,8 +28,7 @@
 #ifndef __SHAPE_UDP_HDR_H
 #define __SHAPE_UDP_HDR_H
 
-#include "globals.h"
-#include "inject_defs.h"
+#include <libnet.h>
 
 libnet_t *shape_udp_hdr(libnet_t *);
 

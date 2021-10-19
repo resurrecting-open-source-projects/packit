@@ -30,6 +30,8 @@
 #ifndef __OPTIONS_H
 #define __OPTIONS_H
 
+#include <sys/types.h>
+
 u_int16_t parse_mode(int argc, char *argv[]);
 void parse_capture_options(int argc, char *argv[]);
 void parse_inject_options(int argc, char *argv[], u_int16_t iopt);

@@ -29,6 +29,8 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include "inject_defs.h"
+#include "shape_defs.h"
 #include "shape_packet.h"
 
 libnet_t *shape_packet()

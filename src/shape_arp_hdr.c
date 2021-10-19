@@ -27,7 +27,11 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include "error.h"
+#include "inject_defs.h"
 #include "shape_arp_hdr.h"
+#include "utils.h"
+#include "globals.h"
 
 libnet_t *shape_arp_hdr(libnet_t * g_pkt_d)
 {

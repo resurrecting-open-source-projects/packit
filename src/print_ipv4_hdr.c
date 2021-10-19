@@ -27,7 +27,11 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <stdlib.h>
+#include <string.h>
+#include <libnet.h>
 #include "print_ipv4_hdr.h"
+#include "globals.h"
 
 void print_ipv4_hdr(struct libnet_ipv4_hdr *iphdr)
 {

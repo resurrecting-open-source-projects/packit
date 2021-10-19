@@ -27,7 +27,11 @@
  *
  */
 
+#include "inject_defs.h"
 #include "shape_ipv4_hdr.h"
+#include "error.h"
+#include "utils.h"
+#include "globals.h"
 
 libnet_t *shape_ipv4_hdr(libnet_t * g_pkt_d)
 {

@@ -29,9 +29,8 @@
 #ifndef __CAPTURE_H
 #define __CAPTURE_H
 
-#include "globals.h"
-#include "capture_defs.h"
-#include "print_capture.h"
+#include <pcap.h>
+#include <sys/types.h>
 
 void process_packets(u_int8_t *, struct pcap_pkthdr *, u_int8_t *);
 void capture_init(const char *, u_int64_t);

@@ -28,8 +28,6 @@
 #ifndef __PRINT_UDP_HDR_H
 #define __PRINT_UDP_HDR_H
 
-#include "globals.h"
-
 void print_udp_hdr(u_int8_t * packet);
 
 #endif				/* __PRINT_UDP_HDR_H */

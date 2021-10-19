@@ -28,13 +28,6 @@
 #ifndef __EXIT_H
 #define __EXIT_H
 
-#include "globals.h"
-#include "inject_defs.h"
-#include "capture_defs.h"
-#include "utils.h"
-#include "stats.h"
-#include "error.h"
-
 void capture_clean_exit(int);
 void injection_clean_exit(int);
 

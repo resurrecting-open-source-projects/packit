@@ -28,8 +28,7 @@
 #ifndef __PRINT_TCP_HDR_H
 #define __PRINT_TCP_HDR_H
 
-#include "globals.h"
-#include "inject_defs.h"
+#include <sys/types.h>
 
 void print_tcp_hdr(u_int8_t *);
 

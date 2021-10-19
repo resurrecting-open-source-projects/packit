@@ -38,22 +38,7 @@
 #include "../config.h"
 #endif
 
-#include <libnet.h>
 #include <pcap.h>
-#include <sys/types.h>
-#include <pcap-bpf.h>
-#include <signal.h>
-#include <time.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdarg.h>
-
-#include "utils.h"
-#include "usage.h"
-#include "error.h"
-#include "exit.h"
-#include "version.h"
 
 #define IPV4_DEFAULT                    0x00000000	/* 0.0.0.0 */
 #define IPV4_BROADCAST                  "255.255.255.255"

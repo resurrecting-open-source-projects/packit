@@ -27,7 +27,12 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <libnet.h>
+#include <pcap.h>
 #include "stats.h"
+#include "utils.h"
+#include "inject_defs.h"
+#include "globals.h"
 
 void injection_stats()
 {

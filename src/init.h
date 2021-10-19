@@ -28,9 +28,6 @@
 #ifndef __INIT_H
 #define __INIT_H
 
-#include "globals.h"
-#include "inject_defs.h"
-
 void injection_struct_init();
 
 #endif				/* __INIT_H */

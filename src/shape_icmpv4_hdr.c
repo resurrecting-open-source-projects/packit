@@ -27,7 +27,11 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include "error.h"
+#include "utils.h"
+#include "inject_defs.h"
 #include "shape_icmpv4_hdr.h"
+#include "globals.h"
 
 libnet_t *shape_icmpv4_hdr(libnet_t * g_pkt_d)
 {

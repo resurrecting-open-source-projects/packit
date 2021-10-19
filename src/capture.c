@@ -28,7 +28,16 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <string.h>
+#include <signal.h>
+
 #include "capture.h"
+#include "capture_defs.h"
+#include "error.h"
+#include "exit.h"
+#include "utils.h"
+#include "print_capture.h"
+#include "globals.h"
 
 void
 process_packets(u_int8_t * user, struct pcap_pkthdr *pkthdr, u_int8_t * packet)

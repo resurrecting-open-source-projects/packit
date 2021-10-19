@@ -28,9 +28,7 @@
 #ifndef __SHAPE_PACKET_H
 #define __SHAPE_PACKET_H
 
-#include "globals.h"
-#include "shape_defs.h"
-#include "inject_defs.h"
+#include <libnet.h>
 
 libnet_t *shape_packet();
 

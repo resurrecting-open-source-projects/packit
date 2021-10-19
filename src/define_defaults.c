@@ -28,7 +28,11 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include "globals.h"
+#include "injection.h"
+#include "inject_defs.h"
 #include "define_defaults.h"
+#include "capture_defs.h"
 
 void define_injection_defaults()
 {

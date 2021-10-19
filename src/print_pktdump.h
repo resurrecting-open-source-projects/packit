@@ -28,8 +28,7 @@
 #ifndef __PRINT_PKTDUMP_HDR_H
 #define __PRINT_PKTDUMP_HDR_H
 
-#include <ctype.h>
-#include "globals.h"
+#include <sys/types.h>
 
 void print_packet_hexdump(u_int8_t * cp, int len);
 

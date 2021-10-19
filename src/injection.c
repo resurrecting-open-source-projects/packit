@@ -29,7 +29,18 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <time.h>
+#include "error.h"
+#include "exit.h"
+#include "capture.h"
+#include "capture_defs.h"
 #include "injection.h"
+#include "inject_defs.h"
+#include "print_injection.h"
+#include "print_ts.h"
+#include "utils.h"
+#include "shape_packet.h"
+#include "globals.h"
 
 u_int16_t inject_packet()
 {

@@ -30,8 +30,6 @@
 #ifndef __ERROR_H
 #define __ERROR_H
 
-#include "globals.h"
-
 #define ERRBUF_MAXLEN     		512
 #define SUCCESS           		1
 #define FAILURE           		-1

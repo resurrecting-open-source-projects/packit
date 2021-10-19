@@ -27,7 +27,9 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <stdio.h>
 #include "usage.h"
+#include "version.h"
 
 void
 print_usage()

@@ -28,7 +28,7 @@
 #ifndef __PRINT_ARP_HDR_H
 #define __PRINT_ARP_HDR_H
 
-#include "globals.h"
+#include <sys/types.h>
 
 void print_arp_hdr(u_int8_t *);
 

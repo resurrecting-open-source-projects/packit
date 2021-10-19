@@ -28,8 +28,6 @@
 #ifndef __PRINT_ICMPV4_HDR
 #define __PRINT_ICMPV4_HDR
 
-#include "globals.h"
-
 void print_icmpv4_hdr(u_int8_t *);
 
 #endif				/* __PRINT_ICMPV4_HDR */

@@ -30,7 +30,14 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <stdio.h>
+#include <time.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdarg.h>
 #include "utils.h"
+#include "inject_defs.h"
+#include "globals.h"
 
 u_int32_t retrieve_rand_int(u_int32_t r_size)
 {

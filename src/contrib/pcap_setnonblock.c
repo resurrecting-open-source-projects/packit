@@ -33,10 +33,9 @@
  * SUCH DAMAGE.
  */
 
-
-#include "../globals.h"
 #include "pcap-int.h"
 
+#include <errno.h>
 #include <fcntl.h>
 
 #define PCAP_ERRBUF_MAX 	256

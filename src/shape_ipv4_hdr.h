@@ -28,8 +28,7 @@
 #ifndef __SHAPE_IPV4_HDR_H
 #define __SHAPE_IPV4_HDR_H
 
-#include "globals.h"
-#include "inject_defs.h"
+#include <libnet.h>
 
 libnet_t *shape_ipv4_hdr(libnet_t *);
 

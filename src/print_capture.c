@@ -27,7 +27,11 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include "capture_defs.h"
+#include "utils.h"
+#include "print_defs.h"
 #include "print_capture.h"
+#include "globals.h"
 
 void print_capture(struct pcap_pkthdr *pkthdr, u_int8_t * packet)
 {

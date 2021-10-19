@@ -27,7 +27,13 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <libnet.h>
+
 #include "print_tcp_hdr.h"
+#include "globals.h"
 
 void print_tcp_hdr(u_int8_t * packet)
 {

@@ -28,9 +28,6 @@
 #ifndef __PRINT_INJECTION_H
 #define __PRINT_INJECTION_H
 
-#include "globals.h"
-#include "inject_defs.h"
-
 void print_injection_details();
 
 #endif				/* __PRINT_INJECTION_H */

@@ -27,7 +27,11 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include <libnet.h>
+#include "utils.h"
 #include "print_icmpv4_hdr.h"
+#include "capture_defs.h"
+#include "globals.h"
 
 void print_icmpv4_hdr(u_int8_t * packet)
 {
