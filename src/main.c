@@ -32,8 +32,27 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
-#include "main.h"
+#include <libnet.h>
+#include <pcap.h>
+#include <sys/types.h>
+#include <pcap-bpf.h>
+#include <signal.h>
+#include <time.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdarg.h>
+
+#include "globals.h"
+#include "init.h"
+#include "define_defaults.h"
+#include "injection.h"
+#include "inject_defs.h"
+#include "capture.h"
+#include "capture_defs.h"
 #include "options.h"
+
+#define OPT_MAXLEN 32
 
 char g_w_file[OPT_MAXLEN + 1];
 char g_r_file[OPT_MAXLEN + 1];
