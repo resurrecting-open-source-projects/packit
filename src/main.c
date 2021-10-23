@@ -63,7 +63,6 @@ u_int16_t g_display;
 u_int16_t g_link_layer;
 u_int16_t g_dump_pkt;
 u_int16_t g_time_gmt;
-u_int16_t g_t_rst;
 u_int16_t g_snap_len;
 
 /* inject_defs.h */
