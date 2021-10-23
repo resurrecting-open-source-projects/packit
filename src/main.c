@@ -65,7 +65,6 @@ u_int16_t g_dump_pkt;
 u_int16_t g_time_gmt;
 u_int16_t g_t_rst;
 u_int16_t g_snap_len;
-u_int32_t g_pkt_rst;
 
 /* inject_defs.h */
 u_int16_t g_init_type;
