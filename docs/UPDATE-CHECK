@@ -7,4 +7,3 @@ When updating, change these files (if needed):
 - ChangeLog
 - configure.ac (VERSION)
 - manpage (VERSION)
-- src/version.h.in (P_VERSION)

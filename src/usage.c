@@ -5,7 +5,7 @@
  *
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
  * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
- * Copyright 2015      Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
+ * Copyright 2015-2021 Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  *
@@ -27,6 +27,7 @@
  * packit official page at https://github.com/resurrecting-open-source-projects/packit
  */
 
+#include "../config.h"
 #include "usage.h"
 
 void
@@ -159,8 +160,8 @@ print_usage()
     fprintf(stdout, "\n");
 #endif /* WITH_INJECTION */
 
-    fprintf(stdout, "Version: %s\n", P_VERSION);
+    fprintf(stdout, "Version: %s\n", VERSION);
 //    fprintf(stdout, "Author:  %s\n", P_AUTHOR);
-    fprintf(stdout, "Website: %s\n", P_SITE);
+    fprintf(stdout, "Website: https://github.com/resurrecting-open-source-projects/packit\n");
     fprintf(stdout, "\nSee the man page for more options, detailed descriptions and examples.\n\n");
 }

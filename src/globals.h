@@ -9,6 +9,7 @@
  * Copyright 2017      Sharad B
  * Copyright 2020      David Polverari <david.polverari@gmail.com>
  * Copyright 2020      Jeroen Roovers <jer@gentoo.org>
+ * Copyright 2021      Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  *
@@ -53,7 +54,6 @@
 #include "usage.h"
 #include "error.h"
 #include "exit.h"
-#include "version.h"
 
 #define IPV4_DEFAULT                    0x00000000	/* 0.0.0.0 */
 #define IPV4_BROADCAST                  "255.255.255.255"
