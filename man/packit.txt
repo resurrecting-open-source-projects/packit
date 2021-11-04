@@ -369,9 +369,6 @@ TRACE ROUTE EXAMPLES
 
     # packit -m trace -t TCP -d www.google.com -S 80 -FS
 
-SEE ALSO
-  arp(8), pcap(3), pcap-filter(7), tcpdump(1)
-
 BUGS
   - Due to limitations in some versions of *BSD, specifying arbitrary Ethernet
     and/or ARP header data may not be supported.
@@ -381,10 +378,12 @@ BUGS
   - Please send bug reports, questions, requests, fixes and pull requests
     to https://github.com/resurrecting-open-source-projects/packit/issues
 
-AUTHOR
-  The original author of packit is Darren Bounds. The current project maintainer
-  is Joao Eriberto Mota Filho. There are other new authors. Please, see AUTHORS
-  file in source code. To help in development, see CONTRIBUTING.md. On Debian
-  systems, these files will be available at /usr/share/doc/packit/.
+SEE ALSO
+  arp(8), pcap(3), pcap-filter(7), tcpdump(1)
 
-  The latest version of Packit can be found at https://github.com/resurrecting-open-source-projects/packit
+AUTHOR
+  The original author of packit is Darren Bounds. Currently, this project is
+  maintained by volunteers.
+
+  The latest version of Packit can be found at
+  https://github.com/resurrecting-open-source-projects/packit
