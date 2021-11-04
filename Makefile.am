@@ -26,9 +26,9 @@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
-SUBDIRS = src man
+SUBDIRS = src
 
-EXTRA_DIST = Makefile.am.common
+man_MANS = man/packit.8
 
 distclean-local:
 	rm -rf autom4te.cache
