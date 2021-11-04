@@ -8,6 +8,7 @@
  * Copyright 2015      Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
  * Copyright 2017      Robert Krause <ruport@f00l.de>
  * Copyright 2017      Sharad B
+ * Copyright 2020      David Polverari <david.polverari@gmail.com>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  *

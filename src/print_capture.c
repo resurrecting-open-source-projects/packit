@@ -6,6 +6,7 @@
  * Copyright 2002-2004 Darren Bounds <dbounds@intrusense.com>
  * Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
  * Copyright 2017      Sharad B
+ * Copyright 2020      David Polverari <david.polverari@gmail.com>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  *

@@ -5,6 +5,7 @@
  *
  * Copyright 2002 Darren Bounds <dbounds@intrusense.com>
  * Copyright 2016 Robert Krause <ruport@f00l.de>
+ * Copyright 2020 David Polverari <david.polverari@gmail.com>
  * Copyright 2020 Jeroen Roovers <jer@gentoo.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
