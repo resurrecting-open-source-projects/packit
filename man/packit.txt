@@ -290,7 +290,7 @@ ETHERNET HEADER OPTIONS
        using either -e or -E, you enable link level packet injection and the
        destination cannot be auto-defined while injecting in this manner.
   -E dst ethernet address  
-            The Ethernet (hardware) of the next routable interface which the packet
+            The Ethernet (hardware) of the next routeable interface which the packet
             will cross while making it's way to the destination.
   -ER  Use a random destination Ethernet address. The following two rules should
        be followed if you actually want the destination to receive the packets

@@ -479,7 +479,7 @@ destination cannot be auto-defined while injecting in this manner.
 .TP
 .B
 \fB-E\fP dst ethernet address
-The Ethernet (hardware) of the next routable \fIinterface\fP which the packet
+The Ethernet (hardware) of the next routeable \fIinterface\fP which the packet
 will cross while making it's way to the destination.
 .TP
 .B
@@ -609,8 +609,6 @@ Appear as HTTP traffic by using TCP port 80:
 
 .fam T
 .fi
-.SH SEE ALSO
-\fBarp\fP(8), \fBpcap\fP(3), \fBpcap-filter\fP(7), \fBtcpdump\fP(1)
 .SH BUGS
 .IP \(bu 3
 Due to limitations in some versions of *BSD, specifying arbitrary Ethernet
@@ -620,10 +618,11 @@ ARP \fIcapture\fP data is incomplete.
 .IP \(bu 3
 Please send bug reports, questions, requests, fixes and pull requests
 to https://github.com/resurrecting-open-source-projects/\fBpackit\fP/issues
+.SH SEE ALSO
+\fBarp\fP(8), \fBpcap\fP(3), \fBpcap-filter\fP(7), \fBtcpdump\fP(1)
 .SH AUTHOR
-The original author of \fBpackit\fP is Darren Bounds. The current project maintainer
-is Joao Eriberto Mota Filho. There are other new authors. Please, see AUTHORS
-\fIfile\fP in source code. To help in development, see CONTRIBUTING.md. On Debian
-systems, these files will be available at /usr/share/doc/\fBpackit\fP/.
+The original author of \fBpackit\fP is Darren Bounds. Currently, this project is
+maintained by volunteers.
 .PP
-The latest version of Packit can be found at https://github.com/resurrecting-open-source-projects/\fBpackit\fP
+The latest version of Packit can be found at
+https://github.com/resurrecting-open-source-projects/\fBpackit\fP
