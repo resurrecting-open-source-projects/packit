@@ -8,7 +8,7 @@ SYNOPSIS
 
   Packet injection:
 
-    packit -m inject [-t protocol] [-aAbcCdDeFgGhHjJkKlLmMnNoOpPqQrRsSTuUvwWxXyYzZ] [-i interface]
+    packit -m inject [-t protocol] [-aAbcCdDeFgGhHIjJkKlLmMnNoOpPqQrRsSTuUvwWxXyYzZ] [-i interface]
 
 DESCRIPTION
   Packit is a network auditing tool. It's value is derived from its ability to
@@ -82,6 +82,8 @@ PACKET INJECTION AND TRACE GENERAL
   -i interface  
             Specify the interface to transmit from, if the machine has multiple
             interfaces.
+  -I tci    Specify 802.1Q TCI (VLAN ID/CFI/priority combination). This feature
+            is EXPERIMENTAL.
   -v        Verbose injection mode. Displays each packet you inject. It also has
             the same effect as in capture mode while used with the '-h' option.
   -p payload  

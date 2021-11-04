@@ -152,7 +152,7 @@ print_usage()
     fprintf(stdout, "  -h          Display remote host response (Inject mode only)\n");
     fprintf(stdout, "  -H seconds  Specify the timeout value for '-h' (Default: 1, Max: 255)\n");
     fprintf(stdout, "  -i device   Select injection interface\n");
-    fprintf(stdout, "  -I tci      Specify 802.1Q TCI (VLAN ID/CFI/priority combination)\n");
+    fprintf(stdout, "  -I tci      Specify 802.1Q TCI (VLAN ID/CFI/prio combination) EXPERIMENTAL\n");
     fprintf(stdout, "  -p payload  Payload (Hex payload is prefixed with '0x ')\n");
     fprintf(stdout, "  -R          Disable IP/host resolution\n");
     fprintf(stdout, "  -v          Verbose packet injection\n");
