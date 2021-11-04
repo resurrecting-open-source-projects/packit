@@ -1,5 +1,31 @@
+Version 1.8, 2021-11-04
+-----------------------
+
+  [ Joao Eriberto Mota Filho ], eriberto@eriberto.pro.br
+
+* Created GitHub CI tests.
+* Updated the project url in all needed files.
+* Using VERSION from configure.ac in usage.c.
+
+  [ David Polverari ], <david.polverari@gmail.com>
+
+* Added several improvements in the source code.
+* Fixed several build warnings.
+* Fixed string truncation with strncpy.
+* Provide more information on illegal options.
+
+  [ David Polverari ], <david.polverari@gmail.com>
+  [ Dennis Vshivkov ], <walrus@amur.ru>
+
+* Add 802.1Q VLAN tagged packet injection support (not tested).
+
+  [ Sam James ], <sam@gentoo.org>
+
+* Don't ignore failure to find packages.
+* Remove repeated calls to AM_INIT_AUTOMAKE.
+
 Version 1.7, 2020-02-05
--------------------------
+-----------------------
 
   [ Joao Eriberto Mota Filho ], eriberto@eriberto.pro.br
 
