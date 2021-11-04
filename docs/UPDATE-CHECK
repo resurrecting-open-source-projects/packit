@@ -1,9 +1,15 @@
 # by Eriberto
-# May 2016
+# May 2016, Nov 2021
 
-When updating, change these files (if needed):
+To release a new version:
 
-- AUTHORS
-- ChangeLog
+- Check the AUTHORS file
+- Check the README file
+- Update rights
+- Update changeLog
+- Check for spelling errors in ChangeLog, manpage and README.
+- man/create-man.sh (DATE, version)
+- Generate a new manpage.
+- Check final manpage with man command.
 - configure.ac (VERSION)
-- manpage (VERSION)
+- Test in Debian Sid
