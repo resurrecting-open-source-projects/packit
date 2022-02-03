@@ -146,7 +146,7 @@ fi
 AC_CHECK_HEADERS(libnet.h,, LIBNET="no")
 if test "$LIBNET" = "no"; then
     echo ""
-    echo "Error: Can't find libnet 1.1.0 or greater. Visit https://github.com/sam-github/libnet for the latest version."
+    echo "Error: Can't find libnet 1.1.0 or greater. Visit https://github.com/libnet/libnet for the latest version."
     exit 1;
 fi
 
