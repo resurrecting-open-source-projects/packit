@@ -6,7 +6,7 @@
 # Copyright 2007      LaMont Jones <lamont@debian.org>
 # Copyright 2013      Mats Erik Andersson <gnu@gisladisker.se>
 # Copyright 2016-2021 Joao Eriberto Mota Filho <eriberto@eriberto.pro.br>
-# Copyright 2021      Sam James <sam@gentoo.org>
+# Copyright 2021-2022 Sam James <sam@gentoo.org>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
