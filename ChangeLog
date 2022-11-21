@@ -1,3 +1,10 @@
+Version 1.8.1, 2022-11-21
+-------------------------
+
+  [ Sam James ], <sam@gentoo.org>
+
+* configure.ac: updated libnet GitHub link.
+
 Version 1.8, 2021-11-04
 -----------------------
 
@@ -15,7 +22,7 @@ Version 1.8, 2021-11-04
 * Fixed string truncation with strncpy.
 * Provide more information on illegal options.
 
-  [ David Polverari ], <david.polverari@gmail.com>
+  [ David Polverari ], <david.polverari@gmail.com>, and
   [ Dennis Vshivkov ], <walrus@amur.ru>
 
 * Add 802.1Q VLAN tagged packet injection support (experimental).
