@@ -28,7 +28,7 @@
 # packit official page at https://github.com/resurrecting-open-source-projects/packit
 
 AC_PREREQ([2.69])
-AC_INIT([packit], [1.8], [https://github.com/resurrecting-open-source-projects/packit/issues])
+AC_INIT([packit], [1.8.1], [https://github.com/resurrecting-open-source-projects/packit/issues])
 AC_CONFIG_SRCDIR([src/main.c])
 AC_CONFIG_HEADERS(config.h)
 AC_MSG_RESULT(beginning auto-configuration process for packit...)
