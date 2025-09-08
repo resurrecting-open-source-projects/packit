@@ -38,8 +38,8 @@
 
 void injection_init();
 u_int16_t inject_packet();
-u_int16_t with_response();
-u_int16_t without_response();
+u_int16_t with_response(u_int32_t g_port_range);
+u_int16_t without_response(u_int32_t g_port_range);
 int setnonblock(pcap_t *, int, char *);
 
 #endif				/* __INJECTION_H */
